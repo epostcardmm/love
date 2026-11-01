@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="my">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tricky Sky Blue Quiz Game</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 100%);
+            color: #0f172a;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        .step-container {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            max-width: 500px;
+            text-align: center;
+            animation: fadeIn 0.4s ease-in-out;
+        }
+
+        .step-container.active {
+            display: flex;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .gif-square {
+            width: 180px;
+            height: 180px;
+            object-fit: cover;
+            border-radius: 0;
+            margin-bottom: 20px;
+            box-shadow: 0 6px 16px rgba(2, 132, 199, 0.15);
+            border: 3px solid #ffffff;
+        }
+
+        h2.question {
+            font-size: 1.4rem;
+            color: #0369a1;
+            margin-bottom: 25px;
+            line-height: 1.4;
+            padding: 0 10px;
+            text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);
+        }
+
+        .btn-wrapper {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            width: 100%;
+            min-height: 60px;
+        }
+
+        .btn {
+            padding: 10px 24px;
+            font-size: 1rem;
+            font-weight: 700;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: transform 0.15s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .btn-yes {
+            background-color: #0284c7;
+            color: white;
+            z-index: 10;
+        }
+        .btn-yes:hover {
+            background-color: #0369a1;
+            box-shadow: 0 6px 14px rgba(2, 132, 199, 0.3);
+        }
+
+        .btn-no {
+            background-color: #ef4444;
+            color: white;
+            z-index: 10;
+        }
+        .btn-no:hover {
+            background-color: #dc2626;
+        }
+
+        .btn-no-teleport {
+            position: fixed !important;
+            transition: all 0.15s ease-out;
+            z-index: 9999 !important;
+        }
+
+        .spinner {
+            width: 16px;
+            height: 16px;
+            border: 3px solid #ffffff;
+            border-top: 3px solid transparent;
+            border-radius: 50%;
+            display: inline-block;
+            animation: spin 0.8s linear infinite;
+            vertical-align: middle;
+            margin-right: 6px;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .progress-bar {
+            position: fixed;
+            top: 20px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            color: #0369a1;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(4px);
+            padding: 8px 18px;
+            border-radius: 20px;
+            box-shadow: 0 2px 8px rgba(2, 132, 199, 0.15);
+        }
+
+        .love-letter-box {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(2, 132, 199, 0.2);
+            width: 100%;
+            max-width: 450px;
+            font-size: 1rem;
+            color: #0369a1;
+            line-height: 1.6;
+            text-align: left;
+            border: 2px dashed #0284c7;
+            max-height: 350px;
+            overflow-y: auto;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="progress-bar" id="progress">အဆင့် ၁ / ၃</div>
+
+    <!-- Step 1 -->
+    <div class="step-container active" id="step-1">
+        <img class="gif-square" src="https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExZmNzYXpyanplN3Z0eWM4dHBiMWlxcGUxajYwbWJpcnZ3eXlnMTNqOCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/M7wAph0V1w3MjDz52g/giphy.gif" alt="Cutest Cat">
+        <h2 class="question">ပြန် 12 ကြမလား? 🩵</h2>
+        <div class="btn-wrapper">
+            <button class="btn btn-yes" onclick="chooseYes(1)">တွဲမယ်</button>
+            <button class="btn btn-no" id="btn-teleport" onmouseover="teleportFullScreen()" onclick="teleportFullScreen()">မတွဲဘူး</button>
+        </div>
+    </div>
+
+    <!-- Step 2 -->
+    <div class="step-container" id="step-2">
+        <img class="gif-square" src="https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExbGl5OHAwcnhiOTRnc2FicmVlbnIxMmE5eWxrMnllNmZvYmt1bzA5YSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/P1CvJaW7QlRVCuTL3j/giphy.gif" alt="Waiting Cat">
+        <h2 class="question">တကယ်ပြန်လာမှာလား ဟိဟိ</h2>
+        <div class="btn-wrapper">
+            <button class="btn btn-yes" onclick="chooseYes(2)">Yes</button>
+            <button class="btn btn-no" id="btn-loading" onclick="fakeLoading(this)">No</button>
+        </div>
+    </div>
+
+    <!-- Step 3 -->
+    <div class="step-container" id="step-3">
+        <img class="gif-square" src="https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExbGR3YzR3OTk1Y2F0dTNuM3Iyc3c0OXBoejRvMWt5dmR6cTRsYmgxYiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/ABkPFiNNOdPDHxGuqs/giphy.gif" alt="Sad Cat">
+        <h2 class="question">ချစ်သေးတယ်မလား</h2>
+        <div class="btn-wrapper">
+            <button class="btn btn-yes" onclick="chooseYes(3)">ချစ်သေးတယ်</button>
+            <button class="btn btn-no" id="btn-guilt" onmouseover="guiltTrip(this)">မချစ်တော့ဘူး</button>
+        </div>
+    </div>
+
+    <!-- Final Success Screen -->
+    <div class="step-container" id="step-final">
+        <img class="gif-square" src="https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExbG03cG1kY2s0MzZ4M2w1bDB0bGp5aXN2M2JwcWp5amxkcmN2d3VrYyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/pAWQJsDCh2fo2oCXqi/giphy.gif" alt="Happy Cat">
+        <h2 class="question" style="margin-bottom: 20px;">Yayyy! thank you , Mwahh 🩵</h2>
+        <button class="btn btn-yes" onclick="finishAndNotify()">💌 eppostcard</button>
+    </div>
+
+    <!-- Love Letter Screen -->
+    <div class="step-container" id="step-letter">
+        <h2 class="question" style="margin-bottom: 15px;">ရည်းစားဟောင်းလေးရေ 🩵</h2>
+        <div class="love-letter-box">
+            <p><strong>ပြန်လက်ခံပေးပါနော်... 🩵</strong><br><br>
+           ဒီကြားထဲတွေ အများကြီးသတိရနေခဲ့တာ <br>မင်းမရှိပဲနေရတဲ့ ရက်တွေ တကယ်အဆင်မပြေလို့ပါ <Br>ပြန်လာပေးပါနော် ရည်းစားဟောင်းလေးရေ 🩵✨</p>
+        </div>
+    </div>
+
+    <script>
+        // Formspree URL (သင်၏ Formspree Endpoint ကို ဤနေရာတွင် ထည့်ပါ)
+        const FORMSPREE_URL = "";
+
+        let currentStep = 1;
+        let step1NoClicks = 0;
+        let step2NoClicks = 0;
+        let step3NoClicks = 0;
+
+        // အဆင့်အလိုက် Gmail သို့ အီးမေးလ် ပို့ပေးမည့် Function
+        function sendStepEmail(stepNumber, answer, extraData = {}) {
+            const formData = {
+                step: `Step ${stepNumber}`,
+                question: stepNumber === 1 ? "ပြန် 12 ကြမလား?" : (stepNumber === 2 ? "တကယ်ပြန်လာမှာလား ဟိဟိ" : "ချစ်သေးတယ်မလား"),
+                user_answer: answer,
+                time: new Date().toLocaleString(),
+                ...extraData
+            };
+
+            fetch(FORMSPREE_URL, {
+                method: "POST",
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(formData)
+            }).then(response => {
+                console.log(`Step ${stepNumber} Result Sent Successfully!`);
+            }).catch(error => {
+                console.error(`Error sending Step ${stepNumber}:`, error);
+            });
+        }
+
+        function nextStep(stepNumber) {
+            document.getElementById(`step-${currentStep}`).classList.remove('active');
+            
+            if (stepNumber === 'letter') {
+                currentStep = 'letter';
+                document.getElementById('step-letter').classList.add('active');
+                document.getElementById('progress').style.display = 'none';
+                return;
+            }
+
+            currentStep = stepNumber;
+            document.getElementById(`step-${currentStep}`).classList.add('active');
+            
+            if (typeof stepNumber === 'number' && stepNumber <= 3) {
+                document.getElementById('progress').innerText = `အဆင့် ${stepNumber} / ၃`;
+            } else {
+                document.getElementById('progress').style.display = 'none';
+            }
+        }
+
+        // တစ်ဆင့်ချင်းစီ Yes နှိပ်သည့်အခါ Step အလိုက် Email သီးခြားဝင်မည်
+        function chooseYes(stepNum) {
+            if (stepNum === 1) {
+                sendStepEmail(1, "တွဲမယ်", { step1_no_attempts: step1NoClicks });
+                nextStep(2);
+            } else if (stepNum === 2) {
+                sendStepEmail(2, "Yes", { step2_no_attempts: step2NoClicks });
+                nextStep(3);
+            } else if (stepNum === 3) {
+                sendStepEmail(3, "ချစ်သေးတယ်", { step3_no_attempts: step3NoClicks });
+                document.getElementById(`step-${currentStep}`).classList.remove('active');
+                currentStep = 'final';
+                document.getElementById('step-final').classList.add('active');
+                document.getElementById('progress').style.display = 'none';
+            }
+        }
+
+        const teleportTexts = ["Are you sure?", "Think again!", "Catch me!", "Nope!", "Try again!"];
+        let teleportCount = 0;
+        function teleportFullScreen() {
+            const btn = document.getElementById('btn-teleport');
+            btn.classList.add('btn-no-teleport');
+            
+            step1NoClicks++;
+            
+            teleportCount++;
+            btn.innerText = teleportTexts[teleportCount % teleportTexts.length];
+            
+            const padding = 20;
+            const maxX = window.innerWidth - btn.clientWidth - padding;
+            const maxY = window.innerHeight - btn.clientHeight - padding;
+            
+            const randomX = Math.max(padding, Math.floor(Math.random() * maxX));
+            const randomY = Math.max(padding, Math.floor(Math.random() * maxY));
+            
+            btn.style.left = `${randomX}px`;
+            btn.style.top = `${randomY}px`;
+        }
+
+        function fakeLoading(btn) {
+            step2NoClicks++;
+            btn.disabled = true;
+            btn.innerHTML = '<span class="spinner"></span> Processing...';
+            
+            setTimeout(() => {
+                btn.innerHTML = "No (Unavailable)";
+                setTimeout(() => {
+                    btn.disabled = false;
+                    btn.className = "btn btn-yes";
+                    btn.innerText = "Yes (Auto-converted)";
+                    btn.onclick = () => chooseYes(2);
+                }, 1800);
+            }, 2000);
+        }
+
+        const guiltStages = ["Are you sure?", "Really?", "Think of us!", "Click Yes instead"];
+        let guiltIndex = 0;
+        function guiltTrip(btn) {
+            step3NoClicks++;
+            btn.innerText = guiltStages[guiltIndex];
+            guiltIndex++;
+            
+            if (guiltIndex > guiltStages.length) {
+                btn.className = "btn btn-yes";
+                btn.innerText = "ချစ်သေးတယ်";
+                btn.onclick = () => chooseYes(3);
+            }
+        }
+
+        function finishAndNotify() {
+            sendStepEmail("Completed", "သူက နောက်ဆုံးအဆင့် Postcard အထိ ကြည့်ပြီးသွားပါပြီ။", {
+                total_step1_no_clicks: step1NoClicks,
+                total_step2_no_clicks: step2NoClicks,
+                total_step3_no_clicks: step3NoClicks
+            });
+
+            nextStep('letter');
+        }
+    </script>
+</body>
+</html>
