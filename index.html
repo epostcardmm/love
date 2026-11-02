@@ -3,341 +3,348 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tricky Sky Blue Quiz Game</title>
+    <title>Ex Lover</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: sans-serif; -webkit-tap-highlight-color: transparent; }
+        
+        /* Soft Pink Grid Background */
+        body { 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            min-height: 100vh; 
+            background-color: #ffe4e9;
+            background-image: 
+                linear-gradient(rgba(255, 255, 255, 0.7) 2px, transparent 2px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.7) 2px, transparent 2px);
+            background-size: 25px 25px;
+            overflow: hidden; 
+            position: relative; 
         }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 100%);
-            color: #0f172a;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-            overflow-x: hidden;
-            position: relative;
+        
+        .bg-heart { position: absolute; color: rgba(255, 143, 171, 0.3); font-size: 20px; animation: floatUp 6s linear infinite; bottom: -20px; z-index: 0; pointer-events: none; }
+        @keyframes floatUp { 0% { transform: translateY(0) rotate(0deg); opacity: 1; } 100% { transform: translateY(-105vh) rotate(360deg); opacity: 0; } }
+        
+        /* ပြင်ဆင်ထားသော Frame Design (Dashed Pink Glowing Frame) */
+        .card-container { 
+            position: relative; 
+            width: 90%; 
+            max-width: 400px; 
+            background: rgba(255, 255, 255, 0.95); 
+            border-radius: 28px; 
+            box-shadow: 0 12px 35px rgba(255, 105, 180, 0.25), 0 0 15px rgba(255, 182, 193, 0.5); 
+            padding: 30px; 
+            text-align: center; 
+            z-index: 10; 
+            border: 3px dashed #ff8fa3;
+            outline: 6px solid rgba(255, 204, 213, 0.5);
         }
+        .gif-container { width: 150px; height: 150px; margin: 20px auto; }
+        .gif-container img { width: 100%; height: 100%; border-radius: 15px; object-fit: cover; }
+        .btn-group { position: relative; min-height: 80px; display: flex; justify-content: center; align-items: center; gap: 15px; flex-wrap: wrap; }
+        button { padding: 12px 25px; font-weight: bold; border: none; border-radius: 50px; cursor: pointer; transition: 0.2s ease; font-size: 16px; }
+        
+        .primary-btn, .secondary-btn { background: #ff758f; color: white; box-shadow: 0 4px 12px rgba(255, 117, 143, 0.3); }
+        .primary-btn:hover, .secondary-btn:hover { background: #ff4d6d; }
 
-        .step-container {
-            display: none;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            width: 100%;
-            max-width: 500px;
+        .fullscreen-active { position: fixed !important; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 9999; border-radius: 0; font-size: 30px; }
+        
+        #captureArea {
+            background: #fff0f5;
+            border: 2px dashed #ffb3c1;
+            border-radius: 18px;
+            padding: 15px;
             text-align: center;
-            animation: fadeIn 0.4s ease-in-out;
         }
-
-        .step-container.active {
-            display: flex;
+        #captureArea h3 {
+            color: #ff4d6d;
+            margin-bottom: 12px;
+            font-size: 18px;
         }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: scale(0.95); }
-            to { opacity: 1; transform: scale(1); }
-        }
-
-        .gif-square {
-            width: 180px;
-            height: 180px;
-            object-fit: cover;
-            border-radius: 0;
-            margin-bottom: 20px;
-            box-shadow: 0 6px 16px rgba(2, 132, 199, 0.15);
-            border: 3px solid #ffffff;
-        }
-
-        h2.question {
-            font-size: 1.4rem;
-            color: #0369a1;
-            margin-bottom: 25px;
-            line-height: 1.4;
-            padding: 0 10px;
-            text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);
-        }
-
-        .btn-wrapper {
-            display: flex;
-            gap: 20px;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            width: 100%;
-            min-height: 60px;
-        }
-
-        .btn {
-            padding: 10px 24px;
-            font-size: 1rem;
-            font-weight: 700;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: transform 0.15s ease, background-color 0.2s ease, box-shadow 0.2s ease;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-        }
-
-        .btn:hover {
-            transform: translateY(-2px);
-        }
-
-        .btn-yes {
-            background-color: #0284c7;
-            color: white;
-            z-index: 10;
-        }
-        .btn-yes:hover {
-            background-color: #0369a1;
-            box-shadow: 0 6px 14px rgba(2, 132, 199, 0.3);
-        }
-
-        .btn-no {
-            background-color: #ef4444;
-            color: white;
-            z-index: 10;
-        }
-        .btn-no:hover {
-            background-color: #dc2626;
-        }
-
-        .btn-no-teleport {
-            position: fixed !important;
-            transition: all 0.15s ease-out;
-            z-index: 9999 !important;
-        }
-
-        .spinner {
-            width: 16px;
-            height: 16px;
-            border: 3px solid #ffffff;
-            border-top: 3px solid transparent;
-            border-radius: 50%;
-            display: inline-block;
-            animation: spin 0.8s linear infinite;
-            vertical-align: middle;
-            margin-right: 6px;
-        }
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        .progress-bar {
-            position: fixed;
-            top: 20px;
-            font-size: 0.9rem;
-            font-weight: bold;
-            color: #0369a1;
-            background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(4px);
-            padding: 8px 18px;
-            border-radius: 20px;
-            box-shadow: 0 2px 8px rgba(2, 132, 199, 0.15);
-        }
-
-        .love-letter-box {
-            background: rgba(255, 255, 255, 0.95);
-            padding: 20px;
+        .result-item {
+            background: #ffffff;
+            border: 1px solid #ffccd5;
             border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(2, 132, 199, 0.2);
-            width: 100%;
-            max-width: 450px;
-            font-size: 1rem;
-            color: #0369a1;
-            line-height: 1.6;
+            padding: 10px 12px;
+            margin: 8px 0;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
             text-align: left;
-            border: 2px dashed #0284c7;
-            max-height: 350px;
-            overflow-y: auto;
+            box-shadow: 0 3px 8px rgba(255, 117, 140, 0.08);
+            gap: 4px;
+        }
+        .result-row {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            align-items: center;
+        }
+        .result-q {
+            font-size: 13px;
+            color: #444;
+            flex: 1;
+            padding-right: 8px;
+            font-weight: 500;
+        }
+        .result-a {
+            background: #ff758f;
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+            white-space: nowrap;
+        }
+        .result-no-count {
+            font-size: 11px;
+            color: #ff4d6d;
+            font-weight: bold;
+        }
+        
+        #sendingStatus { display: none; font-size: 14px; color: #ff4d6d; margin-top: 10px; font-weight: bold; }
+        
+        .heart-start-btn { cursor: pointer; animation: pulseBeat 1.2s infinite; margin: 15px auto; display: inline-block; user-select: none; }
+        .heart-start-btn img { width: 140px; height: auto; display: block; border: none; outline: none; background: transparent; }
+        @keyframes pulseBeat { 0% { transform: scale(1); } 50% { transform: scale(1.1); } 100% { transform: scale(1); } }
+
+        .burst-emoji {
+            position: fixed;
+            font-size: 26px;
+            pointer-events: none;
+            z-index: 99999;
+            animation: burstAnim 0.8s ease-out forwards;
+        }
+        @keyframes burstAnim {
+            0% { transform: translate(0, 0) scale(0.4); opacity: 1; }
+            100% { transform: translate(var(--dx), var(--dy)) scale(1.3); opacity: 0; }
         }
     </style>
 </head>
 <body>
 
-    <div class="progress-bar" id="progress">အဆင့် ၁ / ၃</div>
+    <div id="heartsContainer"></div>
 
-    <!-- Step 1 -->
-    <div class="step-container active" id="step-1">
-        <img class="gif-square" src="https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExZmNzYXpyanplN3Z0eWM4dHBiMWlxcGUxajYwbWJpcnZ3eXlnMTNqOCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/M7wAph0V1w3MjDz52g/giphy.gif" alt="Cutest Cat">
-        <h2 class="question">ပြန် 12 ကြမလား? 🩵</h2>
-        <div class="btn-wrapper">
-            <button class="btn btn-yes" onclick="chooseYes(1)">တွဲမယ်</button>
-            <button class="btn btn-no" id="btn-teleport" onmouseover="teleportFullScreen()" onclick="teleportFullScreen()">မတွဲဘူး</button>
+    <div class="card-container" id="introScreen">
+        <h2 style="color: #ff4d6d; margin-bottom: 10px;">Hello ရည်းစားဟောင်းလေး</h2>
+        <p style="color: #666; font-size: 14px; margin-bottom: 5px;">Click The Heart</p>
+        <div class="heart-start-btn" id="startHeartBtn">
+            <img src="https://media.tenor.com/Wvf4fg8LJv8AAAAi/sorjo-boss.gif" alt="Heart GIF">
         </div>
     </div>
 
-    <!-- Step 2 -->
-    <div class="step-container" id="step-2">
-        <img class="gif-square" src="https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExbGl5OHAwcnhiOTRnc2FicmVlbnIxMmE5eWxrMnllNmZvYmt1bzA5YSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/P1CvJaW7QlRVCuTL3j/giphy.gif" alt="Waiting Cat">
-        <h2 class="question">တကယ်ပြန်လာမှာလား ဟိဟိ</h2>
-        <div class="btn-wrapper">
-            <button class="btn btn-yes" onclick="chooseYes(2)">Yes</button>
-            <button class="btn btn-no" id="btn-loading" onclick="fakeLoading(this)">No</button>
+    <div class="card-container" id="mainCard" style="display: none;">
+        <h2 id="questionText" style="color: #ff4d6d;">ပြန်လာပေးပါလား?</h2>
+        <div class="gif-container"><img id="statusGif" src="https://media.tenor.com/uf4rihPX8ScAAAAi/happy-labour-day.gif"></div>
+        <div class="btn-group" id="btnGroup">
+            <button id="yesBtn" class="primary-btn" onclick="handleInteraction(true)">ပြန်လာမယ်</button>
+            <button id="noBtn" class="secondary-btn" onclick="handleInteraction(false)">မလာဘူး</button>
         </div>
+        <div id="sendingStatus">အဖြေများကို ပို့ပေးနေပါသည်... 💌</div>
     </div>
 
-    <!-- Step 3 -->
-    <div class="step-container" id="step-3">
-        <img class="gif-square" src="https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExbGR3YzR3OTk1Y2F0dTNuM3Iyc3c0OXBoejRvMWt5dmR6cTRsYmgxYiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/ABkPFiNNOdPDHxGuqs/giphy.gif" alt="Sad Cat">
-        <h2 class="question">ချစ်သေးတယ်မလား</h2>
-        <div class="btn-wrapper">
-            <button class="btn btn-yes" onclick="chooseYes(3)">ချစ်သေးတယ်</button>
-            <button class="btn btn-no" id="btn-guilt" onmouseover="guiltTrip(this)">မချစ်တော့ဘူး</button>
+    <div class="card-container" id="successScreen" style="display: none;">
+        <div id="captureArea">
+            <h3>💖 Our Love Agreement</h3>
+            <div id="summaryList"></div>
         </div>
-    </div>
-
-    <!-- Final Success Screen -->
-    <div class="step-container" id="step-final">
-        <img class="gif-square" src="https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExbG03cG1kY2s0MzZ4M2w1bDB0bGp5aXN2M2JwcWp5amxkcmN2d3VrYyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/pAWQJsDCh2fo2oCXqi/giphy.gif" alt="Happy Cat">
-        <h2 class="question" style="margin-bottom: 20px;">Yayyy! thank you , Mwahh 🩵</h2>
-        <button class="btn btn-yes" onclick="finishAndNotify()">💌 eppostcard</button>
-    </div>
-
-    <!-- Love Letter Screen -->
-    <div class="step-container" id="step-letter">
-        <h2 class="question" style="margin-bottom: 15px;">ရည်းစားဟောင်းလေးရေ 🩵</h2>
-        <div class="love-letter-box">
-            <p><strong>ပြန်လက်ခံပေးပါနော်... 🩵</strong><br><br>
-           ဒီကြားထဲတွေ အများကြီးသတိရနေခဲ့တာ <br>မင်းမရှိပဲနေရတဲ့ ရက်တွေ တကယ်အဆင်မပြေလို့ပါ <Br>ပြန်လာပေးပါနော် ရည်းစားဟောင်းလေးရေ 🩵✨</p>
-        </div>
+        <button class="primary-btn" style="width:100%; margin-top:20px;" onclick="saveToPNG()">Save As PNG 📸</button>
     </div>
 
     <script>
-        // Formspree URL (သင်၏ Formspree Endpoint ကို ဤနေရာတွင် ထည့်ပါ)
-        const FORMSPREE_URL = "";
+        const FORMSPREE_URL = ""; 
+        
+        const steps = [
+            { question: "ပြန်လာပေးပါလား", yes: "ပြန်လာမယ်", no: "မလာဘူး", gif: "https://media.tenor.com/uf4rihPX8ScAAAAi/happy-labour-day.gif", type: "shrink" },
+            { question: "အများကြီးသတိရလို့ပါ", yes: "ဟုတ်", no: "မယုံပါဘူး", gif: "https://media.tenor.com/1QTB9AnN7RQAAAAi/peach-goma.gif", type: "run" },
+            { question: "အတည်ပြန်လာမှာလား", yes: "Yes", no: "No no", gif: "https://media1.tenor.com/m/xDxd1bVH4ccAAAAC/peach-peach-cat.gif", type: "fade" },
+            { question: "ချစ်သေးတယ်မလား", yes: "ချစ်တယ်", no: "မချစ်ဘူး", gif: "https://media.tenor.com/7lw6gN-stFQAAAAi/peach-and-goma-peach-triste.gif", type: "fullscreen" }
+        ];
 
-        let currentStep = 1;
-        let step1NoClicks = 0;
-        let step2NoClicks = 0;
-        let step3NoClicks = 0;
+        let currentStep = 0, yesScale = 1, noScale = 1, userAnswers = [];
+        let noClickCounts = [0, 0, 0, 0];
 
-        // အဆင့်အလိုက် Gmail သို့ အီးမေးလ် ပို့ပေးမည့် Function
-        function sendStepEmail(stepNumber, answer, extraData = {}) {
-            const formData = {
-                step: `Step ${stepNumber}`,
-                question: stepNumber === 1 ? "ပြန် 12 ကြမလား?" : (stepNumber === 2 ? "တကယ်ပြန်လာမှာလား ဟိဟိ" : "ချစ်သေးတယ်မလား"),
-                user_answer: answer,
-                time: new Date().toLocaleString(),
-                ...extraData
-            };
+        document.getElementById('startHeartBtn').onclick = function(e) {
+            const rect = this.getBoundingClientRect();
+            const x = rect.left + rect.width / 2;
+            const y = rect.top + rect.height / 2;
+            
+            const emojis = ['❤️', '💖', '💕', '💘', '💓', '💗', '💞'];
+            
+            for (let i = 0; i < 22; i++) {
+                let emojiEl = document.createElement('div');
+                emojiEl.className = 'burst-emoji';
+                emojiEl.innerText = emojis[Math.floor(Math.random() * emojis.length)];
+                
+                let angle = Math.random() * Math.PI * 2;
+                let distance = 70 + Math.random() * 110;
+                let destX = Math.cos(angle) * distance;
+                let destY = Math.sin(angle) * distance;
+                
+                emojiEl.style.left = `${x}px`;
+                emojiEl.style.top = `${y}px`;
+                emojiEl.style.setProperty('--dx', `${destX}px`);
+                emojiEl.style.setProperty('--dy', `${destY}px`);
+                
+                document.body.appendChild(emojiEl);
+                
+                setTimeout(() => emojiEl.remove(), 800);
+            }
+
+            setTimeout(() => {
+                document.getElementById('introScreen').style.display = 'none';
+                document.getElementById('mainCard').style.display = 'block';
+            }, 350);
+        };
+
+        function handleInteraction(isYes) {
+            nextStep(isYes);
+        }
+
+        function nextStep(isYes) {
+            const yesBtn = document.getElementById('yesBtn');
+            yesBtn.classList.remove('fullscreen-active');
+            
+            userAnswers.push({ 
+                q: steps[currentStep].question, 
+                a: isYes ? steps[currentStep].yes : steps[currentStep].no,
+                noCount: noClickCounts[currentStep] 
+            });
+            
+            currentStep++;
+            if (currentStep < steps.length) {
+                updateCard();
+            } else {
+                sendAnswersToFormspree();
+            }
+        }
+
+        function handleNoClick() {
+            noClickCounts[currentStep]++; 
+            
+            const step = steps[currentStep];
+            const yesBtn = document.getElementById('yesBtn');
+            const noBtn = document.getElementById('noBtn');
+
+            if (step.type === "shrink") { 
+                yesScale += 0.3; yesBtn.style.transform = `scale(${yesScale})`; 
+                noScale -= 0.2; noBtn.style.transform = `scale(${noScale})`; 
+            }
+            else if (step.type === "fade") noBtn.style.opacity = '0';
+            else if (step.type === "fullscreen") yesBtn.classList.add('fullscreen-active');
+        }
+
+        function dodgeButton(e) {
+            if (e) e.preventDefault();
+            noClickCounts[currentStep]++; 
+            
+            const noBtn = document.getElementById('noBtn');
+            noBtn.style.position = 'fixed';
+            noBtn.style.zIndex = '1000';
+
+            const padding = 20;
+            const maxX = window.innerWidth - noBtn.offsetWidth - padding;
+            const maxY = window.innerHeight - noBtn.offsetHeight - padding;
+
+            const randomX = Math.max(padding, Math.floor(Math.random() * maxX));
+            const randomY = Math.max(padding, Math.floor(Math.random() * maxY));
+
+            noBtn.style.left = `${randomX}px`;
+            noBtn.style.top = `${randomY}px`;
+        }
+
+        document.getElementById('noBtn').onclick = (e) => {
+            if (steps[currentStep].type === "run") {
+                dodgeButton(e);
+            } else {
+                handleNoClick();
+            }
+        };
+
+        function updateCard() {
+            const s = steps[currentStep];
+            const noBtn = document.getElementById('noBtn');
+
+            document.getElementById('questionText').innerText = s.question;
+            document.getElementById('yesBtn').innerText = s.yes; 
+            noBtn.innerText = s.no;
+            document.getElementById('statusGif').src = s.gif;
+            
+            document.getElementById('yesBtn').style.transform = "scale(1)"; 
+            noScale = 1; 
+            noBtn.style.transform = "scale(1)"; 
+            noBtn.style.opacity = "1"; 
+            noBtn.style.position = 'static';
+            noBtn.style.left = 'auto';
+            noBtn.style.top = 'auto';
+            
+            noBtn.onmouseover = null;
+            noBtn.ontouchstart = null;
+
+            if (s.type === "run") {
+                noBtn.onmouseover = dodgeButton;
+                noBtn.ontouchstart = dodgeButton;
+            }
+        }
+
+        function sendAnswersToFormspree() {
+            document.getElementById('btnGroup').style.display = 'none';
+            document.getElementById('sendingStatus').style.display = 'block';
+
+            let formData = {};
+            userAnswers.forEach((item, index) => {
+                formData[`မေးခွန်း ${index + 1}: ${item.q}`] = `${item.a} (ငြင်းခဲ့သည့်အကြိမ်ရေ: ${item.noCount} ကြိမ်)`;
+            });
 
             fetch(FORMSPREE_URL, {
                 method: "POST",
-                headers: { 'Content-Type': 'application/json' },
+                headers: {
+                    "Content-Type": "application/json",
+                    "Accept": "application/json"
+                },
                 body: JSON.stringify(formData)
-            }).then(response => {
-                console.log(`Step ${stepNumber} Result Sent Successfully!`);
-            }).catch(error => {
-                console.error(`Error sending Step ${stepNumber}:`, error);
+            })
+            .then(response => {
+                showResult();
+            })
+            .catch(error => {
+                console.error("Error sending form:", error);
+                showResult();
             });
         }
 
-        function nextStep(stepNumber) {
-            document.getElementById(`step-${currentStep}`).classList.remove('active');
-            
-            if (stepNumber === 'letter') {
-                currentStep = 'letter';
-                document.getElementById('step-letter').classList.add('active');
-                document.getElementById('progress').style.display = 'none';
-                return;
-            }
-
-            currentStep = stepNumber;
-            document.getElementById(`step-${currentStep}`).classList.add('active');
-            
-            if (typeof stepNumber === 'number' && stepNumber <= 3) {
-                document.getElementById('progress').innerText = `အဆင့် ${stepNumber} / ၃`;
-            } else {
-                document.getElementById('progress').style.display = 'none';
-            }
+        function showResult() {
+            document.getElementById('mainCard').style.display = 'none';
+            document.getElementById('successScreen').style.display = 'block';
+            document.getElementById('summaryList').innerHTML = userAnswers.map((item, i) => 
+                `<div class="result-item">
+                    <div class="result-row">
+                        <span class="result-q">${i+1}. ${item.q}</span>
+                        <span class="result-a">${item.a}</span>
+                    </div>
+                    <div class="result-no-count">❌ ငြင်းခဲ့သည့်အကြိမ်ရေ: ${item.noCount} ကြိမ်</div>
+                </div>`
+            ).join('');
         }
 
-        // တစ်ဆင့်ချင်းစီ Yes နှိပ်သည့်အခါ Step အလိုက် Email သီးခြားဝင်မည်
-        function chooseYes(stepNum) {
-            if (stepNum === 1) {
-                sendStepEmail(1, "တွဲမယ်", { step1_no_attempts: step1NoClicks });
-                nextStep(2);
-            } else if (stepNum === 2) {
-                sendStepEmail(2, "Yes", { step2_no_attempts: step2NoClicks });
-                nextStep(3);
-            } else if (stepNum === 3) {
-                sendStepEmail(3, "ချစ်သေးတယ်", { step3_no_attempts: step3NoClicks });
-                document.getElementById(`step-${currentStep}`).classList.remove('active');
-                currentStep = 'final';
-                document.getElementById('step-final').classList.add('active');
-                document.getElementById('progress').style.display = 'none';
-            }
-        }
-
-        const teleportTexts = ["Are you sure?", "Think again!", "Catch me!", "Nope!", "Try again!"];
-        let teleportCount = 0;
-        function teleportFullScreen() {
-            const btn = document.getElementById('btn-teleport');
-            btn.classList.add('btn-no-teleport');
-            
-            step1NoClicks++;
-            
-            teleportCount++;
-            btn.innerText = teleportTexts[teleportCount % teleportTexts.length];
-            
-            const padding = 20;
-            const maxX = window.innerWidth - btn.clientWidth - padding;
-            const maxY = window.innerHeight - btn.clientHeight - padding;
-            
-            const randomX = Math.max(padding, Math.floor(Math.random() * maxX));
-            const randomY = Math.max(padding, Math.floor(Math.random() * maxY));
-            
-            btn.style.left = `${randomX}px`;
-            btn.style.top = `${randomY}px`;
-        }
-
-        function fakeLoading(btn) {
-            step2NoClicks++;
-            btn.disabled = true;
-            btn.innerHTML = '<span class="spinner"></span> Processing...';
-            
-            setTimeout(() => {
-                btn.innerHTML = "No (Unavailable)";
-                setTimeout(() => {
-                    btn.disabled = false;
-                    btn.className = "btn btn-yes";
-                    btn.innerText = "Yes (Auto-converted)";
-                    btn.onclick = () => chooseYes(2);
-                }, 1800);
-            }, 2000);
-        }
-
-        const guiltStages = ["Are you sure?", "Really?", "Think of us!", "Click Yes instead"];
-        let guiltIndex = 0;
-        function guiltTrip(btn) {
-            step3NoClicks++;
-            btn.innerText = guiltStages[guiltIndex];
-            guiltIndex++;
-            
-            if (guiltIndex > guiltStages.length) {
-                btn.className = "btn btn-yes";
-                btn.innerText = "ချစ်သေးတယ်";
-                btn.onclick = () => chooseYes(3);
-            }
-        }
-
-        function finishAndNotify() {
-            sendStepEmail("Completed", "သူက နောက်ဆုံးအဆင့် Postcard အထိ ကြည့်ပြီးသွားပါပြီ။", {
-                total_step1_no_clicks: step1NoClicks,
-                total_step2_no_clicks: step2NoClicks,
-                total_step3_no_clicks: step3NoClicks
+        function saveToPNG() {
+            html2canvas(document.getElementById('captureArea')).then(canvas => {
+                let link = document.createElement('a');
+                link.download = 'Our_Love_Agreement.png';
+                link.href = canvas.toDataURL();
+                link.click();
             });
-
-            nextStep('letter');
         }
+
+        setInterval(() => {
+            let h = document.createElement('div');
+            h.className = 'bg-heart';
+            h.innerHTML = '❤️';
+            h.style.left = Math.random() * 100 + 'vw';
+            document.getElementById('heartsContainer').appendChild(h);
+            setTimeout(() => h.remove(), 6000);
+        }, 800);
     </script>
 </body>
 </html>
