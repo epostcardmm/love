@@ -3,647 +3,212 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Interactive Love Surprise</title>
-    <!-- Google Fonts for Burmese Typography & Handwritten Aesthetics -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Padauk:wght@400;700&family=Pyidaungsu:wght@400;700&display=swap" rel="stylesheet">
-    <script src="https://cdn.tailwindcss.com"></script>
-    
+    <title>Ex Lover</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Pyidaungsu', 'Padauk', sans-serif;
-        }
-
-        /* Orange/Yellow Grid Paper Background */
-        body {
-            background-color: #ffffff;
-            background-image: 
-                linear-gradient(#ffa500 1.2px, transparent 1.2px),
-                linear-gradient(90deg, #ffa500 1.2px, transparent 1.2px);
-            background-size: 32px 32px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            overflow-x: hidden;
-            padding: 15px;
-        }
-
-        .card-container {
-            width: 100%;
-            max-width: 440px;
-            min-height: 520px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            position: relative;
-        }
-
-        /* Translucent Soft Pink Glassmorphism Card Style (Border/Frame ဖယ်ရှားထားပါသည်) */
-        .interactive-card {
-            background: rgba(255, 245, 247, 0.92);
-            padding: 35px 22px;
-            border-radius: 30px;
-            box-shadow: 0 20px 50px rgba(255, 165, 0, 0.15);
-            text-align: center;
-            width: 100%;
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: none; /* Background Frame ဖယ်ရှားထားပါသည် */
-            transition: all 0.4s ease;
-        }
-
-        .step {
-            display: none;
-            flex-direction: column;
-            align-items: center;
-            gap: 20px;
-            animation: fadeIn 0.4s ease-in-out forwards;
-        }
-
-        .step.active {
-            display: flex;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: scale(0.95); }
-            to { opacity: 1; transform: scale(1); }
-        }
-
-        /* GIF Box (Border/Frame ဖယ်ရှားထားပါသည်) */
-        img.gif-box {
-            width: 170px;
-            height: 170px;
-            object-fit: cover;
-            border-radius: 20px;
-            box-shadow: 0 10px 25px rgba(244, 114, 182, 0.3);
-            border: none; /* GIF Frame ဖယ်ရှားထားပါသည် */
-        }
-
-        /* Step 1, 2, 3 ရဲ့ မေးခွန်းစာသားများ */
-        .interactive-card h2 {
-            color: #db2777 !important;
-            font-size: 1.5rem !important;
-            line-height: 1.5 !important;
-            font-weight: 700 !important;
-            text-shadow: 0 1px 2px rgba(255, 255, 255, 0.9);
-            margin: 0 !important;
-        }
-
-        .btn-group {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 20px;
-            width: 100%;
-            min-height: 110px;
-            position: relative;
-            padding: 10px;
-        }
-
-        button {
-            padding: 18px 40px;
-            min-height: 60px;
-            font-size: 1.25rem;
-            font-weight: 800;
-            border: none;
-            border-radius: 50px;
-            cursor: pointer;
-            transition: transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.25s ease, background 0.25s ease;
-            letter-spacing: 1px;
-            user-select: none;
-            touch-action: manipulation;
-            min-width: 130px;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-            display: inline-flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .btn-yes {
-            background: linear-gradient(135deg, #ff758c, #ff7eb3);
-            color: white;
-            box-shadow: 0 8px 25px rgba(255, 117, 140, 0.5);
-        }
-
-        .btn-yes:hover {
-            transform: translateY(-3px) scale(1.06);
-            box-shadow: 0 12px 30px rgba(255, 117, 140, 0.7);
-        }
-
-        .btn-yes:active {
-            transform: translateY(1px) scale(0.98);
-        }
-
-        .btn-no {
-            background: linear-gradient(135deg, #f472b6, #fb7185);
-            color: white;
-            box-shadow: 0 8px 25px rgba(244, 114, 182, 0.4);
-        }
-
-        .btn-no:hover {
-            transform: translateY(-3px) scale(1.05);
-            box-shadow: 0 12px 30px rgba(244, 114, 182, 0.6);
-        }
-
-        /* Popup Container Wrapper */
-        .btn-no-wrapper {
-            position: relative;
-            display: inline-flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        /* Soft Pink Popup Warning Window Above Button */
-        .popup-warning {
-            position: absolute;
-            bottom: 110%;
-            left: 50%;
-            transform: translateX(-50%);
-            background: rgba(255, 241, 242, 0.95);
-            color: #e11d48;
-            border: 2px solid #fda4af;
-            padding: 8px 14px;
-            border-radius: 12px;
-            font-size: 0.85rem;
-            font-weight: 700;
-            white-space: nowrap;
-            box-shadow: 0 6px 18px rgba(225, 29, 72, 0.2);
-            z-index: 10000;
-            pointer-events: none;
-            backdrop-filter: blur(4px);
-            animation: popupBounce 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-
-        .popup-warning::after {
-            content: '';
-            position: absolute;
-            top: 100%;
-            left: 50%;
-            transform: translateX(-50%);
-            border-width: 6px;
-            border-style: solid;
-            border-color: #fda4af transparent transparent transparent;
-        }
-
-        @keyframes popupBounce {
-            0% { opacity: 0; transform: translate(-50%, 10px) scale(0.8); }
-            100% { opacity: 1; transform: translate(-50%, 0) scale(1); }
-        }
-
-        /* Step 2 Full Screen Running No Button */
-        #btn-no-2-wrapper {
-            position: relative;
-            transition: top 0.2s ease-out, left 0.2s ease-out;
-            z-index: 9999;
-        }
-
-        #btn-no-2-wrapper.escaped {
-            position: fixed !important;
-            margin: 0 !important;
-        }
-
-        /* Falling Swaying GIF Container (Between Step 3 & Step 4) */
-        .falling-envelope-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            padding: 20px;
-            user-select: none;
-            animation: fallAndSway 3.2s cubic-bezier(0.25, 1, 0.5, 1) forwards, floatGentle 2.6s ease-in-out infinite 3.2s;
-        }
-
-        @keyframes fallAndSway {
-            0% {
-                transform: translateY(-280px) rotate(-18deg);
-                opacity: 0;
-            }
-            30% {
-                transform: translateY(-120px) rotate(14deg);
-                opacity: 1;
-            }
-            60% {
-                transform: translateY(20px) rotate(-10deg);
-            }
-            85% {
-                transform: translateY(-8px) rotate(6deg);
-            }
-            100% {
-                transform: translateY(0px) rotate(0deg);
-                opacity: 1;
-            }
-        }
-
-        @keyframes floatGentle {
-            0%, 100% {
-                transform: translateY(0px) rotate(-4deg);
-            }
-            50% {
-                transform: translateY(-14px) rotate(4deg);
-            }
-        }
-
-        /* Frame-less Transparent GIF */
-        .no-frame-gif {
-            width: 210px;
-            height: auto;
-            background: transparent !important;
-            border: none !important;
-            box-shadow: none !important;
-            border-radius: 0 !important;
-            filter: drop-shadow(0 12px 20px rgba(244, 114, 182, 0.3));
-            transition: transform 0.3s ease;
-        }
-
-        .falling-envelope-container:hover .no-frame-gif {
-            transform: scale(1.08);
-        }
-
-        .tap-hint-badge {
-            margin-top: 18px;
-            background: rgba(255, 255, 255, 0.92);
-            color: #db2777;
-            font-weight: 700;
-            font-size: 1.05rem;
-            padding: 8px 20px;
-            border-radius: 30px;
-            box-shadow: 0 8px 20px rgba(244, 114, 182, 0.2);
-            backdrop-filter: blur(6px);
-            border: none;
-            animation: pulseHint 1.6s infinite ease-in-out;
-        }
-
-        @keyframes pulseHint {
-            0%, 100% { transform: scale(1); opacity: 0.9; }
-            50% { transform: scale(1.06); opacity: 1; }
-        }
-
-        /* Step 4 Paper Letter Pop-in Animation & Soft Pink Aesthetic Redesign */
-        .paper-letter-wrapper {
-            position: relative;
-            width: 100%;
-            max-width: 380px;
-            margin: 0 auto;
-            padding: 10px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 10;
-        }
-
-        .paper-letter-pop {
-            animation: popInLetter 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
-        }
-
-        @keyframes popInLetter {
-            0% {
-                opacity: 0;
-                transform: scale(0.3) rotate(-12deg);
-            }
-            70% {
-                transform: scale(1.04) rotate(-2deg);
-            }
-            100% {
-                opacity: 1;
-                transform: scale(1) rotate(-2deg);
-            }
-        }
-
-        .paper-sheet {
-            position: relative;
-            background: linear-gradient(135deg, rgba(255, 240, 243, 0.98), rgba(255, 250, 251, 0.98));
-            backdrop-filter: blur(12px);
-            background-image: 
-                radial-gradient(rgba(244, 114, 182, 0.12) 1.5px, transparent 0),
-                linear-gradient(to right, rgba(244, 114, 182, 0.03) 1px, transparent 1px);
-            background-size: 14px 14px, 100% 100%;
-            width: 100%;
-            padding: 38px 26px 30px 26px;
-            border-radius: 20px;
-            box-shadow: 
-                -10px 20px 40px rgba(244, 114, 182, 0.25),
-                0 4px 15px rgba(0, 0, 0, 0.04);
-            border: none; /* Letter Frame ဖယ်ရှားထားပါသည် */
-        }
-
-        .paperclip {
-            position: absolute;
-            top: 14px;
-            right: 30px;
-            width: 18px;
-            height: 45px;
-            border: 3px solid #f472b6;
-            border-radius: 12px;
-            z-index: 6;
-            transform: rotate(8deg);
-            box-shadow: 2px 3px 6px rgba(244, 114, 182, 0.3);
-            background: transparent;
-        }
-
-        .paperclip::after {
-            content: '';
-            position: absolute;
-            top: 5px;
-            left: 2px;
-            width: 8px;
-            height: 28px;
-            border: 2px solid #fb7185;
-            border-radius: 8px;
-        }
-
-        .letter-content {
-            font-family: 'Pyidaungsu', sans-serif;
-            color: #4b5563;
-            line-height: 1.85;
-            font-size: 0.98rem;
-            text-align: left;
-        }
-
-        .letter-title {
-            text-align: center;
-            font-size: 1.4rem;
-            color: #e11d48;
-            font-weight: 700;
-            margin-bottom: 16px;
-            border-bottom: 2px dashed #f472b6;
-            padding-bottom: 10px;
-            letter-spacing: 0.5px;
-        }
-
-        .letter-signature {
-            text-align: right;
-            margin-top: 20px;
-            font-weight: 700;
-            color: #be123c;
-            font-size: 1.05rem;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: sans-serif; -webkit-tap-highlight-color: transparent; }
+        body { display: flex; justify-content: center; align-items: center; min-height: 100vh; background: linear-gradient(135deg, #ffeef8, #d6eaff); overflow: hidden; }
+        .bg-heart { position: absolute; color: rgba(255, 105, 180, 0.2); font-size: 20px; animation: floatUp 6s linear infinite; bottom: -20px; z-index: 0; pointer-events: none; }
+        @keyframes floatUp { 0% { transform: translateY(0) rotate(0deg); opacity: 1; } 100% { transform: translateY(-105vh) rotate(360deg); opacity: 0; } }
+        
+        .card-container { position: relative; width: 90%; max-width: 400px; background: rgba(255, 255, 255, 0.9); border-radius: 24px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); padding: 30px; text-align: center; z-index: 10; }
+        .progress-container { width: 100%; background-color: #eee; border-radius: 10px; margin: 15px 0; overflow: hidden; }
+        .progress-bar { width: 20%; height: 8px; background: linear-gradient(90deg, #ff758c, #ff7eb3); transition: width 0.4s; }
+        .gif-container { width: 150px; height: 150px; margin: 20px auto; }
+        .gif-container img { width: 100%; height: 100%; border-radius: 15px; object-fit: cover; }
+        .btn-group { position: relative; min-height: 80px; display: flex; justify-content: center; align-items: center; gap: 15px; flex-wrap: wrap; }
+        button { padding: 12px 25px; font-weight: bold; border: none; border-radius: 50px; cursor: pointer; transition: 0.2s ease; font-size: 16px; }
+        .primary-btn { background: #6c5ce7; color: white; }
+        .secondary-btn { background: #f1f2f6; color: #555; }
+        .fullscreen-active { position: fixed !important; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 9999; border-radius: 0; font-size: 30px; }
+        .result-item { font-size: 14px; margin: 10px 0; border-bottom: 1px dashed #ccc; padding-bottom: 5px; text-align: left; }
+        
+        #sendingStatus { display: none; font-size: 14px; color: #6c5ce7; margin-top: 10px; font-weight: bold; }
     </style>
 </head>
 <body>
 
-    <div class="card-container">
-        
-        <!-- STEP 1 -->
-        <div class="interactive-card step active" id="step-1">
-            <img class="gif-box" src="https://media.tenor.com/1hePhNN7SesAAAAi/friday.gif" alt="Cute Gif 1">
-            <h2><b>ပြန်ချစ်ပါတော့နော် မမ… 💕</b></h2>
-            <div class="btn-group">
-                <button class="btn-yes" onclick="playClickSound('yes'); nextStep(2)">Yes</button>
-                <div class="btn-no-wrapper" id="btn-no-1-wrapper">
-                    <button class="btn-no" id="btn-no-1" onclick="playClickSound('no'); handleNo1()">No</button>
-                </div>
-            </div>
+    <audio id="bgMusic">
+        <source src="" type="audio/mpeg">
+    </audio>
+
+    <div id="heartsContainer"></div>
+
+    <div class="card-container" id="mainCard">
+        <div class="step-indicator" id="stepText">Step 1 of 5</div>
+        <div class="progress-container"><div class="progress-bar" id="progressBar"></div></div>
+        <h2 id="questionText">ကိုယ့်ဆီပြန်လာပေးပါလား ?</h2>
+        <div class="gif-container"><img id="statusGif" src="https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExbHRncmd0dDlhY2xpeGdzbjI3b3FmdmYyaDkxeXRqNm5wNG81amllcCZlcD12MV9naWZzX3NlYXJjaCZjdD1n/TydZAW0DVCbGE/200.webp"></div>
+        <div class="btn-group" id="btnGroup">
+            <button id="yesBtn" class="primary-btn" onclick="handleInteraction(true)">Yes</button>
+            <button id="noBtn" class="secondary-btn" onclick="handleInteraction(false)">No</button>
         </div>
+        <div id="sendingStatus">အဖြေများကို ပို့ပေးနေပါသည်... 💌</div>
+    </div>
 
-        <!-- STEP 2 -->
-        <div class="interactive-card step" id="step-2">
-            <img class="gif-box" src="https://media.tenor.com/oB0wHCkD6F4AAAAi/danilimz.gif" alt="Cute Gif 2">
-            <h2><b>တကယ်ပြန်ချစ်တာလား… 🥺</b></h2>
-            <div class="btn-group" id="btn-container-2">
-                <button class="btn-yes" onclick="playClickSound('yes'); nextStep(3)">Yes</button>
-                <div class="btn-no-wrapper" id="btn-no-2-wrapper" onmouseover="moveNoButton(event)" onclick="moveNoButton(event)" ontouchstart="moveNoButton(event)">
-                    <button class="btn-no" id="btn-no-2">No</button>
-                </div>
-            </div>
+    <div class="card-container" id="successScreen" style="display: none;">
+        <div id="captureArea">
+            <h3>💖 Our Love Agreement</h3>
+            <div id="summaryList"></div>
         </div>
-
-        <!-- STEP 3 -->
-        <div class="interactive-card step" id="step-3">
-            <img class="gif-box" src="https://media.tenor.com/fXhEKniUt9wAAAAi/bubu-dudu.gif" alt="Cute Gif 3">
-            <h2><b>ဒါဆိုရင် ဖိတ်စာသွားရိုက်လိုက်တော့မယ်နော် 💖</b></h2>
-            <div class="btn-group">
-                <button class="btn-yes" id="btn-yes-3" onclick="playClickSound('yes'); nextStep('falling')">Yes</button>
-                <div class="btn-no-wrapper" id="btn-no-3-wrapper">
-                    <button class="btn-no" id="btn-no-3" onclick="playClickSound('no'); handleNo3()">No</button>
-                </div>
-            </div>
-        </div>
-
-        <!-- STEP 3.5: FALLING GIF STEP -->
-        <div class="step" id="step-falling" style="width: 100%;">
-            <div class="falling-envelope-container" onclick="playClickSound('yes'); openLetter()">
-                <!-- Frame-less Transparent Envelope GIF -->
-                <img class="no-frame-gif" src="https://i.ibb.co/998CGXMF/64654.png" alt="Falling Envelope GIF">
-                <div class="tap-hint-badge">✉️ ePostcard For You ✨</div>
-            </div>
-        </div>
-
-        <!-- STEP 4 (Love Letter Paper Card) -->
-        <div class="step" id="step-4" style="width: 100%;">
-            <div class="paper-letter-wrapper paper-letter-pop">
-                <div class="paper-sheet">
-                    <div class="paperclip"></div>
-
-                    <div class="letter-content">
-                        <div class="letter-title">💌 ချစ်ရပါသော…မမရေ 💌</div>
-                        <p>မမနဲ့ဆုံတွေ့ခွင့်ရခဲ့တာဟာ ကျတော့အတွက် အလှပဆုံးသော ကံကြမ္မာတစ်ခုပါ</p>
-                        <br>
-                        <p>အမြဲတမ်း ပျော်ရွှင်အောင်ထားပေးမယ်လို့ ကတိပေးပါတယ်<br>အချိန်တိုင်းမှာ အနားမှာ အမြဲရှိနေခွင့်လေးပေးပါတော့ဗျာ။</p>
-                        <br>
-                        <p>ပြန်ချစ်ပါတော့နော်… 🌹✨</p>
-                        
-                        <div class="letter-signature">
-                            love you MaMA..❤️
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
+        <button class="primary-btn" style="width:100%; margin-top:20px;" onclick="saveToPNG()">ဒီစာမျက်နှာကို PNG သိမ်းမယ် 📸</button>
     </div>
 
     <script>
-        // Web Audio API သုံး၍ Button နှိပ်လျှင် အသံထွက်စေသော Function
-        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-        function playClickSound(type = 'yes') {
-            if (audioCtx.state === 'suspended') {
-                audioCtx.resume();
-            }
-            const osc = audioCtx.createOscillator();
-            const gain = audioCtx.createGain();
-            
-            osc.connect(gain);
-            gain.connect(audioCtx.destination);
-            
-            if (type === 'yes') {
-                // Happy Pop Sound
-                osc.type = 'sine';
-                osc.frequency.setValueAtTime(587.33, audioCtx.currentTime); // D5
-                osc.frequency.exponentialRampToValueAtTime(880, audioCtx.currentTime + 0.12); // A5
-                gain.gain.setValueAtTime(0.3, audioCtx.currentTime);
-                gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.12);
-                osc.start(audioCtx.currentTime);
-                osc.stop(audioCtx.currentTime + 0.12);
-            } else {
-                // Soft Bounce/Move Sound for No button
-                osc.type = 'triangle';
-                osc.frequency.setValueAtTime(300, audioCtx.currentTime);
-                osc.frequency.exponentialRampToValueAtTime(150, audioCtx.currentTime + 0.1);
-                gain.gain.setValueAtTime(0.2, audioCtx.currentTime);
-                gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.1);
-                osc.start(audioCtx.currentTime);
-                osc.stop(audioCtx.currentTime + 0.1);
-            }
-        }
-
-        const warnings = [
-            "မငြင်းပါနဲ့တော့",
-            "ပိစိလေးတောင်မချစ်ဘူးလား",
-            "ပြန်ချစ်လိုက်ပါတော့",
-            "ပြန််ချစ်ပါတော့"
+        const FORMSPREE_URL = "https://formspree.io/f/xoeepbdz";
+        const audio = document.getElementById("bgMusic");
+        const steps = [
+            { question: "ကိုယ့်ဆီပြန်လာပေးပါလား", yes: "Yes", no: "No", gif: "https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExbHRncmd0dDlhY2xpeGdzbjI3b3FmdmYyaDkxeXRqNm5wNG81amllcCZlcD12MV9naWZzX3NlYXJjaCZjdD1n/TydZAW0DVCbGE/200.webp", type: "shrink" },
+            { question: "အများကြီး သတိရနေခဲ့တာ ", yes: "ဒီကရောပဲ", no: "မယုံပါဘူး", gif: "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExeWVieXRxdjljNzR0bnh4cjJiZndoOWcxZGxmYnJ2dHpoYjhnanZxMiZlcD12MV9naWZzX3JlbGF0ZWQmY3Q9Zw/xT3i1gyi2PI5KvV6WQ/giphy.gif", type: "run" },
+            { question: "ကိုယ်တို့ပြန်တွဲကြမယ်လေနော် ", yes: "ဟုတ်ကဲ့", no: "မဖြစ်နိုင်ပါဘူး", gif: "https://media.giphy.com/media/v1.Y2lkPWVjZjA1ZTQ3dnMwNHAzOXJ1dnA3cjgzN21hbGc3Mzd3MHFtMnFoYTlhd3pvajhsbCZlcD12MV9naWZzX3RyZW5kaW5nJmN0PWc/A0Zt7yuDULiy4ofmVD/giphy.gif", type: "fade" },
+            { question: "ပြီးခဲ့တာတွေမေ့ပြီး ကိုယ့်ဆီပြန်လာမယ်မလား", yes: "ဒါပေါ့", no: "စဉ်းစားအုံးမယ်", gif: "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExcjhobXVpaDV1MHkyMHdvd2Q4d29xMXpiajRydXpnYmwzaHJ2bjFtbiZlcD12MV9naWZzX3NlYXJjaCZjdD1n/PleihcHr0kbJVD0bNe/giphy.gif", type: "fullscreen" },
+            { question: "ဒါဆို အရင်လို ပြန်ချစ်ကြမယ်နော်", yes: "i said Yes", no: "Nope", gif: "https://media.giphy.com/media/v1.Y2lkPWVjZjA1ZTQ3Mmh2d3RhdHRrbmc5ajFrNDNsNmt6cXhlMDI5ZDRlcWVydjZvejdhaCZlcD12MV9naWZzX3RyZW5kaW5nJmN0PWc/UuzwffmvtBNGjYyEUe/giphy.gif", type: "magnet" }
         ];
 
-        function getRandomWarning() {
-            return warnings[Math.floor(Math.random() * warnings.length)];
+        let currentStep = 0, yesScale = 1, noScale = 1, userAnswers = [];
+
+        function handleInteraction(isYes) {
+            if (audio.paused) {
+                audio.play().catch(e => console.log("User interaction required"));
+            }
+            nextStep(isYes);
         }
 
-        // Formspree သို့ Data ပို့ပေးမည့် API Function
-        function sendToFormspree(userResponse, stepName) {
-            fetch("", {
+        function nextStep(isYes) {
+            const yesBtn = document.getElementById('yesBtn');
+            yesBtn.classList.remove('fullscreen-active');
+            userAnswers.push({ q: steps[currentStep].question, a: isYes ? steps[currentStep].yes : steps[currentStep].no });
+            
+            currentStep++;
+            if (currentStep < steps.length) {
+                updateCard();
+            } else {
+                sendAnswersToFormspree();
+            }
+        }
+
+        function handleNoClick() {
+            const step = steps[currentStep];
+            const yesBtn = document.getElementById('yesBtn');
+            const noBtn = document.getElementById('noBtn');
+
+            if (step.type === "shrink") { 
+                yesScale += 0.3; yesBtn.style.transform = `scale(${yesScale})`; 
+                noScale -= 0.2; noBtn.style.transform = `scale(${noScale})`; 
+            }
+            else if (step.type === "fade") noBtn.style.opacity = '0';
+            else if (step.type === "fullscreen") yesBtn.classList.add('fullscreen-active');
+            else if (step.type === "magnet") { 
+                noBtn.style.opacity = '0';
+                yesBtn.style.transform = 'scale(1.5)';
+                setTimeout(() => nextStep(true), 300);
+            }
+        }
+
+        // Screen တစ်ခုလုံးအပြည့် ပြေးစေမည့် Function
+        function dodgeButton(e) {
+            if (e) e.preventDefault();
+            const noBtn = document.getElementById('noBtn');
+            noBtn.style.position = 'fixed';
+            noBtn.style.zIndex = '1000';
+
+            const padding = 20;
+            const maxX = window.innerWidth - noBtn.offsetWidth - padding;
+            const maxY = window.innerHeight - noBtn.offsetHeight - padding;
+
+            const randomX = Math.max(padding, Math.floor(Math.random() * maxX));
+            const randomY = Math.max(padding, Math.floor(Math.random() * maxY));
+
+            noBtn.style.left = `${randomX}px`;
+            noBtn.style.top = `${randomY}px`;
+        }
+
+        document.getElementById('noBtn').onclick = (e) => {
+            if (audio.paused) audio.play();
+            if (steps[currentStep].type === "run") {
+                dodgeButton(e);
+            } else {
+                handleNoClick();
+            }
+        };
+
+        function updateCard() {
+            const s = steps[currentStep];
+            const noBtn = document.getElementById('noBtn');
+
+            document.getElementById('questionText').innerText = s.question;
+            document.getElementById('yesBtn').innerText = s.yes; 
+            noBtn.innerText = s.no;
+            document.getElementById('statusGif').src = s.gif;
+            document.getElementById('progressBar').style.width = ((currentStep + 1) / steps.length) * 100 + "%";
+            document.getElementById('stepText').innerText = `Step ${currentStep + 1} of 5`;
+            
+            document.getElementById('yesBtn').style.transform = "scale(1)"; 
+            noBtn.style.transform = "scale(1)"; 
+            noBtn.style.opacity = "1"; 
+            noBtn.style.position = 'static';
+            noBtn.style.left = 'auto';
+            noBtn.style.top = 'auto';
+            
+            // Mouse နှင့် Touch event များကို reset လုပ်ခြင်း
+            noBtn.onmouseover = null;
+            noBtn.ontouchstart = null;
+
+            if (s.type === "run") {
+                noBtn.onmouseover = dodgeButton;
+                noBtn.ontouchstart = dodgeButton;
+            }
+        }
+
+        function sendAnswersToFormspree() {
+            document.getElementById('btnGroup').style.display = 'none';
+            document.getElementById('sendingStatus').style.display = 'block';
+
+            let formData = {};
+            userAnswers.forEach((item, index) => {
+                formData[`မေးခွန်း ${index + 1}: ${item.q}`] = item.a;
+            });
+
+            fetch(FORMSPREE_URL, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                     "Accept": "application/json"
                 },
-                body: JSON.stringify({
-                    Step: stepName,
-                    Answer: userResponse,
-                    Timestamp: new Date().toLocaleString()
-                })
-            }).catch(error => console.log("Error sending data to Formspree:", error));
-        }
-
-        // Display Popup above the wrapper element
-        let popupTimer;
-        function showPopupWarning(wrapperId) {
-            const wrapper = document.getElementById(wrapperId);
-            if (!wrapper) return;
-            
-            const oldPopup = wrapper.querySelector('.popup-warning');
-            if (oldPopup) oldPopup.remove();
-
-            const popup = document.createElement('div');
-            popup.className = 'popup-warning';
-            popup.innerText = getRandomWarning();
-            wrapper.appendChild(popup);
-
-            clearTimeout(popupTimer);
-            popupTimer = setTimeout(() => {
-                popup.remove();
-            }, 1200);
-        }
-
-        // Step 1: Show Popup Warning then transform No to Yes
-        function handleNo1() {
-            showPopupWarning('btn-no-1-wrapper');
-            const noBtn = document.getElementById('btn-no-1');
-            noBtn.innerText = 'Yes';
-            noBtn.className = 'btn-yes';
-            noBtn.onclick = function() {
-                playClickSound('yes');
-                nextStep(2);
-            };
-        }
-
-        // Navigate between Steps & Send Formspree Notifications
-        function nextStep(stepTarget) {
-            document.querySelectorAll('.step').forEach(step => {
-                step.classList.remove('active');
+                body: JSON.stringify(formData)
+            })
+            .then(response => {
+                showResult();
+            })
+            .catch(error => {
+                console.error("Error sending form:", error);
+                showResult();
             });
-            
-            const targetElement = document.getElementById(`step-${stepTarget}`);
-            if (targetElement) {
-                targetElement.classList.add('active');
-            }
-
-            // Step တိုင်းတွင် အဖြေအား Formspree လင့်ခ်မှတစ်ဆင့် Gmail သို့ လှမ်းပို့ပေးခြင်း
-            if (stepTarget === 2) {
-                sendToFormspree("Yes", "Step 1");
-            } else if (stepTarget === 3) {
-                sendToFormspree("Yes", "Step 2 ");
-            } else if (stepTarget === 'falling') {
-                sendToFormspree("Yes", "Step 3 ");
-            }
-
-            // Step 2 မဟုတ်တော့ပါက ပြေးနေသည့် No ခလုတ်အား ဖျောက်ပေးပါမည်
-            if (stepTarget !== 2) {
-                const no2Wrapper = document.getElementById('btn-no-2-wrapper');
-                if (no2Wrapper) {
-                    no2Wrapper.style.display = 'none';
-                }
-            }
         }
 
-        // Step 3.5 -> Step 4 Transition (Opens Letter with Pop-in animation)
-        function openLetter() {
-            sendToFormspree("Opened Letter", "Step 4 (စာလွှာဖွင့်ကြည့်လိုက်သည်)");
-            nextStep(4);
+        function showResult() {
+            document.getElementById('mainCard').style.display = 'none';
+            document.getElementById('successScreen').style.display = 'block';
+            document.getElementById('summaryList').innerHTML = userAnswers.map((item, i) => `<div class="result-item">${i+1}. ${item.q} <b style="float:right; color:#6c5ce7;">${item.a}</b></div>`).join('');
         }
 
-        // Step 2: Escape FULL SCREEN Strictly within Viewport
-        let isMoving = false;
-        function moveNoButton(e) {
-            if (e && e.type === 'touchstart') {
-                e.preventDefault();
-            }
-
-            playClickSound('no');
-            showPopupWarning('btn-no-2-wrapper');
-            
-            if (isMoving) return;
-            isMoving = true;
-
-            const wrapper = document.getElementById('btn-no-2-wrapper');
-            
-            // Parent CSS Context Bug ကို ကျော်လွှားရန် Root Body အောက်သို့ ရွှေ့ခြင်း
-            if (!wrapper.classList.contains('escaped')) {
-                document.body.appendChild(wrapper);
-                wrapper.classList.add('escaped');
-            }
-
-            const rect = wrapper.getBoundingClientRect();
-
-            // Screen ဘေးပတ်လည် 20px အကွာအဝေး အတိအကျ စည်းသတ်ခြင်း
-            const padding = 20;
-            const maxX = Math.max(padding, window.innerWidth - rect.width - padding);
-            const maxY = Math.max(padding, window.innerHeight - rect.height - padding);
-
-            const randomX = Math.min(Math.max(padding, Math.floor(Math.random() * maxX)), maxX);
-            const randomY = Math.min(Math.max(padding, Math.floor(Math.random() * maxY)), maxY);
-
-            wrapper.style.left = `${randomX}px`;
-            wrapper.style.top = `${randomY}px`;
-
-            setTimeout(() => { isMoving = false; }, 150);
+        function saveToPNG() {
+            html2canvas(document.getElementById('captureArea')).then(canvas => {
+                let link = document.createElement('a');
+                link.download = 'Our_Love_Agreement.png';
+                link.href = canvas.toDataURL();
+                link.click();
+            });
         }
 
-        // Step 3: Shrink No, Enlarge Yes + Show Popup Window
-        let yesScale = 1;
-        let noScale = 1;
-
-        function handleNo3() {
-            showPopupWarning('btn-no-3-wrapper');
-            
-            const yesBtn = document.getElementById('btn-yes-3');
-            const noBtn = document.getElementById('btn-no-3');
-
-            yesScale += 0.35;
-            noScale -= 0.2;
-
-            yesBtn.style.transform = `scale(${yesScale})`;
-
-            if (noScale <= 0.1) {
-                noBtn.style.display = 'none';
-            } else {
-                noBtn.style.transform = `scale(${noScale})`;
-            }
-        }
+        setInterval(() => {
+            let h = document.createElement('div');
+            h.className = 'bg-heart';
+            h.innerHTML = '❤️';
+            h.style.left = Math.random() * 100 + 'vw';
+            document.getElementById('heartsContainer').appendChild(h);
+            setTimeout(() => h.remove(), 6000);
+        }, 800);
     </script>
 </body>
 </html>
