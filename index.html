@@ -1,214 +1,881 @@
 <!DOCTYPE html>
-<html lang="my">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ex Lover</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <title>A Special Gift For You 💗</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts & Thit Sar Shwe Si Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Great+Vibes&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Thit+Sar+Shwe+Si&display=swap" rel="stylesheet">
+    
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: sans-serif; -webkit-tap-highlight-color: transparent; }
-        body { display: flex; justify-content: center; align-items: center; min-height: 100vh; background: linear-gradient(135deg, #ffeef8, #d6eaff); overflow: hidden; }
-        .bg-heart { position: absolute; color: rgba(255, 105, 180, 0.2); font-size: 20px; animation: floatUp 6s linear infinite; bottom: -20px; z-index: 0; pointer-events: none; }
-        @keyframes floatUp { 0% { transform: translateY(0) rotate(0deg); opacity: 1; } 100% { transform: translateY(-105vh) rotate(360deg); opacity: 0; } }
-        
-        .card-container { position: relative; width: 90%; max-width: 400px; background: rgba(255, 255, 255, 0.9); border-radius: 24px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); padding: 30px; text-align: center; z-index: 10; }
-        .progress-container { width: 100%; background-color: #eee; border-radius: 10px; margin: 15px 0; overflow: hidden; }
-        .progress-bar { width: 20%; height: 8px; background: linear-gradient(90deg, #ff758c, #ff7eb3); transition: width 0.4s; }
-        .gif-container { width: 150px; height: 150px; margin: 20px auto; }
-        .gif-container img { width: 100%; height: 100%; border-radius: 15px; object-fit: cover; }
-        .btn-group { position: relative; min-height: 80px; display: flex; justify-content: center; align-items: center; gap: 15px; flex-wrap: wrap; }
-        button { padding: 12px 25px; font-weight: bold; border: none; border-radius: 50px; cursor: pointer; transition: 0.2s ease; font-size: 16px; }
-        .primary-btn { background: #6c5ce7; color: white; }
-        .secondary-btn { background: #f1f2f6; color: #555; }
-        .fullscreen-active { position: fixed !important; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 9999; border-radius: 0; font-size: 30px; }
-        .result-item { font-size: 14px; margin: 10px 0; border-bottom: 1px dashed #ccc; padding-bottom: 5px; text-align: left; }
-        
-        #sendingStatus { display: none; font-size: 14px; color: #6c5ce7; margin-top: 10px; font-weight: bold; }
+        :root {
+            --primary-pink: #f472b6;
+            --secondary-pink: #fbcfe8;
+            --soft-bg: #fff1f2;
+        }
+
+        body {
+            font-family: 'Times New Roman', Times, serif, 'Thit Sar Shwe Si', sans-serif;
+            background-color: #ffe4e6;
+            /* Pink Plaid Pattern Background */
+            background-image: 
+                linear-gradient(90deg, rgba(244, 114, 182, 0.15) 1px, transparent 1px),
+                linear-gradient(rgba(244, 114, 182, 0.15) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(251, 207, 232, 0.4) 10px, transparent 10px),
+                linear-gradient(rgba(251, 207, 232, 0.4) 10px, transparent 10px),
+                linear-gradient(90deg, rgba(244, 114, 182, 0.25) 20px, transparent 20px),
+                linear-gradient(rgba(244, 114, 182, 0.25) 20px, transparent 20px);
+            background-size: 80px 80px, 80px 80px, 40px 40px, 40px 40px, 80px 80px, 80px 80px;
+            background-position: -1px -1px;
+            overflow-x: hidden;
+            color: #831843;
+        }
+
+        /* မြန်မာစာနှင့် လက်ရေးစာအတွက် သစ္စာရွှေစည် Font ချိတ်ပေးထားခြင်း */
+        .myanmar-text, p, span, h3, h2, h1, button, input {
+            font-family: 'Thit Sar Shwe Si', 'Times New Roman', Times, serif !important;
+        }
+
+        .font-handwriting {
+            font-family: 'Dancing Script', cursive, 'Thit Sar Shwe Si' !important;
+        }
+
+        .font-cursive {
+            font-family: 'Great Vibes', cursive !important;
+        }
+
+        /* Glassmorphism Styles - Pink Theme */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.88);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(251, 207, 232, 0.9);
+            box-shadow: 0 8px 32px 0 rgba(244, 114, 182, 0.2);
+        }
+
+        .glass-card-dark {
+            background: rgba(255, 241, 242, 0.95);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(244, 114, 182, 0.4);
+            box-shadow: 0 10px 40px 0 rgba(219, 39, 119, 0.2);
+        }
+
+        /* Heartbeat Animation */
+        @keyframes heartbeat {
+            0% { transform: scale(1); }
+            14% { transform: scale(1.1); }
+            28% { transform: scale(1); }
+            42% { transform: scale(1.1); }
+            70% { transform: scale(1); }
+        }
+
+        .animate-heartbeat {
+            animation: heartbeat 2.5s infinite;
+        }
+
+        /* Floating Background Canvas */
+        #heart-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* Falling Floating GIF Animation */
+        @keyframes floatDown {
+            0% {
+                top: -120px;
+                opacity: 0;
+                transform: translateX(-50%) rotate(-10deg) scale(0.8);
+            }
+            20% { opacity: 1; }
+            50% { transform: translateX(calc(-50% + 20px)) rotate(10deg) scale(1.05); }
+            100% {
+                top: 45vh;
+                opacity: 1;
+                transform: translateX(-50%) rotate(-5deg) scale(1);
+            }
+        }
+
+        .falling-gif-anim {
+            position: fixed;
+            left: 50%;
+            z-index: 1000;
+            animation: floatDown 2.5s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+            cursor: pointer;
+        }
+
+        /* Click Heart Particle Effect */
+        .click-heart {
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            animation: popAndFade 1.2s ease-out forwards;
+        }
+
+        @keyframes popAndFade {
+            0% {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(0.3) rotate(0deg);
+            }
+            50% {
+                opacity: 0.9;
+                transform: translate(-50%, -100px) scale(1.3) rotate(15deg);
+            }
+            100% {
+                opacity: 0;
+                transform: translate(-50%, -160px) scale(0.8) rotate(-15deg);
+            }
+        }
+
+        /* STACKED POLAROID ALBUM STYLES */
+        .polaroid-stack-container {
+            position: relative;
+            width: 100%;
+            max-width: 380px;
+            height: 480px;
+            margin: 0 auto;
+        }
+
+        .polaroid-item {
+            position: absolute;
+            background: #ffffff;
+            padding: 12px 12px 36px 12px;
+            box-shadow: 0 10px 25px rgba(219, 39, 119, 0.2);
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 210px;
+            border: 1px solid #fbcfe8;
+        }
+
+        .polaroid-item:hover {
+            transform: scale(1.05) rotate(0deg) !important;
+            z-index: 50;
+            box-shadow: 0 15px 35px rgba(244, 114, 182, 0.45);
+        }
+
+        .polaroid-item img {
+            width: 100%;
+            aspect-ratio: 1/1;
+            object-fit: cover;
+            display: block;
+            border: 1px solid #f472b6;
+        }
+
+        .polaroid-heart {
+            position: absolute;
+            bottom: 10px;
+            right: 14px;
+            font-size: 1.2rem;
+            color: #db2777;
+        }
+
+        /* Positioning the 4 polaroids */
+        .polaroid-1 {
+            top: 40px;
+            left: 10px;
+            transform: rotate(-6deg);
+            z-index: 1;
+        }
+
+        .polaroid-2 {
+            top: 10px;
+            right: 15px;
+            transform: rotate(5deg);
+            z-index: 2;
+        }
+
+        .polaroid-3 {
+            top: 210px;
+            left: 20px;
+            transform: rotate(-4deg);
+            z-index: 3;
+        }
+
+        .polaroid-4 {
+            top: 200px;
+            right: 15px;
+            transform: rotate(4deg);
+            z-index: 4;
+        }
+
+        /* Typing Effect Caret Cursor */
+        .typing-cursor::after {
+            content: '|';
+            animation: blink 0.8s infinite;
+            color: #ec4899;
+            font-weight: bold;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        /* EMOJI HEART MATRIX STYLES */
+        .heart-matrix-container {
+            position: relative;
+            width: 100%;
+            max-width: 320px;
+            margin: 0 auto 16px auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 260px;
+        }
+
+        .heart-grid {
+            display: grid;
+            gap: 2px;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .heart-emoji {
+            font-size: 14px;
+            line-height: 1;
+            text-align: center;
+            opacity: 0;
+            transform: scale(0);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: inline-block;
+            user-select: none;
+        }
+
+        .heart-emoji.visible {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #ffe4e6; }
+        ::-webkit-scrollbar-thumb { background: #f472b6; border-radius: 8px; }
     </style>
 </head>
-<body>
+<body class="relative min-h-screen">
 
-    <audio id="bgMusic">
-        <source src="" type="audio/mpeg">
-    </audio>
+    <canvas id="heart-canvas"></canvas>
 
-    <div id="heartsContainer"></div>
+    <!-- MAIN CONTAINER -->
+    <div class="relative z-10 max-w-5xl mx-auto px-4 py-8 space-y-16">
 
-    <div class="card-container" id="mainCard">
-        <div class="step-indicator" id="stepText">Step 1 of 5</div>
-        <div class="progress-container"><div class="progress-bar" id="progressBar"></div></div>
-        <h2 id="questionText">ကိုယ့်ဆီပြန်လာပေးပါလား ?</h2>
-        <div class="gif-container"><img id="statusGif" src="https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExbHRncmd0dDlhY2xpeGdzbjI3b3FmdmYyaDkxeXRqNm5wNG81amllcCZlcD12MV9naWZzX3NlYXJjaCZjdD1n/TydZAW0DVCbGE/200.webp"></div>
-        <div class="btn-group" id="btnGroup">
-            <button id="yesBtn" class="primary-btn" onclick="handleInteraction(true)">Yes</button>
-            <button id="noBtn" class="secondary-btn" onclick="handleInteraction(false)">No</button>
+        <header class="text-center space-y-6 pt-6">
+            <div class="inline-block px-4 py-1.5 rounded-full bg-pink-100/90 text-pink-600 text-sm font-semibold tracking-wide shadow-sm border border-pink-200 animate-pulse">
+                ✨ Created with endless love ✨
+            </div>
+            
+            <h1 class="text-5xl md:text-7xl font-bold font-handwriting text-transparent bg-clip-text bg-gradient-to-r from-pink-500 via-rose-400 to-pink-600 leading-tight drop-shadow-sm">
+                A Special Gift For You 💗
+            </h1>
+            <p class="text-pink-800/80 max-w-xl mx-auto text-base md:text-lg">
+                To the one who brings sunshine, laughter, and magic into my life every single day.
+            </p>
+
+            <!-- Interactive Gift Box Reveal -->
+            <div id="gift-box-wrapper" class="relative py-6 flex flex-col items-center justify-center">
+                <div id="gift-box" onclick="openGift()" class="cursor-pointer group relative transition-transform duration-300 hover:scale-105 active:scale-95 flex flex-col items-center">
+                    <img src="https://i.ibb.co/VpwZxR2q/0-0-8978.png" 
+                         alt="Gift Box" 
+                         class="w-40 h-40 md:w-48 md:h-48 object-contain drop-shadow-lg group-hover:rotate-6 transition-transform animate-heartbeat">
+                    <p class="mt-3 text-xs md:text-sm text-pink-600 font-medium tracking-wide">Tap the box to open your surprise!</p>
+                </div>
+
+                <!-- Password Form Input Box -->
+                <div id="password-form" class="hidden glass-card-dark p-6 rounded-2xl max-w-md w-full border border-pink-200 text-center shadow-2xl">
+                    <span class="text-3xl">🔒 💗</span>
+                    <h3 class="text-xl font-bold text-pink-600 font-handwriting mt-1">Enter Secret Password</h3>
+                    <p class="text-xs text-pink-500 mt-1 mb-4">Hint: Enter the secret password to unlock!</p>
+                    
+                    <div class="flex flex-col gap-3">
+                        <input type="password" id="pass-input" placeholder="Enter password..." class="w-full px-4 py-2.5 rounded-xl border border-pink-300 focus:outline-none focus:ring-2 focus:ring-pink-400 text-center font-semibold text-pink-900 bg-white/90">
+                        <button onclick="checkPassword()" class="w-full py-2.5 rounded-xl bg-gradient-to-r from-pink-400 to-rose-400 text-white font-medium shadow-md hover:scale-[1.02] active:scale-95 transition-all">
+                            Unlock Surprise ✨
+                        </button>
+                    </div>
+                    <p id="error-msg" class="text-xs text-red-500 font-medium mt-2 hidden">Wrong Password! Please try again 💗</p>
+                </div>
+
+                <!-- Gift Message -->
+                <div id="gift-revealed-msg" class="hidden glass-card-dark p-6 rounded-2xl max-w-md w-full border border-pink-200 text-center animate-bounce">
+                    <span class="text-3xl">💗 🎉</span>
+                    <h3 class="text-xl font-bold text-pink-600 font-handwriting mt-1">Surprise Unlocked!</h3>
+                    <p class="text-sm text-pink-800 mt-1">Scroll down to explore your customized memory gallery, sweet love notes, and music!</p>
+                </div>
+            </div>
+        </header>
+
+        <!-- MAIN CONTENT (HIDDEN UNTIL UNLOCKED) -->
+        <div id="main-content" class="hidden space-y-16">
+
+            <!-- EMOJI HEART SHAPE ANIMATION SECTION (Frame Removed) -->
+            <section class="max-w-2xl mx-auto text-center py-4">
+                <h3 class="text-2xl font-bold font-handwriting text-pink-600 mb-4">Sending All My Love 💗</h3>
+                <div class="heart-matrix-container">
+                    <div id="heart-grid" class="heart-grid"></div>
+                </div>
+                <button onclick="replayHeartAnimation()" class="px-5 py-2 rounded-full bg-white/60 hover:bg-white text-pink-600 text-xs font-semibold transition-all shadow-sm border border-pink-200">
+                    🔄 Replay Heart Animation
+                </button>
+            </section>
+
+            <!-- MUSIC PLAYER SECTION -->
+            <section class="glass-card rounded-3xl p-6 md:p-8 max-w-2xl mx-auto border border-pink-100 shadow-xl transition-all">
+                <div class="flex flex-col md:flex-row items-center gap-6">
+                    <div class="relative w-32 h-32 md:w-40 md:h-40 rounded-2xl overflow-hidden shadow-lg border-2 border-pink-200 shrink-0 group">
+                        <img id="track-art" src="https://i.ibb.co/JRfMX3yf/Untitled-Design.png" alt="Romantic Track Art" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                        <div class="absolute inset-0 bg-gradient-to-t from-pink-900/40 to-transparent"></div>
+                        <div id="music-vinyl-icon" class="absolute bottom-2 right-2 text-white/90 text-lg">
+                            <i class="fa-solid fa-compact-disc animate-spin" style="animation-duration: 8s;"></i>
+                        </div>
+                    </div>
+
+                    <div class="flex-1 w-full text-center md:text-left space-y-3">
+                        <div>
+                            <span id="track-artist" class="text-xs uppercase font-bold text-pink-500 tracking-wider">Lu Pyo Hlae Tay</span>
+                            <h3 id="track-title" class="text-xl md:text-2xl font-bold text-pink-900">Bunny Phyoe 🌸</h3>
+                        </div>
+
+                        <div class="space-y-1">
+                            <input type="range" id="progress-bar" value="0" max="100" class="w-full h-1.5 bg-pink-100 rounded-lg appearance-none cursor-pointer accent-pink-500">
+                            <div class="flex justify-between text-xs text-pink-400 font-mono">
+                                <span id="current-time">0:00</span>
+                                <span id="total-duration">0:00</span>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center justify-center md:justify-start gap-4 pt-1">
+                            <button onclick="prevTrack()" class="text-pink-400 hover:text-pink-600 transition-colors p-2 text-lg" title="Previous Track">
+                                <i class="fa-solid fa-backward-step"></i>
+                            </button>
+                            <button id="play-btn" onclick="togglePlayPause()" class="w-12 h-12 rounded-full bg-gradient-to-r from-pink-400 to-rose-400 text-white flex items-center justify-center shadow-lg hover:shadow-pink-300/50 hover:scale-105 active:scale-95 transition-all">
+                                <i id="play-icon" class="fa-solid fa-play ml-0.5"></i>
+                            </button>
+                            <button onclick="nextTrack()" class="text-pink-400 hover:text-pink-600 transition-colors p-2 text-lg" title="Next Track">
+                                <i class="fa-solid fa-forward-step"></i>
+                            </button>
+
+                            <button onclick="toggleMute()" class="ml-auto text-pink-400 hover:text-pink-600 text-lg p-2">
+                                <i id="volume-icon" class="fa-solid fa-volume-high"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <audio id="audio-player" preload="metadata" src="https://www.image2url.com/r2/default/audio/1791354610605-4fb3de88-e8d4-4f85-8e1a-aec47b644741.mp3"></audio>
+            </section>
+
+            <!-- VIDEO SECTION -->
+            <section class="space-y-6">
+                <div class="text-center">
+                    <h2 class="text-3xl font-bold font-handwriting text-pink-600">Our Special Memories Video 🎥</h2>
+                    <p class="text-sm text-pink-500">A cozy glimpse of our sweetest moments together</p>
+                </div>
+
+                <div class="glass-card rounded-3xl p-4 md:p-6 max-w-3xl mx-auto shadow-lg border border-pink-100">
+                    <div class="relative aspect-video rounded-2xl overflow-hidden bg-black/90 shadow-inner group">
+                        <iframe 
+                            class="w-full h-full rounded-2xl" 
+                            src="https://www.youtube.com/embed/GhQxrCrVSyw?si=lfUxxQ6Iw385sILV" 
+                            title="YouTube video player" 
+                            frameborder="0" 
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                            referrerpolicy="strict-origin-when-cross-origin" 
+                            allowfullscreen>
+                        </iframe>
+                    </div>
+                </div>
+            </section>
+
+            <section class="space-y-6">
+                <div class="text-center">
+                    <h2 class="text-3xl font-bold font-handwriting text-pink-600">Vintage Polaroid Memories 📸</h2>
+                    <p class="text-sm text-pink-500">Click on any photo to expand and relive our memories</p>
+                </div>
+
+                <div class="polaroid-stack-container">
+                    <!-- Polaroid Frame 1 -->
+                    <div class="polaroid-item polaroid-1" onclick="openLightbox(this)" data-caption="Our First Beautiful Date ✨">
+                        <img src="https://i.pinimg.com/736x/99/86/0d/99860d9b9741c7618d5534b2c564da1d.jpg" alt="Memory 1">
+                        <div class="polaroid-heart">💗</div>
+                    </div>
+
+                    <!-- Polaroid Frame 2 -->
+                    <div class="polaroid-item polaroid-2" onclick="openLightbox(this)" data-caption="Sunsets & Sweet Memories 🌅">
+                        <img src="https://i.pinimg.com/736x/47/20/0f/47200f3ea0b7790a79417a0a4e0c5a8e.jpg" alt="Memory 2">
+                        <div class="polaroid-heart">💗</div>
+                    </div>
+
+                    <!-- Polaroid Frame 3 -->
+                    <div class="polaroid-item polaroid-3" onclick="openLightbox(this)" data-caption="Cozy Days & Endless Smiles ☕">
+                        <img src="https://i.pinimg.com/736x/4a/b6/be/4ab6be030bba3e992f0c3bcd80335621.jpg" alt="Memory 3">
+                        <div class="polaroid-heart">💗</div>
+                    </div>
+
+                    <!-- Polaroid Frame 4 -->
+                    <div class="polaroid-item polaroid-4" onclick="openLightbox(this)" data-caption="Forever Together 💗">
+                        <img src="https://i.pinimg.com/736x/d8/b5/ee/d8b5ee8fbb21fff626f2c22278c6130f.jpg" alt="Memory 4">
+                        <div class="polaroid-heart">💗</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- BUTTON SECTION -->
+            <section class="text-center py-6">
+                <button onclick="triggerFallingGif()" class="px-8 py-4 rounded-full bg-gradient-to-r from-pink-400 via-rose-400 to-pink-500 text-white font-semibold text-lg shadow-xl hover:shadow-pink-300/50 hover:scale-105 active:scale-95 transition-all duration-300 animate-pulse">
+                    💌 Open My Heart Letter 💗
+                </button>
+            </section>
+
         </div>
-        <div id="sendingStatus">အဖြေများကို ပို့ပေးနေပါသည်... 💌</div>
+
+        <!-- FALLING GIF OVERLAY -->
+        <div id="falling-gif-container" class="hidden">
+            <div id="falling-gif-element" onclick="openLetterFromGif()" class="falling-gif-anim group">
+                <div class="relative">
+                    <img src="https://i.ibb.co/fYJVgbBQ/65475678.png" alt="Cute Heart Cat GIF" class="w-36 h-36 md:w-48 md:h-48 object-contain drop-shadow-[0_10px_25px_rgba(244,114,182,0.5)] transition-transform duration-300 group-hover:scale-110">
+                    <div class="absolute -bottom-8 left-1/2 -translate-x-1/2 whitespace-nowrap bg-white/90 backdrop-blur-md px-3 py-1 rounded-full text-xs text-pink-600 font-bold shadow-md animate-bounce border border-pink-200">
+                        ✨ Tap me to open! 💕
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer class="text-center py-6 text-xs text-pink-400 border-t border-pink-100">
+            Made with unconditional love & heart ✨ Forever & Always
+        </footer>
     </div>
 
-    <div class="card-container" id="successScreen" style="display: none;">
-        <div id="captureArea">
-            <h3>💖 Our Love Agreement</h3>
-            <div id="summaryList"></div>
+    <!-- LIGHTBOX MODAL -->
+    <div id="lightbox-modal" class="fixed inset-0 bg-black/80 z-50 hidden flex items-center justify-center p-4 backdrop-blur-md">
+        <div class="relative max-w-3xl w-full text-center space-y-4">
+            <button onclick="closeLightbox()" class="absolute -top-10 right-0 text-white text-3xl hover:text-pink-400 transition-colors">&times;</button>
+            <img id="lightbox-img" src="" alt="Enlarged view" class="max-h-[80vh] mx-auto rounded-2xl shadow-2xl border-2 border-white/20">
+            <p id="lightbox-caption" class="text-white font-handwriting text-2xl drop-shadow"></p>
         </div>
-        <button class="primary-btn" style="width:100%; margin-top:20px;" onclick="saveToPNG()">ဒီစာမျက်နှာကို PNG သိမ်းမယ် 📸</button>
+    </div>
+
+    <!-- LETTER MODAL WITH TYPING EFFECT -->
+    <div id="letter-modal" class="fixed inset-0 bg-black/60 z-50 hidden flex items-center justify-center p-4 backdrop-blur-sm transition-opacity duration-300">
+        <div class="glass-card-dark max-w-xl w-full p-6 md:p-8 rounded-3xl relative shadow-2xl border-2 border-pink-300 max-h-[90vh] overflow-y-auto">
+            <button onclick="closeLetterModal()" class="absolute top-4 right-4 w-8 h-8 rounded-full bg-pink-100 text-pink-600 hover:bg-pink-200 transition-colors flex items-center justify-center text-lg">&times;</button>
+
+            <div class="text-center space-y-4">
+                <span class="text-4xl">💌</span>
+                <h3 class="text-3xl font-bold font-handwriting text-pink-600">အများကြီးချစ်တယ်နော်</h3>
+                
+                <div class="text-left text-pink-900 text-sm md:text-base leading-relaxed space-y-3 font-serif italic border-t border-b border-pink-200 py-4 my-2 min-h-[160px]">
+                    <p id="typed-p1"></p>
+                    <p id="typed-p2"></p>
+                    <p id="typed-p3"></p>
+                </div>
+
+                <p id="typed-closing" class="font-handwriting text-2xl text-pink-600 font-semibold h-8"></p>
+                
+                <button onclick="closeLetterModal()" class="mt-4 px-6 py-2 rounded-full bg-pink-500 text-white text-sm font-medium hover:bg-pink-600 transition-colors shadow">
+                    Close Letter 💕
+                </button>
+            </div>
+        </div>
     </div>
 
     <script>
-        const FORMSPREE_URL = "https://formspree.io/f/xoeepbdz";
-        const audio = document.getElementById("bgMusic");
-        const steps = [
-            { question: "ကိုယ့်ဆီပြန်လာပေးပါလား", yes: "Yes", no: "No", gif: "https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExbHRncmd0dDlhY2xpeGdzbjI3b3FmdmYyaDkxeXRqNm5wNG81amllcCZlcD12MV9naWZzX3NlYXJjaCZjdD1n/TydZAW0DVCbGE/200.webp", type: "shrink" },
-            { question: "အများကြီး သတိရနေခဲ့တာ ", yes: "ဒီကရောပဲ", no: "မယုံပါဘူး", gif: "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExeWVieXRxdjljNzR0bnh4cjJiZndoOWcxZGxmYnJ2dHpoYjhnanZxMiZlcD12MV9naWZzX3JlbGF0ZWQmY3Q9Zw/xT3i1gyi2PI5KvV6WQ/giphy.gif", type: "run" },
-            { question: "ကိုယ်တို့ပြန်တွဲကြမယ်လေနော် ", yes: "ဟုတ်ကဲ့", no: "မဖြစ်နိုင်ပါဘူး", gif: "https://media.giphy.com/media/v1.Y2lkPWVjZjA1ZTQ3dnMwNHAzOXJ1dnA3cjgzN21hbGc3Mzd3MHFtMnFoYTlhd3pvajhsbCZlcD12MV9naWZzX3RyZW5kaW5nJmN0PWc/A0Zt7yuDULiy4ofmVD/giphy.gif", type: "fade" },
-            { question: "ပြီးခဲ့တာတွေမေ့ပြီး ကိုယ့်ဆီပြန်လာမယ်မလား", yes: "ဒါပေါ့", no: "စဉ်းစားအုံးမယ်", gif: "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExcjhobXVpaDV1MHkyMHdvd2Q4d29xMXpiajRydXpnYmwzaHJ2bjFtbiZlcD12MV9naWZzX3NlYXJjaCZjdD1n/PleihcHr0kbJVD0bNe/giphy.gif", type: "fullscreen" },
-            { question: "ဒါဆို အရင်လို ပြန်ချစ်ကြမယ်နော်", yes: "i said Yes", no: "Nope", gif: "https://media.giphy.com/media/v1.Y2lkPWVjZjA1ZTQ3Mmh2d3RhdHRrbmc5ajFrNDNsNmt6cXhlMDI5ZDRlcWVydjZvejdhaCZlcD12MV9naWZzX3RyZW5kaW5nJmN0PWc/UuzwffmvtBNGjYyEUe/giphy.gif", type: "magnet" }
+        /* PASSWORD SETTING */
+        const SECRET_PASSWORD = "love";
+
+        /* Floating Pink Star & Heart Background Animation */
+        const canvas = document.getElementById('heart-canvas');
+        const ctx = canvas.getContext('2d');
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        class FloatingParticle {
+            constructor() {
+                this.reset();
+            }
+
+            reset() {
+                this.x = Math.random() * canvas.width;
+                this.y = canvas.height + Math.random() * 20;
+                this.size = Math.random() * 10 + 4;
+                this.speedY = Math.random() * 1.2 + 0.4;
+                this.opacity = Math.random() * 0.5 + 0.2;
+                this.swing = Math.random() * 0.02;
+                this.swingAngle = Math.random() * Math.PI * 2;
+            }
+
+            update() {
+                this.y -= this.speedY;
+                this.swingAngle += this.swing;
+                this.x += Math.sin(this.swingAngle) * 0.5;
+
+                if (this.y < -20) {
+                    this.reset();
+                }
+            }
+
+            draw() {
+                ctx.save();
+                ctx.globalAlpha = this.opacity;
+                ctx.fillStyle = '#f472b6';
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size / 2, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.restore();
+            }
+        }
+
+        const particles = Array.from({ length: 30 }, () => new FloatingParticle());
+
+        function animateCanvas() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+            requestAnimationFrame(animateCanvas);
+        }
+        animateCanvas();
+
+        /* Interactive Click Particles */
+        window.addEventListener('click', (e) => {
+            createClickHeart(e.clientX, e.clientY);
+        });
+
+        function createClickHeart(x, y) {
+            const heart = document.createElement('div');
+            heart.className = 'click-heart text-2xl';
+            const icons = ['✨', '⭐', '💗', '🌸', '💖'];
+            heart.innerHTML = icons[Math.floor(Math.random() * icons.length)];
+            heart.style.left = `${x}px`;
+            heart.style.top = `${y}px`;
+            document.body.appendChild(heart);
+
+            setTimeout(() => {
+                heart.remove();
+            }, 1200);
+        }
+
+        /* Heart Emoji Pattern Matrix & Sequential Reveal Animation */
+        const heartPattern = [
+            "  ###   ###  ",
+            " ##### ##### ",
+            "#############",
+            "#############",
+            "#############",
+            " ########### ",
+            "  #########  ",
+            "   #######   ",
+            "    #####    ",
+            "     ###     ",
+            "      #      "
         ];
 
-        let currentStep = 0, yesScale = 1, noScale = 1, userAnswers = [];
+        let heartTimeouts = [];
 
-        function handleInteraction(isYes) {
+        function renderHeartGrid() {
+            const gridContainer = document.getElementById('heart-grid');
+            if(!gridContainer) return;
+
+            gridContainer.innerHTML = '';
+            const rows = heartPattern.length;
+            const cols = heartPattern[0].length;
+            gridContainer.style.gridTemplateColumns = `repeat(${cols}, 1fr)`;
+
+            const emojiElements = [];
+
+            for (let r = 0; r < rows; r++) {
+                for (let c = 0; c < cols; c++) {
+                    const char = heartPattern[r][c];
+                    const span = document.createElement('span');
+                    span.className = 'heart-emoji';
+                    if (char === '#') {
+                        span.innerText = '❤️';
+                        emojiElements.push(span);
+                    } else {
+                        span.innerText = ' ';
+                        span.style.visibility = 'hidden';
+                    }
+                    gridContainer.appendChild(span);
+                }
+            }
+
+            // Clear previous timeouts
+            heartTimeouts.forEach(t => clearTimeout(t));
+            heartTimeouts = [];
+
+            // Sequentially make heart emojis visible one by one
+            emojiElements.forEach((el, index) => {
+                const timeout = setTimeout(() => {
+                    el.classList.add('visible');
+                }, index * 35); // 35ms delay per emoji
+                heartTimeouts.push(timeout);
+            });
+        }
+
+        function replayHeartAnimation() {
+            renderHeartGrid();
+        }
+
+        /* Gift Reveal Logic */
+        function openGift() {
+            const giftBox = document.getElementById('gift-box');
+            const passwordForm = document.getElementById('password-form');
+            
+            giftBox.style.display = 'none';
+            passwordForm.classList.remove('hidden');
+        }
+
+        /* Password Verification Logic */
+        function checkPassword() {
+            const userInput = document.getElementById('pass-input').value.trim();
+            const errorMsg = document.getElementById('error-msg');
+            const passwordForm = document.getElementById('password-form');
+            const revealedMsg = document.getElementById('gift-revealed-msg');
+            const mainContent = document.getElementById('main-content');
+
+            if (userInput === SECRET_PASSWORD) {
+                passwordForm.classList.add('hidden');
+                revealedMsg.classList.remove('hidden');
+                mainContent.classList.remove('hidden');
+                // Trigger Heart Matrix Animation
+                renderHeartGrid();
+            } else {
+                errorMsg.classList.remove('hidden');
+            }
+        }
+
+        document.getElementById('pass-input').addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') {
+                checkPassword();
+            }
+        });
+
+        /* Music Player Controls */
+        const audio = document.getElementById('audio-player');
+        const playBtn = document.getElementById('play-btn');
+        const playIcon = document.getElementById('play-icon');
+        const progressBar = document.getElementById('progress-bar');
+        const currentTimeEl = document.getElementById('current-time');
+        const totalDurationEl = document.getElementById('total-duration');
+        const volumeIcon = document.getElementById('volume-icon');
+
+        const playlist = [
+            {
+                title: "Bunny Phyoe 🌸",
+                artist: "Lu Pyo Hlae Tay",
+                art: "https://i.ibb.co/JRfMX3yf/Untitled-Design.png",
+                src: "https://www.image2url.com/r2/default/audio/1791354610605-4fb3de88-e8d4-4f85-8e1a-aec47b644741.mp3"
+            },
+            {
+                title: "Bunny Phyoe 💕",
+                artist: "Stay With Me",
+                art: "https://i.ibb.co/JRfMX3yf/Untitled-Design.png",
+                src: "https://www.image2url.com/r2/default/audio/1791358786613-8b4895f4-077f-4e36-bcd5-af11cd7de0ee.mp3"
+            }
+        ];
+
+        let currentTrackIndex = 0;
+
+        function togglePlayPause() {
             if (audio.paused) {
-                audio.play().catch(e => console.log("User interaction required"));
-            }
-            nextStep(isYes);
-        }
-
-        function nextStep(isYes) {
-            const yesBtn = document.getElementById('yesBtn');
-            yesBtn.classList.remove('fullscreen-active');
-            userAnswers.push({ q: steps[currentStep].question, a: isYes ? steps[currentStep].yes : steps[currentStep].no });
-            
-            currentStep++;
-            if (currentStep < steps.length) {
-                updateCard();
+                audio.play();
+                updatePlayState(true);
             } else {
-                sendAnswersToFormspree();
+                audio.pause();
+                updatePlayState(false);
             }
         }
 
-        function handleNoClick() {
-            const step = steps[currentStep];
-            const yesBtn = document.getElementById('yesBtn');
-            const noBtn = document.getElementById('noBtn');
-
-            if (step.type === "shrink") { 
-                yesScale += 0.3; yesBtn.style.transform = `scale(${yesScale})`; 
-                noScale -= 0.2; noBtn.style.transform = `scale(${noScale})`; 
-            }
-            else if (step.type === "fade") noBtn.style.opacity = '0';
-            else if (step.type === "fullscreen") yesBtn.classList.add('fullscreen-active');
-            else if (step.type === "magnet") { 
-                noBtn.style.opacity = '0';
-                yesBtn.style.transform = 'scale(1.5)';
-                setTimeout(() => nextStep(true), 300);
-            }
-        }
-
-        // Screen တစ်ခုလုံးအပြည့် ပြေးစေမည့် Function
-        function dodgeButton(e) {
-            if (e) e.preventDefault();
-            const noBtn = document.getElementById('noBtn');
-            noBtn.style.position = 'fixed';
-            noBtn.style.zIndex = '1000';
-
-            const padding = 20;
-            const maxX = window.innerWidth - noBtn.offsetWidth - padding;
-            const maxY = window.innerHeight - noBtn.offsetHeight - padding;
-
-            const randomX = Math.max(padding, Math.floor(Math.random() * maxX));
-            const randomY = Math.max(padding, Math.floor(Math.random() * maxY));
-
-            noBtn.style.left = `${randomX}px`;
-            noBtn.style.top = `${randomY}px`;
-        }
-
-        document.getElementById('noBtn').onclick = (e) => {
-            if (audio.paused) audio.play();
-            if (steps[currentStep].type === "run") {
-                dodgeButton(e);
+        function updatePlayState(isPlaying) {
+            if (isPlaying) {
+                playIcon.classList.remove('fa-play');
+                playIcon.classList.add('fa-pause');
             } else {
-                handleNoClick();
-            }
-        };
-
-        function updateCard() {
-            const s = steps[currentStep];
-            const noBtn = document.getElementById('noBtn');
-
-            document.getElementById('questionText').innerText = s.question;
-            document.getElementById('yesBtn').innerText = s.yes; 
-            noBtn.innerText = s.no;
-            document.getElementById('statusGif').src = s.gif;
-            document.getElementById('progressBar').style.width = ((currentStep + 1) / steps.length) * 100 + "%";
-            document.getElementById('stepText').innerText = `Step ${currentStep + 1} of 5`;
-            
-            document.getElementById('yesBtn').style.transform = "scale(1)"; 
-            noBtn.style.transform = "scale(1)"; 
-            noBtn.style.opacity = "1"; 
-            noBtn.style.position = 'static';
-            noBtn.style.left = 'auto';
-            noBtn.style.top = 'auto';
-            
-            // Mouse နှင့် Touch event များကို reset လုပ်ခြင်း
-            noBtn.onmouseover = null;
-            noBtn.ontouchstart = null;
-
-            if (s.type === "run") {
-                noBtn.onmouseover = dodgeButton;
-                noBtn.ontouchstart = dodgeButton;
+                playIcon.classList.remove('fa-pause');
+                playIcon.classList.add('fa-play');
             }
         }
 
-        function sendAnswersToFormspree() {
-            document.getElementById('btnGroup').style.display = 'none';
-            document.getElementById('sendingStatus').style.display = 'block';
-
-            let formData = {};
-            userAnswers.forEach((item, index) => {
-                formData[`မေးခွန်း ${index + 1}: ${item.q}`] = item.a;
-            });
-
-            fetch(FORMSPREE_URL, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Accept": "application/json"
-                },
-                body: JSON.stringify(formData)
-            })
-            .then(response => {
-                showResult();
-            })
-            .catch(error => {
-                console.error("Error sending form:", error);
-                showResult();
-            });
+        function loadTrack(index) {
+            const track = playlist[index];
+            document.getElementById('track-title').innerText = track.title;
+            document.getElementById('track-artist').innerText = track.artist;
+            document.getElementById('track-art').src = track.art;
+            audio.src = track.src;
+            audio.load();
         }
 
-        function showResult() {
-            document.getElementById('mainCard').style.display = 'none';
-            document.getElementById('successScreen').style.display = 'block';
-            document.getElementById('summaryList').innerHTML = userAnswers.map((item, i) => `<div class="result-item">${i+1}. ${item.q} <b style="float:right; color:#6c5ce7;">${item.a}</b></div>`).join('');
+        function prevTrack() {
+            currentTrackIndex = (currentTrackIndex - 1 + playlist.length) % playlist.length;
+            loadTrack(currentTrackIndex);
+            audio.play();
+            updatePlayState(true);
         }
 
-        function saveToPNG() {
-            html2canvas(document.getElementById('captureArea')).then(canvas => {
-                let link = document.createElement('a');
-                link.download = 'Our_Love_Agreement.png';
-                link.href = canvas.toDataURL();
-                link.click();
-            });
+        function nextTrack() {
+            currentTrackIndex = (currentTrackIndex + 1) % playlist.length;
+            loadTrack(currentTrackIndex);
+            audio.play();
+            updatePlayState(true);
         }
 
-        setInterval(() => {
-            let h = document.createElement('div');
-            h.className = 'bg-heart';
-            h.innerHTML = '❤️';
-            h.style.left = Math.random() * 100 + 'vw';
-            document.getElementById('heartsContainer').appendChild(h);
-            setTimeout(() => h.remove(), 6000);
-        }, 800);
+        audio.addEventListener('ended', () => {
+            nextTrack();
+        });
+
+        audio.addEventListener('timeupdate', () => {
+            if (audio.duration) {
+                const progressPercent = (audio.currentTime / audio.duration) * 100;
+                progressBar.value = progressPercent;
+                currentTimeEl.innerText = formatTime(audio.currentTime);
+                totalDurationEl.innerText = formatTime(audio.duration);
+            }
+        });
+
+        progressBar.addEventListener('input', () => {
+            if (audio.duration) {
+                const seekTime = (progressBar.value / 100) * audio.duration;
+                audio.currentTime = seekTime;
+            }
+        });
+
+        function formatTime(seconds) {
+            if (isNaN(seconds)) return "0:00";
+            const min = Math.floor(seconds / 60);
+            const sec = Math.floor(seconds % 60);
+            return `${min}:${sec < 10 ? '0' : ''}${sec}`;
+        }
+
+        function toggleMute() {
+            audio.muted = !audio.muted;
+            if (audio.muted) {
+                volumeIcon.classList.remove('fa-volume-high');
+                volumeIcon.classList.add('fa-volume-xmark');
+            } else {
+                volumeIcon.classList.remove('fa-volume-xmark');
+                volumeIcon.classList.add('fa-volume-high');
+            }
+        }
+
+        /* Lightbox Modal Logic */
+        function openLightbox(element) {
+            const img = element.querySelector('img');
+            const caption = element.getAttribute('data-caption');
+            const modal = document.getElementById('lightbox-modal');
+            
+            document.getElementById('lightbox-img').src = img.src;
+            document.getElementById('lightbox-caption').innerText = caption || 'Sweet Memory';
+            modal.classList.remove('hidden');
+        }
+
+        function closeLightbox() {
+            document.getElementById('lightbox-modal').classList.add('hidden');
+        }
+
+        /* Falling GIF & Letter Trigger Logic */
+        function triggerFallingGif() {
+            const container = document.getElementById('falling-gif-container');
+            const gifElement = document.getElementById('falling-gif-element');
+            
+            container.classList.remove('hidden');
+            gifElement.classList.remove('falling-gif-anim');
+            void gifElement.offsetWidth;
+            gifElement.classList.add('falling-gif-anim');
+        }
+
+        function openLetterFromGif() {
+            document.getElementById('falling-gif-container').classList.add('hidden');
+            openLetterModal();
+        }
+
+        /* TYPING EFFECT FOR HEART LETTER */
+        const letterParagraphs = [
+            "From the moment you entered my life, everything became brighter, warmer, and infinitely more meaningful.",
+            "Your smile is my favorite view, your laugh is my sweetest melody, and holding your hand feels like coming home.",
+            "Thank you for being my confidant, my rock, and my happiness. No matter where life leads us, my heart will always belong to you."
+        ];
+        const letterClosing = "Forever Yours 💗";
+
+        let currentTypingTimeout = null;
+
+        function startTypingEffect() {
+            const p1 = document.getElementById('typed-p1');
+            const p2 = document.getElementById('typed-p2');
+            const p3 = document.getElementById('typed-p3');
+            const closing = document.getElementById('typed-closing');
+
+            p1.innerText = '';
+            p2.innerText = '';
+            p3.innerText = '';
+            closing.innerText = '';
+
+            p1.className = 'typing-cursor';
+            p2.className = '';
+            p3.className = '';
+            closing.className = 'font-handwriting text-2xl text-pink-600 font-semibold h-8';
+
+            typeSentence(letterParagraphs[0], p1, () => {
+                p1.className = '';
+                p2.className = 'typing-cursor';
+                typeSentence(letterParagraphs[1], p2, () => {
+                    p2.className = '';
+                    p3.className = 'typing-cursor';
+                    typeSentence(letterParagraphs[2], p3, () => {
+                        p3.className = '';
+                        closing.className = 'font-handwriting text-2xl text-pink-600 font-semibold h-8 typing-cursor';
+                        typeSentence(letterClosing, closing, () => {
+                            closing.className = 'font-handwriting text-2xl text-pink-600 font-semibold h-8';
+                        }, 40);
+                    }, 25);
+                }, 25);
+            }, 25);
+        }
+
+        function typeSentence(text, element, callback, speed = 30) {
+            let index = 0;
+            function typeChar() {
+                if (index < text.length) {
+                    element.innerText += text.charAt(index);
+                    index++;
+                    currentTypingTimeout = setTimeout(typeChar, speed);
+                } else if (callback) {
+                    callback();
+                }
+            }
+            typeChar();
+        }
+
+        function stopTypingEffect() {
+            if (currentTypingTimeout) {
+                clearTimeout(currentTypingTimeout);
+            }
+        }
+
+        /* Letter Modal Logic */
+        function openLetterModal() {
+            document.getElementById('letter-modal').classList.remove('hidden');
+            startTypingEffect();
+        }
+
+        function closeLetterModal() {
+            stopTypingEffect();
+            document.getElementById('letter-modal').classList.add('hidden');
+        }
     </script>
 </body>
 </html>
