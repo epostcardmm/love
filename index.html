@@ -1,531 +1,250 @@
 <!DOCTYPE html>
 <html lang="my">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>❤️ Do You Love Me?</title>
-  <!-- Google Fonts for Myanmar Typography -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Padauk:wght@400;700&family=Pyidaungsu:wght@400;700&display=swap" rel="stylesheet">
-  
-  <style>
-    /* Custom Web Font integration for ThitSarShweSi */
-    @font-face {
-      font-family: 'ThitSarShweSi';
-      src: url('https://cdn.jsdelivr.net/gh/kyaw-kyaw/mm-fonts@master/ThitSarShweSi.woff2') format('woff2'),
-           url('https://cdn.jsdelivr.net/gh/kyaw-kyaw/mm-fonts@master/ThitSarShweSi.ttf') format('truetype');
-      font-display: swap;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Universe Love</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+        body, html { 
+            min-height: 100vh; 
+            margin: 0; 
+            overflow-y: auto; 
+        }
+        body { 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            /* Clean & Aesthetic Sky Blue Grid Background */
+            background-color: #f0f8ff;
+            background-image: 
+                linear-gradient(to right, rgba(135, 206, 235, 0.35) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(135, 206, 235, 0.35) 1px, transparent 1px);
+            background-size: 28px 28px;
+            font-family: sans-serif;
+            padding: 20px 10px;
+        }
+        .container { 
+            width: 100%;
+            max-width: 360px; 
+            height: auto;
+            max-height: 90vh;
+            overflow-y: auto;
+            background: rgba(255, 255, 255, 0.85); 
+            border-radius: 30px; 
+            text-align: center; 
+            padding: 20px; 
+            backdrop-filter: blur(25px); 
+            border: 1px solid rgba(135, 206, 235, 0.8);
+            box-shadow: 0 20px 50px rgba(2, 119, 189, 0.18);
+            display: flex; 
+            flex-direction: column; 
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .container::-webkit-scrollbar {
+            width: 4px;
+        }
+        .container::-webkit-scrollbar-thumb {
+            background: rgba(2, 136, 209, 0.4);
+            border-radius: 10px;
+        }
 
-    :root {
-      --cartoon-border: 3px solid #000000;
-      --cartoon-shadow: 4px 4px 0px #000000;
-      --cartoon-shadow-lg: 6px 6px 0px #000000;
-    }
+        .btn-container { display: flex; flex-direction: column; gap: 10px; margin-top: 15px; width: 100%; }
+        .btn { 
+            padding: 12px; border: none; border-radius: 15px; cursor: pointer; 
+            font-weight: bold; transition: all 0.2s ease;
+            text-shadow: 0 1px 2px rgba(255, 255, 255, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+        }
+        .btn:hover {
+            opacity: 0.9;
+            transform: scale(1.02);
+        }
+        .btn:active {
+            transform: scale(0.95);
+        }
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      user-select: none;
-      -webkit-tap-highlight-color: transparent;
-    }
+        /* ခလုတ်တစ်ခုချင်းစီအတွက် အရောင်ကွဲများ */
+        .btn-1 { background: rgba(144, 202, 249, 0.85); color: #0d47a1; } /* မိုးပြာဖျော့ */
+        .btn-2 { background: rgba(129, 212, 250, 0.85); color: #01579b; } /* အပြာနု */
+        .btn-3 { background: rgba(79, 195, 247, 0.85); color: #003c8f; }  /* မိုးပြာရောင် */
+        .btn-4 { background: rgba(179, 229, 252, 0.9); color: #0277bd; }  /* အပြာစိုဖျော့ */
 
-    /* Cartoon Grid Background */
-    body {
-      min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      font-family: 'ThitSarShweSi', 'Padauk', 'Pyidaungsu', sans-serif;
-      overflow: hidden;
-      position: relative;
-      background: #87CEEB url('image_0.png') no-repeat center center fixed;
-      background-size: cover;
-    }
-
-    /* Floating Heart & Sparkle Particles */
-    .floating-heart {
-      position: fixed;
-      font-size: 22px;
-      pointer-events: none;
-      animation: floatUp 7s cubic-bezier(0.4, 0, 0.2, 1) infinite;
-      z-index: 1;
-    }
-
-    @keyframes floatUp {
-      0% {
-        transform: translateY(100vh) scale(0.4) rotate(0deg);
-        opacity: 0;
-      }
-      20% { opacity: 1; }
-      80% { opacity: 0.9; }
-      100% {
-        transform: translateY(-15vh) scale(1.3) rotate(360deg);
-        opacity: 0;
-      }
-    }
-
-    /* CONTAINER */
-    .container {
-      text-align: center;
-      background: rgba(255, 255, 255, 0.9);
-      border: var(--cartoon-border);
-      box-shadow: var(--cartoon-shadow-lg);
-      border-radius: 25px;
-      padding: 30px 20px;
-      max-width: 480px;
-      width: 90%;
-      z-index: 10;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    }
-
-    @keyframes popIn {
-      from { opacity: 0; transform: scale(0.7); }
-      to { opacity: 1; transform: scale(1); }
-    }
-
-    /* Cartoon Headings */
-    h2 {
-      color: #222;
-      margin-bottom: 20px;
-      font-size: 1.6rem;
-      font-weight: 700;
-      line-height: 1.5;
-      background: #ffde59;
-      padding: 8px 18px;
-      border: var(--cartoon-border);
-      border-radius: 20px;
-      box-shadow: 3px 3px 0px #000;
-      font-family: 'ThitSarShweSi', 'Padauk', sans-serif;
-    }
-
-    /* GIF Button Styling */
-    .gif-btn {
-      width: 200px;
-      height: 200px;
-      object-fit: contain;
-      border: var(--cartoon-border);
-      border-radius: 20px;
-      background: #fff;
-      box-shadow: var(--cartoon-shadow);
-      cursor: pointer;
-      transition: all 0.2s ease;
-    }
-
-    .gif-btn:hover {
-      transform: scale(1.05) rotate(-2deg);
-      background: #fff0f5;
-    }
-
-    /* Responsive Flex Button Group */
-    .btn-group {
-      margin-top: 25px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 20px;
-      width: 100%;
-      flex-wrap: wrap;
-    }
-
-    .btn {
-      padding: 12px 32px;
-      font-size: 1.15rem;
-      border: var(--cartoon-border);
-      border-radius: 50px;
-      cursor: pointer;
-      font-weight: bold;
-      font-family: 'ThitSarShweSi', 'Padauk', sans-serif;
-      box-shadow: var(--cartoon-shadow);
-      transition: all 0.15s ease;
-      outline: none;
-      white-space: nowrap;
-    }
-
-    .btn:active {
-      transform: translate(3px, 3px);
-      box-shadow: 1px 1px 0px #000;
-    }
-
-    /* Cartoon Yes Button */
-    .btn-yes {
-      background: #ff70a6;
-      color: #fff;
-      text-shadow: 1px 1px 0px #000;
-    }
-
-    .btn-yes:hover {
-      background: #ff4785;
-    }
-
-    /* Cartoon No Button */
-    .btn-no {
-      background: #70d6ff;
-      color: #000;
-    }
-
-    .btn-no:hover {
-      background: #41c4ff;
-    }
-
-    /* Cartoon Speech Bubble Popup for No Clicks */
-    .sad-text {
-      position: fixed;
-      color: #000;
-      font-weight: 700;
-      font-size: 1.1rem;
-      background: #ffffff;
-      border: var(--cartoon-border);
-      padding: 12px 20px;
-      border-radius: 20px;
-      box-shadow: var(--cartoon-shadow);
-      pointer-events: none;
-      animation: comicPopup 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
-      z-index: 50;
-      max-width: 300px;
-      text-align: center;
-      font-family: 'ThitSarShweSi', 'Padauk', sans-serif;
-    }
-
-    @keyframes comicPopup {
-      0% { opacity: 0; transform: scale(0.3) rotate(-10deg); }
-      100% { opacity: 1; transform: scale(1) rotate(0deg); }
-    }
-
-    /* Falling GIF Container */
-    .falling-container {
-      position: fixed;
-      top: -200px;
-      left: 50%;
-      transform: translateX(-50%);
-      z-index: 40;
-      animation: fallDown 2.2s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-      cursor: pointer;
-      text-align: center;
-    }
-
-    @keyframes fallDown {
-      0% { top: -200px; opacity: 0; }
-      100% { top: 25%; opacity: 1; }
-    }
-
-    .falling-gif {
-      width: 190px;
-      height: auto;
-      border: var(--cartoon-border);
-      border-radius: 20px;
-      background: #fff;
-      box-shadow: var(--cartoon-shadow-lg);
-      transition: transform 0.2s;
-      animation: gentleBob 2s ease-in-out infinite alternate 2.2s;
-    }
-
-    @keyframes gentleBob {
-      from { transform: translateY(0); }
-      to { transform: translateY(-12px); }
-    }
-
-    .falling-gif:hover {
-      transform: scale(1.08) rotate(3deg);
-    }
-
-    .click-hint {
-      color: #000;
-      font-weight: 700;
-      margin-top: 15px;
-      font-size: 1rem;
-      background: #ffde59;
-      border: var(--cartoon-border);
-      padding: 8px 20px;
-      border-radius: 25px;
-      display: inline-block;
-      box-shadow: 3px 3px 0px #000;
-      animation: bounce 1s infinite alternate;
-      font-family: 'ThitSarShweSi', 'Padauk', sans-serif;
-    }
-
-    @keyframes bounce {
-      from { transform: translateY(0); }
-      to { transform: translateY(-5px); }
-    }
-
-    /* Letter Modal */
-    .letter-modal {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      background: rgba(0, 0, 0, 0.5);
-      backdrop-filter: blur(4px);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      z-index: 100;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.4s ease;
-    }
-
-    .letter-modal.active {
-      opacity: 1;
-      pointer-events: auto;
-    }
-
-    /* Cartoon Paper Card Design */
-    .paper {
-      background: #ffffff;
-      padding: 35px 25px;
-      border-radius: 20px;
-      max-width: 400px;
-      width: 88%;
-      position: relative;
-      box-shadow: 8px 8px 0px #000;
-      border: var(--cartoon-border);
-      transform: scale(0.8) rotate(-2deg);
-      transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-      line-height: 1.8;
-      color: #333;
-      font-family: 'ThitSarShweSi', 'Padauk', sans-serif;
-    }
-
-    .letter-modal.active .paper {
-      transform: scale(1) rotate(0deg);
-    }
-
-    /* Cartoon Paper Clip UI Element */
-    .paper-clip {
-      position: absolute;
-      top: -12px;
-      right: 35px;
-      width: 22px;
-      height: 45px;
-      border: 3px solid #ff4b8b;
-      border-radius: 12px;
-      background: #fff;
-      transform: rotate(10deg);
-      box-shadow: 2px 2px 0px #000;
-      z-index: 2;
-    }
-
-    .paper-header {
-      text-align: center;
-      margin-bottom: 12px;
-    }
-
-    .paper-header h3 {
-      color: #e60039;
-      font-size: 1.5rem;
-      font-weight: 700;
-      display: inline-block;
-      background: #ffe4e8;
-      padding: 4px 15px;
-      border: 2px solid #000;
-      border-radius: 15px;
-      font-family: 'ThitSarShweSi', 'Padauk', sans-serif;
-    }
-
-    .dashed-line {
-      border-bottom: 2.5px dashed #ff8da1;
-      margin: 12px 0 18px 0;
-      width: 100%;
-    }
-
-    .paper p {
-      font-size: 1.05rem;
-      font-weight: 600;
-      color: #444;
-      margin-bottom: 14px;
-      text-align: left;
-      font-family: 'ThitSarShweSi', 'Padauk', sans-serif;
-    }
-
-    .paper .signature {
-      margin-top: 22px;
-      text-align: right;
-      font-weight: 700;
-      color: #e60039;
-      font-size: 1.15rem;
-      font-family: 'ThitSarShweSi', 'Padauk', sans-serif;
-    }
-
-    .hidden {
-      display: none !important;
-    }
-  </style>
+        h3, p {
+            color: #01579b !important;
+        }
+        #warning { color: #e65100; font-size: 14px; margin: 8px 0; min-height: 20px; font-weight: bold; }
+        #page2 { display: none; }
+        img { 
+            width: 200px; 
+            height: 200px; 
+            object-fit: cover; 
+            border-radius: 10px; 
+            border: 2px solid rgba(135, 206, 235, 0.9); 
+            box-shadow: 0 8px 20px rgba(2, 119, 189, 0.18);
+        }
+        .highlight { font-size: 20px; color: #0288d1; font-weight: bold; }
+    </style>
 </head>
 <body>
 
-  <!-- Floating Hearts Background Container -->
-  <div id="hearts-bg"></div>
-
-  <!-- Step 1: Initial Screen -->
-  <div id="step1" class="container">
-    <h2>Yoo!! Crush လေးရေ 💙</h2>
-    <img 
-      src="https://media.tenor.com/NTXdXVaUK-UAAAAi/bubu-dudu-sseeyall.gif" 
-      alt="Click Me" 
-      class="gif-btn" 
-      onclick="goToStep2()"
-    >
-  </div>
-
-  <!-- Step 2: Proposal Screen -->
-  <div id="step2" class="container hidden">
-    <h2>ပြန်ချစ်ပါလားဟင် 💗 🥺</h2>
-    <img 
-      src="https://media.tenor.com/Kyu4f_2c38MAAAAi/bubu-dudu-love.gif" 
-      alt="Please Love Me" 
-      class="gif-btn"
-    >
-    <div class="btn-group">
-      <button id="yesBtn" class="btn btn-yes" onclick="handleYes()">Yes 💙</button>
-      <button class="btn btn-no" onclick="handleNo()">No 💔</button>
+<div class="container" id="page1">
+    <h3 style="margin-top: 0;">ဟိတ်.. အဲ့ဘက်မှာအေးလား<br>ဒီဘက်မှာတော့ ချစ်လိုက်တာတုန်နေတာပဲ<br>ပြန်ချစ်ပါလား နွေးထွေးပေးမယ်လေ</h3>
+    <img src="https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExaGJtczRjM3p4bGRnYzg3MDg1dGxscGRyN3l3bGsyMDRpOTY1ZmF1ciZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/brHaCdJqCXijm/giphy.gif" alt="Rain">
+    <div id="warning"></div>
+    <div class="btn-container" id="btnBox">
+        <button class="btn btn-1" onclick="handleWrong('မအေးဘူး')">မအေးဘူး</button>
+        <button class="btn btn-2" onclick="handleWrong('အေးတယ်')">အေးတယ်</button>
+        <button class="btn btn-3" onclick="nextPage('ချစ်တယ်')">ချစ်တယ်</button>
+        <button class="btn btn-4" onclick="handleWrong('မဖြေဘူး')">မဖြေဘူး</button>
     </div>
-  </div>
+</div>
 
-  <!-- Step 3: Falling GIF -->
-  <div id="falling-gif-box" class="falling-container hidden" onclick="openLetter()">
-    <img 
-      src="https://i.pinimg.com/1200x/ba/8e/67/ba8e6782408b6a4c136f4c80f95763a2.jpg" 
-      alt="Falling Gift" 
-      class="falling-gif"
-    >
-    <br>
-    <div class="click-hint">✨ ဒီမှာ နှိပ်ကြည့်ပါ ✨</div>
-  </div>
-
-  <!-- Step 4: Love Letter Modal -->
-  <div id="letter-modal" class="letter-modal">
-    <div class="paper">
-      <!-- Cartoon Paper Clip -->
-      <div class="paper-clip"></div>
-
-      <!-- Title -->
-      <div class="paper-header">
-        <h3>သို့ / ချစ်ရပါသော ..</h3>
-      </div>
-
-      <div class="dashed-line"></div>
-      <p>
-        ကိုယ် တကယ်မင်းကိုချစ်မိနေပြီ အချိန်ပြည့်နီးပါး မင်းအကြောင်းတွေပဲအမြဲတွေးမိနေတော့တာပါပဲကွာ
-      </p>
-      
-      <p>
-        ရှေ့လျောက်လည်းမင်းနားမှာပဲ ရှိနေချင်တော့တာမို့ ကိုယ့်ကိုမင်းနားမှာ ရှိနေခွင့်လေးပေးပါတော့လား<br>
-      </p>
-
-      <p>
-        ချစ်ခွင့်ပြုပါတော့နော်... 🌹✨
-      </p>
-
-      <!-- Signature -->
-      <div class="signature">
-        love you so much .. ❤️
-      </div>
+<div class="container" id="page2">
+    <h3 style="margin-top: 0;">Yayy.. အဖြေရပြီဗျို့...ဖိတ်စာသွားရိုက်ထားလိုက်တော့မယ်နော်🩵</h3>
+    <img src="https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExbHpsZnYzanhjcnA1YjhyNmkyYWN5cmhyYTEzZWtkaW5seXNsaW0wdSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/dxAw1xsUcd4NW/giphy.gif" alt="Love">
+    <p style="margin: 10px 0 5px 0;">Picked - <span class="highlight" id="answerDisplay"></span></p>
+    <p style="margin-top: 0; font-size: 14px;">အတည်ပြန်ချစ်ပေးပါတော့ကွာ မင်းပြန်ချစ်မယ့်နေ့ကိုမျော်နေတာပါကွာ ပြန်ချစ်ပါတော့နော်.. အများကြီးနွေးထွေးပေးမှာပါ🩵</p>
+    
+    <!-- ဒုတိယစာမျက်နှာအောက်ဆုံးတွင် ထည့်သွင်းပေးထားသော "တကယ်ချစ်တယ်" ခလုတ် -->
+    <div class="btn-container" style="margin-top: 5px;">
+        <button class="btn" style="background: rgba(3, 169, 244, 0.85); color: white;" onclick="sendRealLoveEmail()">💌 တကယ်ချစ်တယ် (Confirm)</button>
     </div>
-  </div>
+</div>
 
-  <script>
-    // Create floating cartoon particles
-    function createHearts() {
-      const heartsContainer = document.getElementById('hearts-bg');
-      const heartIcons = ['💙', '💖', '✨', '⭐', '🤍', '🎈'];
-      for (let i = 0; i < 20; i++) {
-        const heart = document.createElement('div');
-        heart.className = 'floating-heart';
-        heart.innerText = heartIcons[Math.floor(Math.random() * heartIcons.length)];
-        heart.style.left = `${Math.random() * 100}vw`;
-        heart.style.animationDelay = `${Math.random() * 7}s`;
-        heart.style.fontSize = `${16 + Math.random() * 16}px`;
-        heartsContainer.appendChild(heart);
-      }
-    }
-    createHearts();
+<script>
+    const warnings = ["သေချာပြီလား?", "နောက်တစ်ခါ ထပ်စဉ်းစားဦးလေ", "အဖြေမှန် ရှာကြည့်ပါဦး", "မဟုတ်သေးဘူးနော်", "ပြန်ရွေးပါဦး", "ဟင့်အင်း... အဲ့ဒါမဟုတ်ဘူး"];
 
-    // Random Sad Messages for No Button
-    const sadMessages = [
-      "တကယ် မချစ်ဘူးလားဟင်... 🥺",
-      "နည်းနည်းလေးတောင် မချစ်ဘူးလား 💔",
-      "ငိုရတော့မှာပဲ... 😭",
-      "တစ်ခါလောက်ပဲ အခွင့်အရေးပေးပါ... 🙏",
-      "မရဘူး... Yes ပဲ နှိပ်ရမယ်နော်! 😜"
-    ];
+    const clickCounts = {
+        "မအေးဘူး": 0,
+        "အေးတယ်": 0,
+        "မဖြေဘူး": 0,
+        "ချစ်တယ်": 0
+    };
 
-    let messageIndex = 0;
-    let yesScale = 1;
-    let noClickCount = 0;
+    // Formspree Endpoint URL (သင့်ရဲ့ Formspree Link ကို ဤနေရာတွင် ထည့်ပါ)
+    const FORMSPREE_ENDPOINT = ""; 
 
-    function goToStep2() {
-      document.getElementById('step1').classList.add('hidden');
-      document.getElementById('step2').classList.remove('hidden');
-    }
+    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 
-    function handleNo() {
-      noClickCount++;
-
-      const textElem = document.createElement('div');
-      textElem.className = 'sad-text';
-      textElem.innerText = sadMessages[messageIndex];
-
-      const padding = 30;
-      const x = Math.random() * (window.innerWidth - 280) + padding;
-      const y = Math.random() * (window.innerHeight - 120) + padding;
-
-      textElem.style.left = `${Math.max(10, Math.min(x, window.innerWidth - 290))}px`;
-      textElem.style.top = `${Math.max(10, Math.min(y, window.innerHeight - 90))}px`;
-
-      document.body.appendChild(textElem);
-      messageIndex = (messageIndex + 1) % sadMessages.length;
-
-      yesScale += 0.2;
-      const yesBtn = document.getElementById('yesBtn');
-      yesBtn.style.fontSize = `${1.15 * yesScale}rem`;
-      yesBtn.style.padding = `${12 * yesScale}px ${32 * yesScale}px`;
-    }
-
-    function handleYes() {
-      // Formspree Link ထည့်သွင်းထားသောနေရာ (YOUR_FORM_ID နေရာတွင် သင့် Form ID အမှန်ကို ထည့်ပါ)
-      fetch('', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json'
-        },
-        body: JSON.stringify({
-          Answer: "YES 💙 (ပြန်ချစ်ပေးလိုက်ပါပြီ)",
-          No_Clicked_Times: noClickCount + " ကြိမ်",
-          Message: `Crush သည် No ခလုတ်ကို ${noClickCount} ကြိမ် နှိပ်ပြီးမှ Yes ကို နှိပ်သွားပါသည်။`
-        })
-      })
-      .then(response => {
-        if (response.ok) {
-          console.log("Successfully sent to Formspree!");
-        } else {
-          console.log("Formspree Error Status:", response.status);
+    function playClickSound(type) {
+        if (audioCtx.state === 'suspended') {
+            audioCtx.resume();
         }
-      })
-      .catch(err => console.log("Submission Error: ", err));
+        const now = audioCtx.currentTime;
 
-      document.getElementById('step2').classList.add('hidden');
+        if (type === 'wrong') {
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(520, now);
+            osc.frequency.exponentialRampToValueAtTime(260, now + 0.14);
 
-      const sadTexts = document.querySelectorAll('.sad-text');
-      sadTexts.forEach(el => el.remove());
+            gain.gain.setValueAtTime(0.25, now);
+            gain.gain.exponentialRampToValueAtTime(0.001, now + 0.14);
 
-      const fallingBox = document.getElementById('falling-gif-box');
-      fallingBox.classList.remove('hidden');
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+            osc.start(now);
+            osc.stop(now + 0.14);
+        } else if (type === 'love') {
+            const notes = [523.25, 659.25, 783.99, 1046.50];
+            notes.forEach((freq, i) => {
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.type = 'triangle';
+                osc.frequency.setValueAtTime(freq, now + i * 0.08);
+
+                gain.gain.setValueAtTime(0.22, now + i * 0.08);
+                gain.gain.exponentialRampToValueAtTime(0.001, now + i * 0.08 + 0.35);
+
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+                osc.start(now + i * 0.08);
+                osc.stop(now + i * 0.08 + 0.35);
+            });
+        }
     }
 
-    function openLetter() {
-      const modal = document.getElementById('letter-modal');
-      modal.classList.add('active');
+    function handleWrong(val) {
+        playClickSound('wrong');
+
+        if (clickCounts.hasOwnProperty(val)) {
+            clickCounts[val]++;
+        }
+
+        document.getElementById('warning').innerText = warnings[Math.floor(Math.random() * warnings.length)];
+        const box = document.getElementById('btnBox');
+        const btns = Array.from(box.children);
+        btns.sort(() => Math.random() - 0.5);
+        btns.forEach(b => box.appendChild(b));
     }
-  </script>
+
+    function nextPage(val) {
+        playClickSound('love');
+
+        if (clickCounts.hasOwnProperty(val)) {
+            clickCounts[val]++;
+        }
+
+        sendToFormspree(val, "ပထမအကြိမ် ဝင်ရောက်ဖြေဆိုခြင်း");
+
+        document.getElementById('page1').style.display = 'none';
+        document.getElementById('page2').style.display = 'flex';
+        document.getElementById('answerDisplay').innerText = val;
+    }
+
+    function sendRealLoveEmail() {
+        playClickSound('love');
+        alert("💖 ကျေးဇူးပါဗျာ... သင့်ရဲ့ အတည်ပြုချက်ကို အောင်မြင်စွာ ပို့လိုက်ပါပြီ 🩵");
+        
+        if (!FORMSPREE_ENDPOINT || FORMSPREE_ENDPOINT.includes("YOUR_FORM_ID")) {
+            console.log("Formspree URL ထည့်သွင်းရန် လိုအပ်ပါသည်။");
+            return;
+        }
+
+        const payload = {
+            "Message": "❤️ ဟေး.. တစ်ဖက်လူက 'တကယ်ချစ်တယ်' ဆိုတဲ့ ခလုတ်ကိုနှိပ်ပြီး အတည်ပြုလိုက်ပါပြီ!",
+            "Submitted At": new Date().toLocaleString()
+        };
+
+        fetch(FORMSPREE_ENDPOINT, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            },
+            body: JSON.stringify(payload)
+        }).catch(error => console.error("Error:", error));
+    }
+
+    function sendToFormspree(finalAnswer, note = "") {
+        if (!FORMSPREE_ENDPOINT || FORMSPREE_ENDPOINT.includes("YOUR_FORM_ID")) return;
+
+        const payload = {
+            "Status": note,
+            "Final Answer": finalAnswer,
+            "မအေးဘူး နှိပ်သည့်အကြိမ်": clickCounts["မအေးဘူး"],
+            "အေးတယ် နှိပ်သည့်အကြိမ်": clickCounts["အေးတယ်"],
+            "မဖြေဘူး နှိပ်သည့်အကြိမ်": clickCounts["မဖြေဘူး"],
+            "ချစ်တယ် နှိပ်သည့်အကြိမ်": clickCounts["ချစ်တယ်"],
+            "Submitted At": new Date().toLocaleString()
+        };
+
+        fetch(FORMSPREE_ENDPOINT, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            },
+            body: JSON.stringify(payload)
+        }).catch(error => console.error(error));
+    }
+</script>
+
 </body>
 </html>
