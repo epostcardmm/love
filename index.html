@@ -1,1114 +1,531 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="my">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Birthday Combined Interactive App - Sky Blue Theme</title>
+  <title>❤️ Do You Love Me?</title>
+  <!-- Google Fonts for Myanmar Typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Padauk:wght@400;700&family=Pyidaungsu:wght@400;700&display=swap" rel="stylesheet">
+  
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
+    /* Custom Web Font integration for ThitSarShweSi */
+    @font-face {
+      font-family: 'ThitSarShweSi';
+      src: url('https://cdn.jsdelivr.net/gh/kyaw-kyaw/mm-fonts@master/ThitSarShweSi.woff2') format('woff2'),
+           url('https://cdn.jsdelivr.net/gh/kyaw-kyaw/mm-fonts@master/ThitSarShweSi.ttf') format('truetype');
+      font-display: swap;
     }
 
+    :root {
+      --cartoon-border: 3px solid #000000;
+      --cartoon-shadow: 4px 4px 0px #000000;
+      --cartoon-shadow-lg: 6px 6px 0px #000000;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    /* Cartoon Grid Background */
     body {
-      background-color: #7cc4fa;
-      background-image: 
-        linear-gradient(to right, rgba(255, 255, 255, 0.75) 2px, transparent 2px),
-        linear-gradient(to bottom, rgba(255, 255, 255, 0.75) 2px, transparent 2px),
-        linear-gradient(180deg, #64b5f6 0%, #90caf9 50%, #cbe7fd 100%);
-      background-size: 38px 38px, 38px 38px, 100% 100%;
-      background-position: -1px -1px, -1px -1px, 0 0;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       min-height: 100vh;
       display: flex;
       justify-content: center;
       align-items: center;
-      overflow-x: hidden;
-      color: #102a43;
-    }
-
-    .view-page {
-      display: none;
-      width: 100%;
-      height: 100vh;
-      justify-content: center;
-      align-items: center;
-      position: absolute;
-      top: 0;
-      left: 0;
-    }
-
-    .view-page.active {
-      display: flex;
-    }
-
-    /* ================= Drag & Drop Lock Screen Styles ================= */
-    #lockView {
-      flex-direction: column;
-      gap: 20px;
-      text-align: center;
-      padding: 20px;
-    }
-
-    .lock-card {
-      background: rgba(255, 255, 255, 0.95);
-      padding: 35px 25px;
-      border-radius: 20px;
-      box-shadow: 0 15px 35px rgba(2, 136, 209, 0.18);
-      max-width: 400px;
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      border: 2px solid #4fc3f7;
-      position: relative;
-      min-height: 280px;
-      justify-content: center;
+      font-family: 'ThitSarShweSi', 'Padauk', 'Pyidaungsu', sans-serif;
       overflow: hidden;
-    }
-
-    .lock-title {
-      font-size: 18px;
-      font-weight: bold;
-      color: #01579b;
-      margin-bottom: 8px;
-    }
-
-    .lock-subtitle {
-      font-size: 13px;
-      color: #0288d1;
-      margin-bottom: 30px;
-    }
-
-    .drop-zone-container {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      width: 100%;
-      max-width: 300px;
       position: relative;
-      margin-bottom: 20px;
+      background: #87CEEB url('image_0.png') no-repeat center center fixed;
+      background-size: cover;
     }
 
-    .drag-item {
-      width: 80px;
-      height: 80px;
-      cursor: grab;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      z-index: 10;
-      touch-action: none;
-      transition: transform 0.2s;
-    }
-
-    .drag-item:active {
-      cursor: grabbing;
-    }
-
-    .drag-item img {
-      width: 75px;
-      height: 75px;
-      object-fit: contain;
-      filter: drop-shadow(0px 5px 10px rgba(0,0,0,0.15));
-      pointer-events: none;
-    }
-
-    .drop-target {
-      width: 90px;
-      height: 90px;
-      border: 3px dashed #039be5;
-      border-radius: 50%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background: #e1f5fe;
-      position: relative;
-    }
-
-    .drop-target img {
-      width: 70px;
-      height: 70px;
-      object-fit: contain;
-      opacity: 0.85;
-    }
-
-    .success-popup {
-      display: none;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(255, 255, 255, 0.98);
-      border-radius: 20px;
-      z-index: 30;
-      animation: fadeIn 0.4s ease;
-    }
-
-    .success-popup img {
-      width: 110px;
-      height: 110px;
-      object-fit: contain;
-      animation: bounceEffect 0.8s infinite alternate;
-      margin-bottom: 15px;
-      filter: drop-shadow(0px 8px 15px rgba(3, 169, 244, 0.3));
-    }
-
-    .success-popup .popup-text {
-      font-size: 16px;
-      font-weight: bold;
-      color: #01579b;
-      letter-spacing: 0.5px;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: scale(0.9); }
-      to { opacity: 1; transform: scale(1); }
-    }
-
-    @keyframes bounceEffect {
-      from { transform: translateY(0); }
-      to { transform: translateY(-10px); }
-    }
-
-    /* ================= Main Home Screen Styles ================= */
-    #mainView {
-      flex-direction: column;
-      gap: 20px;
-      padding: 20px;
-    }
-
-    .items-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 35px 45px;
-      justify-items: center;
-      align-items: center;
-      margin: 10px 0;
-    }
-
-    .icon-btn {
-      cursor: pointer;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      animation: cuteWobble 2.6s ease-in-out infinite;
-    }
-
-    .icon-btn:nth-child(1) { animation-delay: 0s; }
-    .icon-btn:nth-child(2) { animation-delay: 0.5s; }
-    .icon-btn:nth-child(3) { animation-delay: 1.0s; }
-    .icon-btn:nth-child(4) { animation-delay: 1.5s; }
-
-    .icon-btn:hover {
-      animation-play-state: paused;
-      transform: scale(1.12);
-      transition: transform 0.2s ease;
-    }
-
-    @keyframes cuteWobble {
-      0%, 100% {
-        transform: translateY(0px) rotate(-3deg);
-      }
-      50% {
-        transform: translateY(-9px) rotate(3deg);
-      }
-    }
-
-    .items-grid img {
-      width: 135px;
-      height: 135px;
-      object-fit: contain;
-      display: block;
-      filter: drop-shadow(0px 6px 12px rgba(1, 87, 155, 0.2));
-    }
-
-    .cd-spinning {
-      animation: spinCD 3s linear infinite !important;
-    }
-
-    @keyframes spinCD {
-      from { transform: rotate(0deg); }
-      to { transform: rotate(360deg); }
-    }
-
-    .screen-heading {
-      font-size: 26px;
-      font-weight: 700;
-      color: #01579b;
-      font-family: 'Dancing Script', cursive, serif;
-      text-align: center;
-      letter-spacing: 1px;
-      background: rgba(255, 255, 255, 0.8);
-      padding: 6px 22px;
-      border-radius: 25px;
-      box-shadow: 0 4px 12px rgba(2, 136, 209, 0.15);
-      border: 1px solid #b3e5fc;
-    }
-
-    .screen-subtext {
-      font-size: 13px;
-      color: #0277bd;
-      text-align: center;
-      font-weight: 600;
-      letter-spacing: 0.5px;
-      background: rgba(255, 255, 255, 0.85);
-      padding: 7px 18px;
-      border-radius: 20px;
-      box-shadow: 0 4px 10px rgba(2, 136, 209, 0.12);
-      border: 1px solid #81d4fa;
-    }
-
-    /* ================= Modals ================= */
-    .modal {
-      display: none;
+    /* Floating Heart & Sparkle Particles */
+    .floating-heart {
       position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(1, 42, 74, 0.55);
-      justify-content: center;
-      align-items: center;
-      z-index: 1000;
-      padding: 15px;
-    }
-
-    .close-btn {
-      position: absolute;
-      top: 10px;
-      right: 15px;
-      font-size: 24px;
-      font-weight: bold;
-      cursor: pointer;
-      color: #546e7a;
-      z-index: 20;
-    }
-
-    .close-btn:hover {
-      color: #01579b;
-    }
-
-    /* Memo Pad (စာရွက်တစ်ခုလုံး Scroll ဆွဲနိုင်သည်) */
-    .memo-paper {
-      position: relative;
-      width: 100%;
-      max-width: 480px;
-      max-height: 85vh;
-      overflow-y: auto;
-      background-color: #ffffff;
-      background-image: repeating-linear-gradient(transparent, transparent 31px, #d8b4fe 31px, #d8b4fe 32px);
-      background-size: 100% 32px;
-      padding: 50px 40px;
-      border-radius: 12px;
-      box-shadow: 0 20px 40px rgba(1, 87, 155, 0.25);
-      border: 2px dashed #b197fc;
-      transform: rotate(-1deg);
-      font-family: 'Caveat', cursive, Georgia, serif;
-    }
-
-    .memo-paper::-webkit-scrollbar {
-      width: 6px;
-    }
-    .memo-paper::-webkit-scrollbar-thumb {
-      background: #b197fc;
-      border-radius: 10px;
-    }
-
-    .memo-paper::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 80px;
-      height: 80px;
-      background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M10,10 Q40,10 60,30 Q80,50 80,80" fill="none" stroke="%23b197fc" stroke-width="3"/><circle cx="10" cy="10" r="4" fill="%23b197fc"/><path d="M10,25 Q25,25 35,35" fill="none" stroke="%23b197fc" stroke-width="2"/><path d="M25,10 Q25,25 35,35" fill="none" stroke="%23b197fc" stroke-width="2"/></svg>');
-      background-repeat: no-repeat;
+      font-size: 22px;
       pointer-events: none;
-    }
-
-    .top-purple-shape {
-      position: absolute;
-      top: -15px;
-      right: -15px;
-      width: 110px;
-      height: 90px;
-      background-color: #d8b4fe;
-      border-radius: 35% 65% 55% 45% / 45% 45% 55% 55%;
-      box-shadow: 0 4px 10px rgba(177, 151, 252, 0.3);
-      pointer-events: none;
-    }
-
-    .bottom-purple-shape {
-      position: absolute;
-      bottom: -15px;
-      left: -15px;
-      width: 110px;
-      height: 90px;
-      background-color: #d8b4fe;
-      border-radius: 55% 45% 45% 55% / 55% 55% 45% 45%;
-      box-shadow: 0 4px 10px rgba(177, 151, 252, 0.3);
-      pointer-events: none;
-    }
-
-    .memo-paper::after {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      right: 0;
-      width: 80px;
-      height: 80px;
-      background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M90,90 Q60,90 40,70 Q20,50 20,20" fill="none" stroke="%23b197fc" stroke-width="3"/><circle cx="90" cy="90" r="4" fill="%23b197fc"/><path d="M90,75 Q75,75 65,65" fill="none" stroke="%23b197fc" stroke-width="2"/><path d="M75,90 Q75,75 65,65" fill="none" stroke="%23b197fc" stroke-width="2"/></svg>');
-      background-repeat: no-repeat;
-      pointer-events: none;
-    }
-
-    /* ================= Auto-Adjust Video Modal Box (YouTube & MP4) ================= */
-    .youtube-card {
-      position: relative;
-      width: auto;
-      min-width: 300px;
-      max-width: 92vw;
-      max-height: 90vh;
-      background: #ffffff;
-      border-radius: 20px;
-      padding: 25px 20px 20px 20px;
-      box-shadow: 0 18px 40px rgba(1, 87, 155, 0.3);
-      border: 2px solid #4fc3f7;
-      text-align: center;
-      animation: fadeIn 0.3s ease;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-
-    .youtube-title {
-      font-size: 18px;
-      font-weight: bold;
-      color: #01579b;
-      margin-bottom: 14px;
-      padding: 0 20px;
-    }
-
-    /* YouTube Iframe အတွက် 16:9 Responsive Wrapper */
-    .youtube-wrapper {
-      position: relative;
-      width: 80vw;
-      max-width: 520px;
-      aspect-ratio: 16 / 9;
-      overflow: hidden;
-      border-radius: 12px;
-      background: #000;
-      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
-    }
-
-    .youtube-wrapper iframe {
-      width: 100%;
-      height: 100%;
-      border: none;
-      display: block;
-    }
-
-    /* MP4 Video အတွက် ဗီဒီယိုအရွယ်အစားအလိုက် Auto Adjust ဖြစ်မည့် Wrapper */
-    .mp4-wrapper {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      border-radius: 12px;
-      overflow: hidden;
-      background: #000;
-      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
-      max-width: 100%;
-    }
-
-    .mp4-wrapper video {
-      width: auto;
-      height: auto;
-      max-width: 85vw;
-      max-height: 70vh;
-      display: block;
-      object-fit: contain;
-    }
-
-    .back-nav-btn {
-      position: fixed;
-      bottom: 22px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: linear-gradient(135deg, #29b6f6, #0288d1);
-      color: white;
-      border: none;
-      padding: 10px 24px;
-      border-radius: 25px;
-      cursor: pointer;
-      font-weight: bold;
-      font-size: 14px;
-      box-shadow: 0 4px 15px rgba(2, 136, 209, 0.35);
-      z-index: 100;
-      transition: transform 0.2s, background 0.2s;
-    }
-
-    .back-nav-btn:hover {
-      transform: translateX(-50%) scale(1.05);
-      background: linear-gradient(135deg, #039be5, #01579b);
-    }
-
-    /* ================= VIEW 2: 5 Hanging Photos (ကြိုးပိုရှည် + မညီမညာကျလာသည့် Animation) ================= */
-    #albumView {
-      flex-direction: column;
-      position: relative;
-      overflow-y: auto;
-      overflow-x: hidden;
-      justify-content: flex-start;
-      padding: 0 10px 100px 10px;
-    }
-
-    .hanging-scene {
-      position: relative;
-      width: 100%;
-      max-width: 720px;
-      min-height: 620px;
-      margin: 0 auto;
-    }
-
-    .hanging-photo-item {
-      position: absolute;
-      top: 0;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      transform-origin: top center;
-      opacity: 0;
-    }
-
-    /* ၅ ပုံလုံး မညီမညာ နေရာချထားခြင်း */
-    .photo-pos-1 { left: 4%; }
-    .photo-pos-2 { left: 26%; }
-    .photo-pos-3 { left: 50%; transform: translateX(-50%); }
-    .photo-pos-4 { right: 24%; }
-    .photo-pos-5 { right: 3%; }
-
-    @keyframes dropFromTop {
-      0% {
-        opacity: 0;
-        transform: translateY(-280px) rotate(0deg);
-      }
-      65% {
-        opacity: 1;
-        transform: translateY(20px) rotate(3deg);
-      }
-      82% {
-        transform: translateY(-8px) rotate(-2deg);
-      }
-      100% {
-        opacity: 1;
-        transform: translateY(0px) rotate(0deg);
-      }
-    }
-
-    @keyframes gentleSwing {
-      0%, 100% { transform: rotate(-2deg); }
-      50% { transform: rotate(2deg); }
-    }
-
-    #albumView.active .photo-pos-1 {
-      animation: dropFromTop 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.05s forwards,
-                 gentleSwing 4s ease-in-out 1s infinite;
-    }
-    #albumView.active .photo-pos-2 {
-      animation: dropFromTop 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.25s forwards,
-                 gentleSwing 4.5s ease-in-out 1.2s infinite;
-    }
-    #albumView.active .photo-pos-3 {
-      animation: dropFromTop 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.15s forwards,
-                 gentleSwing 3.8s ease-in-out 1.1s infinite;
-    }
-    #albumView.active .photo-pos-4 {
-      animation: dropFromTop 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.4s forwards,
-                 gentleSwing 4.2s ease-in-out 1.3s infinite;
-    }
-    #albumView.active .photo-pos-5 {
-      animation: dropFromTop 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.55s forwards,
-                 gentleSwing 4.6s ease-in-out 1.4s infinite;
-    }
-
-    /* ကြိုးအတိုအရှည်များကို အရင်ကထက် ပိုရှည်အောင် တိုးပေးထားပါသည် */
-    .hanging-string {
-      width: 2px;
-      background-color: #2c3e50;
-    }
-    .photo-pos-1 .hanging-string { height: 145px; }
-    .photo-pos-2 .hanging-string { height: 310px; }
-    .photo-pos-3 .hanging-string { height: 115px; }
-    .photo-pos-4 .hanging-string { height: 345px; }
-    .photo-pos-5 .hanging-string { height: 185px; }
-
-    /* ကလစ်သီး (Binder Clip) */
-    .binder-clip {
-      width: 24px;
-      height: 18px;
-      background: #222;
-      border-radius: 3px;
-      position: relative;
-      z-index: 5;
-      box-shadow: 0 3px 5px rgba(0,0,0,0.3);
-      margin-bottom: -4px;
-    }
-    .binder-clip::before {
-      content: '';
-      position: absolute;
-      top: -9px;
-      left: 5px;
-      width: 14px;
-      height: 11px;
-      border: 2px solid #333;
-      border-bottom: none;
-      border-radius: 4px 4px 0 0;
-      background: transparent;
-    }
-
-    /* Polaroid ဓါတ်ပုံကတ်ပြားများ */
-    .polaroid-card {
-      background: #ffffff;
-      padding: 8px 8px 20px 8px;
-      box-shadow: 0 10px 25px rgba(1, 87, 155, 0.25);
-      border-radius: 4px;
-      width: 135px;
-      cursor: pointer;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-      position: relative;
-    }
-
-    .photo-pos-1 .polaroid-card { transform: rotate(-6deg); }
-    .photo-pos-2 .polaroid-card { transform: rotate(7deg); }
-    .photo-pos-3 .polaroid-card { transform: rotate(-4deg); }
-    .photo-pos-4 .polaroid-card { transform: rotate(-7deg); }
-    .photo-pos-5 .polaroid-card { transform: rotate(6deg); }
-
-    .polaroid-card:hover {
-      transform: scale(1.15) rotate(0deg) !important;
-      z-index: 50;
-      box-shadow: 0 18px 35px rgba(1, 87, 155, 0.45);
-    }
-
-    .polaroid-card img {
-      width: 100%;
-      height: 115px;
-      object-fit: cover;
-      display: block;
-    }
-
-    .polaroid-caption {
-      margin-top: 7px;
-      font-size: 10px;
-      color: #01579b;
-      text-align: center;
-      font-weight: 700;
-      line-height: 1.2;
-    }
-
-    @media (max-width: 520px) {
-      .polaroid-card { width: 110px; padding: 6px 6px 16px 6px; }
-      .polaroid-card img { height: 95px; }
-      .photo-pos-1 { left: 2%; }
-      .photo-pos-2 { left: 16%; }
-      .photo-pos-3 { left: 50%; transform: translateX(-50%); }
-      .photo-pos-4 { right: 15%; }
-      .photo-pos-5 { right: 2%; }
-      .photo-pos-1 .hanging-string { height: 130px; }
-      .photo-pos-2 .hanging-string { height: 295px; }
-      .photo-pos-3 .hanging-string { height: 100px; }
-      .photo-pos-4 .hanging-string { height: 330px; }
-      .photo-pos-5 .hanging-string { height: 170px; }
-    }
-
-    /* Floating Hearts & Emojis */
-    .heart {
-      position: absolute;
-      color: #0288d1;
-      font-size: 16px;
-      user-select: none;
-      pointer-events: none;
-      animation: floatUp 3s linear forwards;
-      z-index: 100;
+      animation: floatUp 7s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+      z-index: 1;
     }
 
     @keyframes floatUp {
-      0% { transform: translateY(0) scale(0.6); opacity: 1; }
-      100% { transform: translateY(-130px) scale(1.4); opacity: 0; }
+      0% {
+        transform: translateY(100vh) scale(0.4) rotate(0deg);
+        opacity: 0;
+      }
+      20% { opacity: 1; }
+      80% { opacity: 0.9; }
+      100% {
+        transform: translateY(-15vh) scale(1.3) rotate(360deg);
+        opacity: 0;
+      }
     }
 
-    .emoji {
-      position: absolute;
+    /* CONTAINER */
+    .container {
+      text-align: center;
+      background: rgba(255, 255, 255, 0.9);
+      border: var(--cartoon-border);
+      box-shadow: var(--cartoon-shadow-lg);
+      border-radius: 25px;
+      padding: 30px 20px;
+      max-width: 480px;
+      width: 90%;
+      z-index: 10;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    @keyframes popIn {
+      from { opacity: 0; transform: scale(0.7); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    /* Cartoon Headings */
+    h2 {
+      color: #222;
+      margin-bottom: 20px;
+      font-size: 1.6rem;
+      font-weight: 700;
+      line-height: 1.5;
+      background: #ffde59;
+      padding: 8px 18px;
+      border: var(--cartoon-border);
+      border-radius: 20px;
+      box-shadow: 3px 3px 0px #000;
+      font-family: 'ThitSarShweSi', 'Padauk', sans-serif;
+    }
+
+    /* GIF Button Styling */
+    .gif-btn {
+      width: 200px;
+      height: 200px;
+      object-fit: contain;
+      border: var(--cartoon-border);
+      border-radius: 20px;
+      background: #fff;
+      box-shadow: var(--cartoon-shadow);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .gif-btn:hover {
+      transform: scale(1.05) rotate(-2deg);
+      background: #fff0f5;
+    }
+
+    /* Responsive Flex Button Group */
+    .btn-group {
+      margin-top: 25px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 20px;
+      width: 100%;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      padding: 12px 32px;
+      font-size: 1.15rem;
+      border: var(--cartoon-border);
+      border-radius: 50px;
+      cursor: pointer;
+      font-weight: bold;
+      font-family: 'ThitSarShweSi', 'Padauk', sans-serif;
+      box-shadow: var(--cartoon-shadow);
+      transition: all 0.15s ease;
+      outline: none;
+      white-space: nowrap;
+    }
+
+    .btn:active {
+      transform: translate(3px, 3px);
+      box-shadow: 1px 1px 0px #000;
+    }
+
+    /* Cartoon Yes Button */
+    .btn-yes {
+      background: #ff70a6;
+      color: #fff;
+      text-shadow: 1px 1px 0px #000;
+    }
+
+    .btn-yes:hover {
+      background: #ff4785;
+    }
+
+    /* Cartoon No Button */
+    .btn-no {
+      background: #70d6ff;
+      color: #000;
+    }
+
+    .btn-no:hover {
+      background: #41c4ff;
+    }
+
+    /* Cartoon Speech Bubble Popup for No Clicks */
+    .sad-text {
+      position: fixed;
+      color: #000;
+      font-weight: 700;
+      font-size: 1.1rem;
+      background: #ffffff;
+      border: var(--cartoon-border);
+      padding: 12px 20px;
+      border-radius: 20px;
+      box-shadow: var(--cartoon-shadow);
       pointer-events: none;
-      animation: emojiFloat 1s ease-out;
-      font-size: 24px;
-      z-index: 999;
+      animation: comicPopup 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+      z-index: 50;
+      max-width: 300px;
+      text-align: center;
+      font-family: 'ThitSarShweSi', 'Padauk', sans-serif;
     }
 
-    @keyframes emojiFloat {
-      0% { transform: translateY(0) scale(1); opacity: 1; }
-      100% { transform: translateY(-50px) scale(1.5); opacity: 0; }
+    @keyframes comicPopup {
+      0% { opacity: 0; transform: scale(0.3) rotate(-10deg); }
+      100% { opacity: 1; transform: scale(1) rotate(0deg); }
+    }
+
+    /* Falling GIF Container */
+    .falling-container {
+      position: fixed;
+      top: -200px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 40;
+      animation: fallDown 2.2s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+      cursor: pointer;
+      text-align: center;
+    }
+
+    @keyframes fallDown {
+      0% { top: -200px; opacity: 0; }
+      100% { top: 25%; opacity: 1; }
+    }
+
+    .falling-gif {
+      width: 190px;
+      height: auto;
+      border: var(--cartoon-border);
+      border-radius: 20px;
+      background: #fff;
+      box-shadow: var(--cartoon-shadow-lg);
+      transition: transform 0.2s;
+      animation: gentleBob 2s ease-in-out infinite alternate 2.2s;
+    }
+
+    @keyframes gentleBob {
+      from { transform: translateY(0); }
+      to { transform: translateY(-12px); }
+    }
+
+    .falling-gif:hover {
+      transform: scale(1.08) rotate(3deg);
+    }
+
+    .click-hint {
+      color: #000;
+      font-weight: 700;
+      margin-top: 15px;
+      font-size: 1rem;
+      background: #ffde59;
+      border: var(--cartoon-border);
+      padding: 8px 20px;
+      border-radius: 25px;
+      display: inline-block;
+      box-shadow: 3px 3px 0px #000;
+      animation: bounce 1s infinite alternate;
+      font-family: 'ThitSarShweSi', 'Padauk', sans-serif;
+    }
+
+    @keyframes bounce {
+      from { transform: translateY(0); }
+      to { transform: translateY(-5px); }
+    }
+
+    /* Letter Modal */
+    .letter-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(4px);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 100;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.4s ease;
+    }
+
+    .letter-modal.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    /* Cartoon Paper Card Design */
+    .paper {
+      background: #ffffff;
+      padding: 35px 25px;
+      border-radius: 20px;
+      max-width: 400px;
+      width: 88%;
+      position: relative;
+      box-shadow: 8px 8px 0px #000;
+      border: var(--cartoon-border);
+      transform: scale(0.8) rotate(-2deg);
+      transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      line-height: 1.8;
+      color: #333;
+      font-family: 'ThitSarShweSi', 'Padauk', sans-serif;
+    }
+
+    .letter-modal.active .paper {
+      transform: scale(1) rotate(0deg);
+    }
+
+    /* Cartoon Paper Clip UI Element */
+    .paper-clip {
+      position: absolute;
+      top: -12px;
+      right: 35px;
+      width: 22px;
+      height: 45px;
+      border: 3px solid #ff4b8b;
+      border-radius: 12px;
+      background: #fff;
+      transform: rotate(10deg);
+      box-shadow: 2px 2px 0px #000;
+      z-index: 2;
+    }
+
+    .paper-header {
+      text-align: center;
+      margin-bottom: 12px;
+    }
+
+    .paper-header h3 {
+      color: #e60039;
+      font-size: 1.5rem;
+      font-weight: 700;
+      display: inline-block;
+      background: #ffe4e8;
+      padding: 4px 15px;
+      border: 2px solid #000;
+      border-radius: 15px;
+      font-family: 'ThitSarShweSi', 'Padauk', sans-serif;
+    }
+
+    .dashed-line {
+      border-bottom: 2.5px dashed #ff8da1;
+      margin: 12px 0 18px 0;
+      width: 100%;
+    }
+
+    .paper p {
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: #444;
+      margin-bottom: 14px;
+      text-align: left;
+      font-family: 'ThitSarShweSi', 'Padauk', sans-serif;
+    }
+
+    .paper .signature {
+      margin-top: 22px;
+      text-align: right;
+      font-weight: 700;
+      color: #e60039;
+      font-size: 1.15rem;
+      font-family: 'ThitSarShweSi', 'Padauk', sans-serif;
+    }
+
+    .hidden {
+      display: none !important;
     }
   </style>
 </head>
 <body>
 
-  <!-- ================= VIEW 0: Drag & Drop Lock Screen ================= -->
-  <div id="lockView" class="view-page active">
-    <div class="lock-card">
-      <div class="lock-title">💙 Welcome to Special File 💙</div>
-      <div class="lock-subtitle">Drag the left sticker to the right to unlock</div>
-      
-      <div class="drop-zone-container">
-        <!-- Draggable Sticker (Left) -->
-        <div class="drag-item" id="dragSticker">
-          <img src="https://media.tenor.com/NeAiZhhN4kkAAAAi/beam-love.gif" alt="Drag Sticker">
-        </div>
-        
-        <div style="font-size: 20px; color: #0288d1; font-weight: bold;">➔</div>
+  <!-- Floating Hearts Background Container -->
+  <div id="hearts-bg"></div>
 
-        <!-- Drop Target Sticker (Right) -->
-        <div class="drop-target" id="dropTarget">
-          <img src="https://media.tenor.com/GcJNco2l1c8AAAAi/bubu-dudu-sseeyall.gif" alt="Target Sticker">
-        </div>
+  <!-- Step 1: Initial Screen -->
+  <div id="step1" class="container">
+    <h2>Yoo!! Crush လေးရေ 💙</h2>
+    <img 
+      src="https://media.tenor.com/NTXdXVaUK-UAAAAi/bubu-dudu-sseeyall.gif" 
+      alt="Click Me" 
+      class="gif-btn" 
+      onclick="goToStep2()"
+    >
+  </div>
+
+  <!-- Step 2: Proposal Screen -->
+  <div id="step2" class="container hidden">
+    <h2>ပြန်ချစ်ပါလားဟင် 💗 🥺</h2>
+    <img 
+      src="https://media.tenor.com/Kyu4f_2c38MAAAAi/bubu-dudu-love.gif" 
+      alt="Please Love Me" 
+      class="gif-btn"
+    >
+    <div class="btn-group">
+      <button id="yesBtn" class="btn btn-yes" onclick="handleYes()">Yes 💙</button>
+      <button class="btn btn-no" onclick="handleNo()">No 💔</button>
+    </div>
+  </div>
+
+  <!-- Step 3: Falling GIF -->
+  <div id="falling-gif-box" class="falling-container hidden" onclick="openLetter()">
+    <img 
+      src="https://i.pinimg.com/1200x/ba/8e/67/ba8e6782408b6a4c136f4c80f95763a2.jpg" 
+      alt="Falling Gift" 
+      class="falling-gif"
+    >
+    <br>
+    <div class="click-hint">✨ ဒီမှာ နှိပ်ကြည့်ပါ ✨</div>
+  </div>
+
+  <!-- Step 4: Love Letter Modal -->
+  <div id="letter-modal" class="letter-modal">
+    <div class="paper">
+      <!-- Cartoon Paper Clip -->
+      <div class="paper-clip"></div>
+
+      <!-- Title -->
+      <div class="paper-header">
+        <h3>သို့ / ချစ်ရပါသော ..</h3>
       </div>
 
-      <!-- Success Popup -->
-      <div class="success-popup" id="successPopup">
-        <img src="https://media.tenor.com/_YoesJxE1tYAAAAi/panda-%C3%B6p%C3%BCc%C3%BCk.gif" alt="New Sticker">
-        <div class="popup-text">✨ Unlocked Successfully! ✨</div>
+      <div class="dashed-line"></div>
+      <p>
+        ကိုယ် တကယ်မင်းကိုချစ်မိနေပြီ အချိန်ပြည့်နီးပါး မင်းအကြောင်းတွေပဲအမြဲတွေးမိနေတော့တာပါပဲကွာ
+      </p>
+      
+      <p>
+        ရှေ့လျောက်လည်းမင်းနားမှာပဲ ရှိနေချင်တော့တာမို့ ကိုယ့်ကိုမင်းနားမှာ ရှိနေခွင့်လေးပေးပါတော့လား<br>
+      </p>
+
+      <p>
+        ချစ်ခွင့်ပြုပါတော့နော်... 🌹✨
+      </p>
+
+      <!-- Signature -->
+      <div class="signature">
+        love you so much .. ❤️
       </div>
     </div>
   </div>
 
-  <!-- ================= VIEW 1: Main Home Screen ================= -->
-  <div id="mainView" class="view-page">
-    <div class="container" style="display: flex; flex-direction: column; align-items: center; gap: 22px;">
-      
-      <div class="screen-heading">For You Only 💌</div>
-
-      <!-- ပုံ ၄ ခု -->
-      <div class="items-grid">
-        <!-- 1. Mailbox Wish -->
-        <div class="icon-btn" onclick="playClickSound(); openModal('wishModal')">
-          <img src="https://i.ibb.co/Kprg9GNW/Papaer.png" alt="Mailbox Wish">
-        </div>
-
-        <!-- 2. Music CD -->
-        <div class="icon-btn" onclick="playClickSound(); toggleHomeMusic()">
-          <img id="homeCdImage" src="https://i.ibb.co/Xr9K0YY1/1.png" alt="Music CD">
-        </div>
-
-        <!-- 3. Flower Bouquet (Photo Album) -->
-        <div class="icon-btn" onclick="playClickSound(); switchView('albumView')">
-          <img src="https://i.ibb.co/8D8csFSS/3.png" alt="Flower Bouquet">
-        </div>
-
-        <!-- 4. Special Video GIF (YouTube သို့မဟုတ် MP4 Video ဖွင့်မည်) -->
-        <div class="icon-btn" onclick="playClickSound(); openVideoModal()">
-          <img src="https://i.ibb.co/4ZPwHGpS/Vd-cut.png" alt="Special Video">
-        </div>
-      </div>
-
-      <div class="screen-subtext" id="homeSubtext">Tap any item to explore ✨</div>
-
-    </div>
-  </div>
-
-  <!-- ================= Birthday Wish Modal (Memo Pad with Scroll) ================= -->
-  <div id="wishModal" class="modal" onclick="closeModal(event, 'wishModal')">
-    <div onclick="event.stopPropagation()" class="memo-paper">
-      
-      <div class="top-purple-shape"></div>
-      <div class="bottom-purple-shape"></div>
-
-      <span class="close-btn" onclick="playClickSound(); closeModalById('wishModal')">×</span>
-
-      <div style="text-align: center; margin-bottom: 10px; position: relative; z-index: 2;">
-        <span style="display: inline-block; background: #9333ea; color: white; padding: 4px 14px; border-radius: 20px; font-size: 12px; font-weight: bold; letter-spacing: 1px; box-shadow: 0 2px 5px rgba(0,0,0,0.15); transform: rotate(2deg);">💙 Special Day 💙</span>
-      </div>
-
-      <div style="text-align: center; margin-bottom: 20px; position: relative; z-index: 2;">
-        <div style="font-family: 'Dancing Script', cursive, serif; font-size: 34px; font-weight: 700; color: #6b21a8;">Happy Birthday!</div>
-        <div style="font-family: 'Playfair Display', serif; font-style: italic; font-size: 13px; color: #7e22ce; letter-spacing: 1.5px; text-transform: uppercase; margin-top: 4px;">❖ A Special Wish For You ❖</div>
-      </div>
-
-      <div style="font-size: 20px; line-height: 32px; color: #1e1b4b; text-align: left; min-height: 150px; position: relative; z-index: 2;">
-        <p id="typed-text" style="white-space: pre-line;"></p>
-      </div>
-
-      <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-top: 32px; padding-top: 5px; position: relative; z-index: 2;">
-        <div style="border: 2px dashed #9333ea; padding: 6px 12px; border-radius: 3px; color: #7e22ce; font-family: serif; font-size: 11px; letter-spacing: 1px; text-align: center; transform: rotate(-5deg); background: rgba(250, 245, 255, 0.9);">
-          💌 WITH LOVE<br><span style="font-size: 9px; opacity: 0.85;">SPECIAL EDITION</span>
-        </div>
-        
-        <div style="text-align: right; font-size: 21px; color: #6b21a8; line-height: 32px;">
-          <p>With all my warmest thoughts <span style="color: #9333ea; font-size: 18px;">♥</span>,</p>
-          <p style="font-family: 'Dancing Script', cursive, serif; font-size: 26px; font-weight: 700; color: #7e22ce;">Always Yours</p>
-        </div>
-      </div>
-
-    </div>
-  </div>
-
-  <!-- ================= Auto-Adjust Video Modal (YouTube & MP4 နှစ်မျိုးလုံးရသည်) ================= -->
-  <div id="videoModal" class="modal" onclick="closeVideoModal(event)">
-    <div class="youtube-card" onclick="event.stopPropagation()">
-      <span class="close-btn" onclick="playClickSound(); closeVideoModalById()">×</span>
-      <div class="youtube-title">🎬 Special Video For You 💙</div>
-      
-      <!-- YouTube အတွက် Container -->
-      <div id="youtubeContainer" class="youtube-wrapper" style="display: none;">
-        <iframe id="youtubeIframe" src="" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-      </div>
-
-      <!-- MP4 အတွက် Auto Adjust Container -->
-      <div id="mp4Container" class="mp4-wrapper" style="display: none;">
-        <video id="mp4Player" controls playsinline></video>
-      </div>
-    </div>
-  </div>
-
-  <!-- ================= VIEW 2: 5 Hanging Photos Album View ================= -->
-  <div id="albumView" class="view-page" onclick="createAlbumEmojis(event)">
-    <div class="hanging-scene">
-      
-      <!-- Photo 1 -->
-      <div class="hanging-photo-item photo-pos-1">
-        <div class="hanging-string"></div>
-        <div class="binder-clip"></div>
-        <div class="polaroid-card" onclick="playClickSound()">
-          <img src="https://i.pinimg.com/736x/d1/97/5a/d1975ae428403f8aaa3097487f534a6b.jpg" alt="Photo 1">
-          <div class="polaroid-caption">First Adventure 🤍</div>
-        </div>
-      </div>
-
-      <!-- Photo 2 -->
-      <div class="hanging-photo-item photo-pos-2">
-        <div class="hanging-string"></div>
-        <div class="binder-clip"></div>
-        <div class="polaroid-card" onclick="playClickSound()">
-          <img src="https://i.pinimg.com/736x/db/4a/63/db4a6386adfda06f5c4b1197f8615b36.jpg" alt="Photo 2">
-          <div class="polaroid-caption">Coffee Date ☕</div>
-        </div>
-      </div>
-
-      <!-- Photo 3 -->
-      <div class="hanging-photo-item photo-pos-3">
-        <div class="hanging-string"></div>
-        <div class="binder-clip"></div>
-        <div class="polaroid-card" onclick="playClickSound()">
-          <img src="https://i.pinimg.com/736x/4b/94/ab/4b94ab3b7bf6fa39e827400ade7d09b6.jpg" alt="Photo 3">
-          <div class="polaroid-caption">Favorite Flowers 🌷</div>
-        </div>
-      </div>
-
-      <!-- Photo 4 -->
-      <div class="hanging-photo-item photo-pos-4">
-        <div class="hanging-string"></div>
-        <div class="binder-clip"></div>
-        <div class="polaroid-card" onclick="playClickSound()">
-          <img src="https://i.pinimg.com/736x/a3/f7/f2/a3f7f28d8f75654fa21192aab90a18a1.jpg" alt="Photo 4">
-          <div class="polaroid-caption">All the Happiness ✨</div>
-        </div>
-      </div>
-
-      <!-- Photo 5 -->
-      <div class="hanging-photo-item photo-pos-5">
-        <div class="hanging-string"></div>
-        <div class="binder-clip"></div>
-        <div class="polaroid-card" onclick="playClickSound()">
-          <img src="https://i.pinimg.com/736x/25/1b/2a/251b2a9020221db2c2a2c59ab4444031.jpg" alt="Photo 5">
-          <div class="polaroid-caption">Forever World 🌍</div>
-        </div>
-      </div>
-
-    </div>
-
-    <button class="back-nav-btn" onclick="playClickSound(); switchView('mainView')">← Back to Home</button>
-  </div>
-
-  <!-- Audio Element -->
-  <audio id="audioPlayer" src="https://www.image2url.com/r2/default/audio/1794493559709-75aa610a-7120-4d04-aff8-33f2f94d1be0.mp3"></audio>
-
-
-  <!-- ================= JAVASCRIPT LOGIC ================= -->
   <script>
-    /* ================= Click Sound Effect Function ================= */
-    let audioCtx = null;
-    function playClickSound() {
-      try {
-        if (!audioCtx) {
-          audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-        }
-        if (audioCtx.state === 'suspended') {
-          audioCtx.resume();
-        }
-        const osc = audioCtx.createOscillator();
-        const gainNode = audioCtx.createGain();
-        
-        osc.type = 'sine';
-        osc.frequency.setValueAtTime(600, audioCtx.currentTime);
-        osc.frequency.exponentialRampToValueAtTime(850, audioCtx.currentTime + 0.08);
-        
-        gainNode.gain.setValueAtTime(0.12, audioCtx.currentTime);
-        gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.08);
-        
-        osc.connect(gainNode);
-        gainNode.connect(audioCtx.destination);
-        
-        osc.start();
-        osc.stop(audioCtx.currentTime + 0.08);
-      } catch (e) {}
-    }
-
-    function switchView(viewId) {
-      document.querySelectorAll('.view-page').forEach(page => {
-        page.classList.remove('active');
-      });
-      const targetView = document.getElementById(viewId);
-      void targetView.offsetWidth;
-      targetView.classList.add('active');
-    }
-
-    /* ================= Lock Screen Drag & Drop ================= */
-    const dragItem = document.getElementById('dragSticker');
-    const dropTarget = document.getElementById('dropTarget');
-    const successPopup = document.getElementById('successPopup');
-
-    let isDragging = false;
-    let startX = 0;
-    let startY = 0;
-    let currentX = 0;
-    let currentY = 0;
-
-    dragItem.style.touchAction = 'none';
-
-    dragItem.addEventListener('pointerdown', (e) => {
-      playClickSound();
-      isDragging = true;
-      startX = e.clientX - currentX;
-      startY = e.clientY - currentY;
-      dragItem.setPointerCapture(e.pointerId);
-    });
-
-    dragItem.addEventListener('pointermove', (e) => {
-      if (!isDragging) return;
-      currentX = e.clientX - startX;
-      currentY = e.clientY - startY;
-      dragItem.style.transform = `translate3d(${currentX}px, ${currentY}px, 0)`;
-    });
-
-    dragItem.addEventListener('pointerup', (e) => {
-      if (!isDragging) return;
-      isDragging = false;
-      dragItem.releasePointerCapture(e.pointerId);
-
-      const dragRect = dragItem.getBoundingClientRect();
-      const targetRect = dropTarget.getBoundingClientRect();
-
-      const overlap = !(
-        dragRect.right < targetRect.left || 
-        dragRect.left > targetRect.right || 
-        dragRect.bottom < targetRect.top || 
-        dragRect.top > targetRect.bottom
-      );
-
-      if (overlap) {
-        playClickSound();
-        dragItem.style.transition = "transform 0.3s ease";
-        dragItem.style.transform = `translate3d(${targetRect.left - dragRect.left + currentX}px, ${targetRect.top - dragRect.top + currentY}px, 0)`;
-        
-        successPopup.style.display = 'flex';
-
-        setTimeout(() => {
-          successPopup.style.display = 'none';
-          dragItem.style.transform = 'translate3d(0px, 0px, 0)';
-          dragItem.style.transition = '';
-          currentX = 0;
-          currentY = 0;
-          switchView('mainView');
-        }, 3000);
-      } else {
-        dragItem.style.transition = "transform 0.4s ease";
-        currentX = 0;
-        currentY = 0;
-        dragItem.style.transform = 'translate3d(0px, 0px, 0)';
-        setTimeout(() => { dragItem.style.transition = ""; }, 400);
-      }
-    });
-
-    /* ================= Birthday Wish Modal ================= */
-    const messageText = `Wishing you a wonderfully happy birthday! 
-    
-    May your days ahead be filled with endless joy, peace, and boundless success. May all your dreams and wishes come true, bringing warmth and happiness to your heart today and always.`;
-    
-    let typingTimer = null;
-
-    function openModal(id) {
-      document.getElementById(id).style.display = 'flex';
-      startTypingEffect();
-    }
-
-    function startTypingEffect() {
-      const typedContainer = document.getElementById('typed-text');
-      typedContainer.innerHTML = "";
-      clearTimeout(typingTimer);
-      
-      let index = 0;
-      function type() {
-        if (index < messageText.length) {
-          typedContainer.innerHTML += messageText.charAt(index);
-          index++;
-          typingTimer = setTimeout(type, 35);
-        }
-      }
-      type();
-    }
-
-    function closeModalById(id) {
-      document.getElementById(id).style.display = 'none';
-      clearTimeout(typingTimer);
-    }
-
-    function closeModal(event, id) {
-      if (event.target.classList.contains('modal')) {
-        playClickSound();
-        document.getElementById(id).style.display = 'none';
-        clearTimeout(typingTimer);
-      }
-    }
-
-    /* ================= Smart Video Modal Logic (YouTube & MP4 Auto Adjust) ================= */
-    // YouTube Link ဖြစ်စေ၊ MP4 Link (ဥပမာ - "video.mp4" သို့မဟုတ် "https://.../video.mp4") ဖြစ်စေ ဒီနေရာမှာ ပြောင်းထည့်နိုင်ပါတယ်
-    const videoSourceUrl = "https://www.youtube.com/embed/D7cSpwelMvQ?si=5U2SXzzGIi-KJYVZ";
-
-    function openVideoModal() {
-      if (isPlaying) {
-        pauseHomeMusic();
-      }
-
-      const ytContainer = document.getElementById('youtubeContainer');
-      const ytIframe = document.getElementById('youtubeIframe');
-      const mp4Container = document.getElementById('mp4Container');
-      const mp4Player = document.getElementById('mp4Player');
-
-      // YouTube Link ဟုတ်မဟုတ် စစ်ဆေးခြင်း
-      const isYouTube = videoSourceUrl.includes('youtube.com') || videoSourceUrl.includes('youtu.be');
-
-      if (isYouTube) {
-        mp4Container.style.display = 'none';
-        mp4Player.pause();
-        mp4Player.src = "";
-
-        ytContainer.style.display = 'block';
-        ytIframe.src = videoSourceUrl;
-      } else {
-        // MP4 သို့မဟုတ် တခြား Direct Video URL ဖြစ်ပါက Video Size အလိုက် Frame Auto Adjust လုပ်ပေးမည်
-        ytContainer.style.display = 'none';
-        ytIframe.src = "";
-
-        mp4Container.style.display = 'flex';
-        mp4Player.src = videoSourceUrl;
-        mp4Player.play().catch(() => {});
-      }
-
-      document.getElementById('videoModal').style.display = 'flex';
-    }
-
-    function closeVideoModalById() {
-      const ytIframe = document.getElementById('youtubeIframe');
-      const mp4Player = document.getElementById('mp4Player');
-
-      ytIframe.src = "";
-      mp4Player.pause();
-      mp4Player.src = "";
-
-      document.getElementById('videoModal').style.display = 'none';
-    }
-
-    function closeVideoModal(event) {
-      if (event.target.id === 'videoModal') {
-        playClickSound();
-        closeVideoModalById();
-      }
-    }
-
-    /* ================= Album Hanging Emojis ================= */
-    const emojisList = ['🩵', '✨', '🤍', '☁️', '🦋', '🌊', '😊', '📸', '💙'];
-
-    function createAlbumEmojis(event) {
-      for (let i = 0; i < 3; i++) {
-        const emoji = document.createElement('div');
-        emoji.className = 'emoji';
-        emoji.innerText = emojisList[Math.floor(Math.random() * emojisList.length)];
-        emoji.style.left = (event.clientX - 12) + 'px';
-        emoji.style.top = (event.clientY - 12) + 'px';
-        document.body.appendChild(emoji);
-        setTimeout(() => emoji.remove(), 1000);
-      }
-    }
-
-    /* ================= Home Screen CD Music Logic ================= */
-    const audio = document.getElementById('audioPlayer');
-    const homeCdImage = document.getElementById('homeCdImage');
-    const homeSubtext = document.getElementById('homeSubtext');
-    let isPlaying = false;
-    let heartInterval = null;
-
-    function toggleHomeMusic() {
-      if (isPlaying) {
-        pauseHomeMusic();
-      } else {
-        playHomeMusic();
-      }
-    }
-
-    function playHomeMusic() {
-      isPlaying = true;
-      audio.play();
-      homeCdImage.classList.add('cd-spinning');
-      homeSubtext.innerText = "🎵 Playing Music... (Tap CD to Pause)";
-      startHearts();
-    }
-
-    function pauseHomeMusic() {
-      isPlaying = false;
-      audio.pause();
-      homeCdImage.classList.remove('cd-spinning');
-      homeSubtext.innerText = "Tap any item to explore ✨";
-      stopHearts();
-    }
-
-    function startHearts() {
-      if (heartInterval) return;
-      heartInterval = setInterval(() => {
+    // Create floating cartoon particles
+    function createHearts() {
+      const heartsContainer = document.getElementById('hearts-bg');
+      const heartIcons = ['💙', '💖', '✨', '⭐', '🤍', '🎈'];
+      for (let i = 0; i < 20; i++) {
         const heart = document.createElement('div');
-        heart.classList.add('heart');
-        heart.innerHTML = '💙';
-        const cdRect = homeCdImage.getBoundingClientRect();
-        heart.style.left = (cdRect.left + Math.random() * cdRect.width) + 'px';
-        heart.style.top = (cdRect.top + 20) + 'px';
-        document.getElementById('mainView').appendChild(heart);
-        setTimeout(() => heart.remove(), 3000);
-      }, 450);
+        heart.className = 'floating-heart';
+        heart.innerText = heartIcons[Math.floor(Math.random() * heartIcons.length)];
+        heart.style.left = `${Math.random() * 100}vw`;
+        heart.style.animationDelay = `${Math.random() * 7}s`;
+        heart.style.fontSize = `${16 + Math.random() * 16}px`;
+        heartsContainer.appendChild(heart);
+      }
+    }
+    createHearts();
+
+    // Random Sad Messages for No Button
+    const sadMessages = [
+      "တကယ် မချစ်ဘူးလားဟင်... 🥺",
+      "နည်းနည်းလေးတောင် မချစ်ဘူးလား 💔",
+      "ငိုရတော့မှာပဲ... 😭",
+      "တစ်ခါလောက်ပဲ အခွင့်အရေးပေးပါ... 🙏",
+      "မရဘူး... Yes ပဲ နှိပ်ရမယ်နော်! 😜"
+    ];
+
+    let messageIndex = 0;
+    let yesScale = 1;
+    let noClickCount = 0;
+
+    function goToStep2() {
+      document.getElementById('step1').classList.add('hidden');
+      document.getElementById('step2').classList.remove('hidden');
     }
 
-    function stopHearts() {
-      clearInterval(heartInterval);
-      heartInterval = null;
+    function handleNo() {
+      noClickCount++;
+
+      const textElem = document.createElement('div');
+      textElem.className = 'sad-text';
+      textElem.innerText = sadMessages[messageIndex];
+
+      const padding = 30;
+      const x = Math.random() * (window.innerWidth - 280) + padding;
+      const y = Math.random() * (window.innerHeight - 120) + padding;
+
+      textElem.style.left = `${Math.max(10, Math.min(x, window.innerWidth - 290))}px`;
+      textElem.style.top = `${Math.max(10, Math.min(y, window.innerHeight - 90))}px`;
+
+      document.body.appendChild(textElem);
+      messageIndex = (messageIndex + 1) % sadMessages.length;
+
+      yesScale += 0.2;
+      const yesBtn = document.getElementById('yesBtn');
+      yesBtn.style.fontSize = `${1.15 * yesScale}rem`;
+      yesBtn.style.padding = `${12 * yesScale}px ${32 * yesScale}px`;
     }
 
-    audio.onended = () => {
-      pauseHomeMusic();
-    };
+    function handleYes() {
+      // Formspree Link ထည့်သွင်းထားသောနေရာ (YOUR_FORM_ID နေရာတွင် သင့် Form ID အမှန်ကို ထည့်ပါ)
+      fetch('', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+          Answer: "YES 💙 (ပြန်ချစ်ပေးလိုက်ပါပြီ)",
+          No_Clicked_Times: noClickCount + " ကြိမ်",
+          Message: `Crush သည် No ခလုတ်ကို ${noClickCount} ကြိမ် နှိပ်ပြီးမှ Yes ကို နှိပ်သွားပါသည်။`
+        })
+      })
+      .then(response => {
+        if (response.ok) {
+          console.log("Successfully sent to Formspree!");
+        } else {
+          console.log("Formspree Error Status:", response.status);
+        }
+      })
+      .catch(err => console.log("Submission Error: ", err));
+
+      document.getElementById('step2').classList.add('hidden');
+
+      const sadTexts = document.querySelectorAll('.sad-text');
+      sadTexts.forEach(el => el.remove());
+
+      const fallingBox = document.getElementById('falling-gif-box');
+      fallingBox.classList.remove('hidden');
+    }
+
+    function openLetter() {
+      const modal = document.getElementById('letter-modal');
+      modal.classList.add('active');
+    }
   </script>
 </body>
 </html>
