@@ -1,250 +1,892 @@
 <!DOCTYPE html>
-<html lang="my">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Universe Love</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Happy Birthday!</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Great+Vibes&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <!-- FontAwesome for Audio Icon -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <style>
-        * {
+        /* ==========================================
+           RESET & VARIABLES (SOFT PINK THEME)
+           ========================================== */
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
             box-sizing: border-box;
         }
-        body, html { 
-            min-height: 100vh; 
-            margin: 0; 
-            overflow-y: auto; 
+
+        :root {
+            --bg-gradient: radial-gradient(circle at center, #fff5f8 0%, #ffe3ec 55%, #ffc9da 100%);
+            --primary-pink: #ff6b9d;
+            --secondary-pink: #e84378;
+            --deep-rose: #7a2845;
+            --accent-gold: #d49b27;
+            --glass-bg: rgba(255, 255, 255, 0.65);
+            --glass-border: rgba(255, 255, 255, 0.9);
+            --font-heading: 'Cinzel', serif;
+            --font-script: 'Great Vibes', cursive;
+            --font-body: 'Montserrat', sans-serif;
         }
-        body { 
-            display: flex; 
-            justify-content: center; 
-            align-items: center; 
-            /* Clean & Aesthetic Sky Blue Grid Background */
-            background-color: #f0f8ff;
-            background-image: 
-                linear-gradient(to right, rgba(135, 206, 235, 0.35) 1px, transparent 1px),
-                linear-gradient(to bottom, rgba(135, 206, 235, 0.35) 1px, transparent 1px);
-            background-size: 28px 28px;
-            font-family: sans-serif;
-            padding: 20px 10px;
-        }
-        .container { 
+
+        html, body {
             width: 100%;
-            max-width: 360px; 
-            height: auto;
-            max-height: 90vh;
-            overflow-y: auto;
-            background: rgba(255, 255, 255, 0.85); 
-            border-radius: 30px; 
-            text-align: center; 
-            padding: 20px; 
-            backdrop-filter: blur(25px); 
-            border: 1px solid rgba(135, 206, 235, 0.8);
-            box-shadow: 0 20px 50px rgba(2, 119, 189, 0.18);
-            display: flex; 
-            flex-direction: column; 
+            height: 100%;
+            overflow: hidden;
+            background: var(--bg-gradient);
+            font-family: var(--font-body);
+            color: var(--deep-rose);
+            user-select: none;
+            -webkit-user-select: none;
+            -webkit-tap-highlight-color: transparent;
+            touch-action: none;
+        }
+
+        /* ==========================================
+           CANVAS & BACKGROUND GLOWS
+           ========================================== */
+        #particleCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .glow-orb {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(80px);
+            z-index: 1;
+            pointer-events: none;
+            opacity: 0.65;
+            animation: floatGlow 12s ease-in-out infinite alternate;
+        }
+
+        .orb-1 {
+            width: 350px;
+            height: 350px;
+            background: #ffb3c6;
+            top: -50px;
+            left: -50px;
+        }
+
+        .orb-2 {
+            width: 450px;
+            height: 450px;
+            background: #ffccd5;
+            bottom: -100px;
+            right: -100px;
+        }
+
+        @keyframes floatGlow {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(60px, 40px) scale(1.2); }
+        }
+
+        /* ==========================================
+           AUDIO TOGGLE
+           ========================================== */
+        .music-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 100;
+            background: var(--glass-bg);
+            border: 1.5px solid var(--glass-border);
+            backdrop-filter: blur(10px);
+            color: var(--secondary-pink);
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            box-shadow: 0 6px 20px rgba(232, 67, 120, 0.18);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .music-btn:hover {
+            transform: scale(1.1);
+            background: #ffffff;
+            box-shadow: 0 0 20px rgba(255, 107, 157, 0.4);
+        }
+
+        .music-btn.playing {
+            animation: pulseAudio 2s infinite;
+            background: var(--primary-pink);
+            color: #ffffff;
+            border-color: var(--primary-pink);
+        }
+
+        @keyframes pulseAudio {
+            0%, 100% { box-shadow: 0 0 10px rgba(255, 107, 157, 0.6); }
+            50% { box-shadow: 0 0 25px rgba(255, 107, 157, 0.9); }
+        }
+
+        /* ==========================================
+           MAIN SCENE STRUCTURE
+           ========================================== */
+        .container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            z-index: 10;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .scene {
+            position: absolute;
+            width: 100%;
+            max-width: 900px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transform: scale(0.95);
+            transition: opacity 1s cubic-bezier(0.4, 0, 0.2, 1), 
+                        transform 1s cubic-bezier(0.4, 0, 0.2, 1),
+                        visibility 1s;
+        }
+
+        .scene.active {
+            opacity: 1;
+            visibility: visible;
+            transform: scale(1);
+        }
+
+        /* ==========================================
+           SCENE 1: ARCHERY MECHANICS
+           ========================================== */
+        .intro-content {
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+        }
+
+        .subtitle {
+            font-size: 1.05rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--secondary-pink);
+            font-weight: 500;
+            margin-bottom: 10px;
+        }
+
+        .intro-heading {
+            font-family: var(--font-heading);
+            font-size: clamp(1.3rem, 4vw, 2.3rem);
+            font-weight: 600;
+            letter-spacing: 1px;
+            margin-bottom: 30px;
+            background: linear-gradient(135deg, #7a2845 0%, #e84378 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .interactive-stage {
+            position: relative;
+            width: 360px;
+            height: 260px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            touch-action: none;
+        }
+
+        .bow-container {
+            position: relative;
+            width: 130px;
+            height: 200px;
+            display: flex;
             align-items: center;
             justify-content: center;
         }
-        
-        .container::-webkit-scrollbar {
-            width: 4px;
-        }
-        .container::-webkit-scrollbar-thumb {
-            background: rgba(2, 136, 209, 0.4);
-            border-radius: 10px;
+
+        .bow-svg {
+            width: 100%;
+            height: 100%;
+            overflow: visible;
+            filter: drop-shadow(0 4px 10px rgba(212, 155, 39, 0.35));
         }
 
-        .btn-container { display: flex; flex-direction: column; gap: 10px; margin-top: 15px; width: 100%; }
-        .btn { 
-            padding: 12px; border: none; border-radius: 15px; cursor: pointer; 
-            font-weight: bold; transition: all 0.2s ease;
-            text-shadow: 0 1px 2px rgba(255, 255, 255, 0.6);
-            border: 1px solid rgba(255, 255, 255, 0.8);
-        }
-        .btn:hover {
-            opacity: 0.9;
-            transform: scale(1.02);
-        }
-        .btn:active {
-            transform: scale(0.95);
+        .arrow-element {
+            position: absolute;
+            left: 21.875%;
+            top: 50%;
+            width: 130px;
+            height: 24px;
+            transform: translateY(-50%);
+            cursor: grab;
+            filter: drop-shadow(0 3px 8px rgba(232, 67, 120, 0.4));
+            z-index: 10;
+            touch-action: none;
         }
 
-        /* ခလုတ်တစ်ခုချင်းစီအတွက် အရောင်ကွဲများ */
-        .btn-1 { background: rgba(144, 202, 249, 0.85); color: #0d47a1; } /* မိုးပြာဖျော့ */
-        .btn-2 { background: rgba(129, 212, 250, 0.85); color: #01579b; } /* အပြာနု */
-        .btn-3 { background: rgba(79, 195, 247, 0.85); color: #003c8f; }  /* မိုးပြာရောင် */
-        .btn-4 { background: rgba(179, 229, 252, 0.9); color: #0277bd; }  /* အပြာစိုဖျော့ */
+        .arrow-element:active {
+            cursor: grabbing;
+        }
 
-        h3, p {
-            color: #01579b !important;
+        /* Target နေရာတွင် အစားထိုးမည့် No-Frame GIF */
+        .target-gif-container {
+            position: relative;
+            width: 130px;
+            height: 130px;
+            z-index: 5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
-        #warning { color: #e65100; font-size: 14px; margin: 8px 0; min-height: 20px; font-weight: bold; }
-        #page2 { display: none; }
-        img { 
-            width: 200px; 
-            height: 200px; 
-            object-fit: cover; 
-            border-radius: 10px; 
-            border: 2px solid rgba(135, 206, 235, 0.9); 
-            box-shadow: 0 8px 20px rgba(2, 119, 189, 0.18);
+
+        .target-no-frame-gif {
+            width: 110px;
+            height: auto;
+            border: none;
+            outline: none;
+            box-shadow: none;
+            background: transparent;
+            border-radius: 0;
+            filter: drop-shadow(0 8px 20px rgba(232, 67, 120, 0.45));
+            animation: heartbeatGif 1.8s ease-in-out infinite;
         }
-        .highlight { font-size: 20px; color: #0288d1; font-weight: bold; }
+
+        @keyframes heartbeatGif {
+            0%, 100% { transform: scale(1); }
+            15% { transform: scale(1.12); }
+            30% { transform: scale(1); }
+            45% { transform: scale(1.08); }
+        }
+
+        .pulse-ring {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 100%;
+            height: 100%;
+            border: 2px solid var(--primary-pink);
+            border-radius: 50%;
+            transform: translate(-50%, -50%) scale(0.8);
+            opacity: 0.7;
+            animation: pulseExpand 2.5s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
+            pointer-events: none;
+        }
+
+        .pulse-ring.delay {
+            animation-delay: 1.25s;
+        }
+
+        @keyframes pulseExpand {
+            0% { transform: translate(-50%, -50%) scale(0.6); opacity: 0.8; }
+            100% { transform: translate(-50%, -50%) scale(1.8); opacity: 0; }
+        }
+
+        .drag-hint {
+            margin-top: 35px;
+            font-size: 0.95rem;
+            color: var(--deep-rose);
+            font-weight: 500;
+            letter-spacing: 1.5px;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-8px); }
+            60% { transform: translateY(-4px); }
+        }
+
+        /* ==========================================
+           SCENE 2: NO-FRAME GIF STAGE
+           ========================================== */
+        .gif-stage-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        .no-frame-gif {
+            width: 240px;
+            height: auto;
+            max-width: 75vw;
+            border: none;
+            outline: none;
+            box-shadow: none;
+            background: transparent;
+            border-radius: 0;
+            filter: drop-shadow(0 12px 24px rgba(232, 67, 120, 0.25));
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .scene.active .no-frame-gif {
+            animation: dropInBounce 1s cubic-bezier(0.22, 1, 0.36, 1) forwards, floatGif 3s ease-in-out 1s infinite alternate;
+        }
+
+        .gif-stage-wrapper:hover .no-frame-gif,
+        .gif-stage-wrapper:active .no-frame-gif {
+            transform: scale(1.08);
+        }
+
+        @keyframes dropInBounce {
+            0% {
+                opacity: 0;
+                transform: translateY(-180px) scale(0.7);
+            }
+            65% {
+                opacity: 1;
+                transform: translateY(15px) scale(1.03);
+            }
+            82% {
+                transform: translateY(-8px) scale(0.99);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        @keyframes floatGif {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(-12px); }
+        }
+
+        .tap-gif-hint {
+            margin-top: 20px;
+            font-size: 1rem;
+            color: var(--secondary-pink);
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            text-shadow: 0 2px 10px rgba(255, 255, 255, 0.8);
+            animation: pulseText 1.8s infinite;
+        }
+
+        @keyframes pulseText {
+            0%, 100% { opacity: 0.7; transform: scale(0.98); }
+            50% { opacity: 1; transform: scale(1.04); }
+        }
+
+        /* ==========================================
+           SCENE 3: NO-FRAME CAKE GIF & MESSAGE CARD
+           ========================================== */
+        .cake-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 18px;
+            width: 100%;
+        }
+
+        .cake-no-frame-gif {
+            width: 190px;
+            height: auto;
+            max-width: 55vw;
+            border: none;
+            outline: none;
+            box-shadow: none;
+            background: transparent;
+            border-radius: 0;
+            filter: drop-shadow(0 10px 20px rgba(232, 67, 120, 0.25));
+            animation: floatCakeGif 3.5s ease-in-out infinite alternate;
+        }
+
+        @keyframes floatCakeGif {
+            0% { transform: translateY(0) scale(1); }
+            100% { transform: translateY(-10px) scale(1.03); }
+        }
+
+        .message-card {
+            background: var(--glass-bg);
+            border: 1.5px solid var(--glass-border);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            border-radius: 24px;
+            padding: 28px 25px;
+            text-align: center;
+            width: 100%;
+            max-width: 520px;
+            box-shadow: 0 18px 45px rgba(232, 67, 120, 0.16), inset 0 1px 1px rgba(255, 255, 255, 0.9);
+            position: relative;
+        }
+
+        .script-title {
+            font-family: var(--font-script);
+            font-size: clamp(2.6rem, 6vw, 4.2rem);
+            color: var(--secondary-pink);
+            text-shadow: 0 2px 12px rgba(255, 107, 157, 0.25);
+            line-height: 1.1;
+            margin-bottom: 5px;
+        }
+
+        .recipient-name {
+            font-family: var(--font-heading);
+            font-size: clamp(1.2rem, 3.5vw, 1.9rem);
+            color: var(--accent-gold);
+            font-weight: 700;
+            letter-spacing: 2px;
+            margin-bottom: 14px;
+            text-transform: uppercase;
+        }
+
+        .body-text {
+            font-size: 0.96rem;
+            line-height: 1.65;
+            color: var(--deep-rose);
+            min-height: 65px;
+            font-weight: 400;
+        }
+
+        .card-divider {
+            margin: 14px 0 8px;
+            font-size: 0.95rem;
+            opacity: 0.85;
+        }
+
+        .sender-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            margin-top: 4px;
+        }
+
+        .sender-tag {
+            font-family: var(--font-script);
+            font-size: 1.75rem;
+            color: var(--secondary-pink);
+        }
+
+        @media (max-width: 600px) {
+            .scene {
+                padding: 12px;
+            }
+            .interactive-stage {
+                width: 300px;
+                height: 210px;
+            }
+            .bow-container {
+                width: 100px;
+                height: 160px;
+            }
+            .arrow-element {
+                width: 105px;
+            }
+            .target-gif-container {
+                width: 95px;
+                height: 95px;
+            }
+            .target-no-frame-gif {
+                width: 85px;
+            }
+            .no-frame-gif {
+                width: 190px;
+            }
+            .cake-no-frame-gif {
+                width: 150px;
+            }
+            .message-card {
+                padding: 22px 18px;
+            }
+            .drag-hint {
+                margin-top: 20px;
+                font-size: 0.85rem;
+            }
+        }
     </style>
 </head>
 <body>
 
-<div class="container" id="page1">
-    <h3 style="margin-top: 0;">ဟိတ်.. အဲ့ဘက်မှာအေးလား<br>ဒီဘက်မှာတော့ ချစ်လိုက်တာတုန်နေတာပဲ<br>ပြန်ချစ်ပါလား နွေးထွေးပေးမယ်လေ</h3>
-    <img src="https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExaGJtczRjM3p4bGRnYzg3MDg1dGxscGRyN3l3bGsyMDRpOTY1ZmF1ciZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/brHaCdJqCXijm/giphy.gif" alt="Rain">
-    <div id="warning"></div>
-    <div class="btn-container" id="btnBox">
-        <button class="btn btn-1" onclick="handleWrong('မအေးဘူး')">မအေးဘူး</button>
-        <button class="btn btn-2" onclick="handleWrong('အေးတယ်')">အေးတယ်</button>
-        <button class="btn btn-3" onclick="nextPage('ချစ်တယ်')">ချစ်တယ်</button>
-        <button class="btn btn-4" onclick="handleWrong('မဖြေဘူး')">မဖြေဘူး</button>
-    </div>
-</div>
+    <!-- Background Particle Canvas -->
+    <canvas id="particleCanvas"></canvas>
 
-<div class="container" id="page2">
-    <h3 style="margin-top: 0;">Yayy.. အဖြေရပြီဗျို့...ဖိတ်စာသွားရိုက်ထားလိုက်တော့မယ်နော်🩵</h3>
-    <img src="https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExbHpsZnYzanhjcnA1YjhyNmkyYWN5cmhyYTEzZWtkaW5seXNsaW0wdSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/dxAw1xsUcd4NW/giphy.gif" alt="Love">
-    <p style="margin: 10px 0 5px 0;">Picked - <span class="highlight" id="answerDisplay"></span></p>
-    <p style="margin-top: 0; font-size: 14px;">အတည်ပြန်ချစ်ပေးပါတော့ကွာ မင်းပြန်ချစ်မယ့်နေ့ကိုမျော်နေတာပါကွာ ပြန်ချစ်ပါတော့နော်.. အများကြီးနွေးထွေးပေးမှာပါ🩵</p>
-    
-    <!-- ဒုတိယစာမျက်နှာအောက်ဆုံးတွင် ထည့်သွင်းပေးထားသော "တကယ်ချစ်တယ်" ခလုတ် -->
-    <div class="btn-container" style="margin-top: 5px;">
-        <button class="btn" style="background: rgba(3, 169, 244, 0.85); color: white;" onclick="sendRealLoveEmail()">💌 တကယ်ချစ်တယ် (Confirm)</button>
-    </div>
-</div>
+    <!-- Background Ambient Glows -->
+    <div class="glow-orb orb-1"></div>
+    <div class="glow-orb orb-2"></div>
 
-<script>
-    const warnings = ["သေချာပြီလား?", "နောက်တစ်ခါ ထပ်စဉ်းစားဦးလေ", "အဖြေမှန် ရှာကြည့်ပါဦး", "မဟုတ်သေးဘူးနော်", "ပြန်ရွေးပါဦး", "ဟင့်အင်း... အဲ့ဒါမဟုတ်ဘူး"];
+    <!-- Music Toggle Button -->
+    <button id="musicToggle" class="music-btn" aria-label="Toggle Music">
+        <i class="fas fa-music"></i>
+    </button>
+    <audio id="bgMusic" loop src="https://www.image2url.com/r2/default/audio/1787495373201-df2f60dc-9f05-4f83-9273-6ff68a797dcb.mp3"></audio>
 
-    const clickCounts = {
-        "မအေးဘူး": 0,
-        "အေးတယ်": 0,
-        "မဖြေဘူး": 0,
-        "ချစ်တယ်": 0
-    };
+    <!-- Main Container -->
+    <main class="container">
 
-    // Formspree Endpoint URL (သင့်ရဲ့ Formspree Link ကို ဤနေရာတွင် ထည့်ပါ)
-    const FORMSPREE_ENDPOINT = ""; 
+        <!-- SCENE 1: ARCHERY INTERACTION -->
+        <section id="sceneIntro" class="scene active">
+            <div class="intro-content">
+                <p class="subtitle">A special magic just for you...</p>
+                <h1 class="intro-heading">Pull Back the Arrow & Release</h1>
+                
+                <div class="interactive-stage" id="targetStage">
+                    <!-- Bow Assembly -->
+                    <div class="bow-container" id="bowContainer">
+                        <svg class="bow-svg" id="bowSvg" viewBox="0 0 160 200">
+                            <!-- Bow Limb (Flexing Tips) -->
+                            <path id="bowLimb" d="M 35 10 Q 85 100 35 190" fill="none" stroke="#d49b27" stroke-width="4.5" stroke-linecap="round"/>
+                            <!-- Bow Grip Handle -->
+                            <line x1="61" y1="92" x2="61" y2="108" stroke="#9e5a36" stroke-width="6.5" stroke-linecap="round"/>
+                            <!-- Fine Taut Bowstring -->
+                            <path id="bowString" d="M 35 10 L 35 100 L 35 190" fill="none" stroke="#e84378" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
 
-    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                        <!-- Draggable Realistic Arrow -->
+                        <div class="arrow-element" id="arrow">
+                            <svg viewBox="0 0 130 24">
+                                <!-- Arrow Shaft -->
+                                <line x1="5" y1="12" x2="118" y2="12" stroke="#d49b27" stroke-width="3" />
+                                <!-- Arrowhead (Front) -->
+                                <polygon points="115,4 130,12 115,20" fill="#d49b27" />
+                                <!-- Top Feather Fin -->
+                                <path d="M 26 10 L 20 3 L 5 3 L 14 10 Z" fill="#ff6b9d" stroke="#d49b27" stroke-width="0.8"/>
+                                <!-- Bottom Feather Fin -->
+                                <path d="M 26 14 L 20 21 L 5 21 L 14 14 Z" fill="#ff6b9d" stroke="#d49b27" stroke-width="0.8"/>
+                            </svg>
+                        </div>
+                    </div>
 
-    function playClickSound(type) {
-        if (audioCtx.state === 'suspended') {
-            audioCtx.resume();
+                    <!-- Target နေရာတွင် No-Frame GIF ထည့်သွင်းခြင်း -->
+                    <div class="target-gif-container" id="heartTarget">
+                        <div class="pulse-ring"></div>
+                        <div class="pulse-ring delay"></div>
+                        <img src="https://i.ibb.co/3mQy1yJZ/image.png" 
+                             alt="Target GIF" 
+                             class="target-no-frame-gif">
+                    </div>
+                </div>
+
+                <p class="drag-hint" id="hintText"><i class="fas fa-hand-pointer"></i> Pull the arrow back and let go!</p>
+            </div>
+        </section>
+
+        <!-- SCENE 2: NO-FRAME GIF STAGE -->
+        <section id="sceneGif" class="scene">
+            <div class="gif-stage-wrapper" id="gifStageTrigger">
+                <img src="https://i.ibb.co/YBMkL4k3/3.png" 
+                     alt="Tap to Open" 
+                     class="no-frame-gif">
+                <p class="tap-gif-hint"><i class="fas fa-hand-sparkles"></i> Tap me!</p>
+            </div>
+        </section>
+
+        <!-- SCENE 3: NO-FRAME CAKE GIF & MESSAGE CARD -->
+        <section id="sceneCake" class="scene">
+            <div class="cake-container">
+                <!-- Birthday Cake အစားထိုး No-Frame GIF -->
+                <img src="https://i.ibb.co/3mQy1yJZ/image.png" 
+                     alt="Birthday Cake GIF" 
+                     class="cake-no-frame-gif">
+
+                <!-- Romantic Soft Pink Birthday Card -->
+                <div class="message-card">
+                    <h2 class="script-title" id="displayTitle">Happy Birthday</h2>
+                    <h3 class="recipient-name" id="displayName">Your Name</h3>
+                    <p class="body-text" id="displayMessage"></p>
+                    <div class="card-divider">🌸 💖 🌸</div>
+                    <div class="sender-container">
+                        <p class="sender-tag" id="displaySender"></p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <script>
+        /* ==========================================
+           1. PERSONALIZATION VARIABLES
+           ========================================== */
+        const birthdayName = "My Dearest";
+        const birthdayMessage = "Wishing you an unforgettable day filled with endless laughter, warmth, and magical moments. May all your dreams light up like stars tonight!";
+        const senderName = "With all my love ❤️";
+
+        /* ==========================================
+           2. PARTICLE SYSTEM (SOFT PINK PALETTE)
+           ========================================== */
+        const canvas = document.getElementById('particleCanvas');
+        const ctx = canvas.getContext('2d');
+        let width, height;
+        let particles = [];
+
+        function resizeCanvas() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
         }
-        const now = audioCtx.currentTime;
 
-        if (type === 'wrong') {
-            const osc = audioCtx.createOscillator();
-            const gain = audioCtx.createGain();
-            osc.type = 'sine';
-            osc.frequency.setValueAtTime(520, now);
-            osc.frequency.exponentialRampToValueAtTime(260, now + 0.14);
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
 
-            gain.gain.setValueAtTime(0.25, now);
-            gain.gain.exponentialRampToValueAtTime(0.001, now + 0.14);
-
-            osc.connect(gain);
-            gain.connect(audioCtx.destination);
-            osc.start(now);
-            osc.stop(now + 0.14);
-        } else if (type === 'love') {
-            const notes = [523.25, 659.25, 783.99, 1046.50];
-            notes.forEach((freq, i) => {
-                const osc = audioCtx.createOscillator();
-                const gain = audioCtx.createGain();
-                osc.type = 'triangle';
-                osc.frequency.setValueAtTime(freq, now + i * 0.08);
-
-                gain.gain.setValueAtTime(0.22, now + i * 0.08);
-                gain.gain.exponentialRampToValueAtTime(0.001, now + i * 0.08 + 0.35);
-
-                osc.connect(gain);
-                gain.connect(audioCtx.destination);
-                osc.start(now + i * 0.08);
-                osc.stop(now + i * 0.08 + 0.35);
-            });
-        }
-    }
-
-    function handleWrong(val) {
-        playClickSound('wrong');
-
-        if (clickCounts.hasOwnProperty(val)) {
-            clickCounts[val]++;
-        }
-
-        document.getElementById('warning').innerText = warnings[Math.floor(Math.random() * warnings.length)];
-        const box = document.getElementById('btnBox');
-        const btns = Array.from(box.children);
-        btns.sort(() => Math.random() - 0.5);
-        btns.forEach(b => box.appendChild(b));
-    }
-
-    function nextPage(val) {
-        playClickSound('love');
-
-        if (clickCounts.hasOwnProperty(val)) {
-            clickCounts[val]++;
+        class Particle {
+            constructor() { this.reset(); }
+            reset() {
+                this.x = Math.random() * width;
+                this.y = height + Math.random() * 100;
+                this.size = Math.random() * 12 + 6;
+                this.speedY = Math.random() * 1.2 + 0.4;
+                this.speedX = Math.sin(Math.random() * Math.PI) * 0.8;
+                this.opacity = Math.random() * 0.55 + 0.25;
+                this.type = Math.random() > 0.35 ? 'heart' : 'circle';
+                const colors = ['#ff6b9d', '#ff85a1', '#ffffff', '#e84378'];
+                this.color = colors[Math.floor(Math.random() * colors.length)];
+                this.rotation = Math.random() * 360;
+                this.rotSpeed = (Math.random() - 0.5) * 1.5;
+            }
+            update() {
+                this.y -= this.speedY;
+                this.x += Math.sin(this.y * 0.01) * 0.5 + this.speedX;
+                this.rotation += this.rotSpeed;
+                if (this.y < -30) this.reset();
+            }
+            draw() {
+                ctx.save();
+                ctx.translate(this.x, this.y);
+                ctx.rotate((this.rotation * Math.PI) / 180);
+                ctx.globalAlpha = this.opacity;
+                ctx.fillStyle = this.color;
+                if (this.type === 'heart') {
+                    ctx.beginPath();
+                    const topCurveHeight = this.size * 0.3;
+                    ctx.moveTo(0, topCurveHeight);
+                    ctx.bezierCurveTo(0, 0, -this.size / 2, 0, -this.size / 2, topCurveHeight);
+                    ctx.bezierCurveTo(-this.size / 2, (this.size + topCurveHeight) / 2, 0, this.size, 0, this.size);
+                    ctx.bezierCurveTo(0, this.size, this.size / 2, (this.size + topCurveHeight) / 2, this.size / 2, topCurveHeight);
+                    ctx.bezierCurveTo(this.size / 2, 0, 0, 0, 0, topCurveHeight);
+                    ctx.closePath();
+                    ctx.fill();
+                } else {
+                    ctx.beginPath();
+                    ctx.arc(0, 0, this.size / 3, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+                ctx.restore();
+            }
         }
 
-        sendToFormspree(val, "ပထမအကြိမ် ဝင်ရောက်ဖြေဆိုခြင်း");
+        for (let i = 0; i < 45; i++) particles.push(new Particle());
 
-        document.getElementById('page1').style.display = 'none';
-        document.getElementById('page2').style.display = 'flex';
-        document.getElementById('answerDisplay').innerText = val;
-    }
+        function animateParticles() {
+            ctx.clearRect(0, 0, width, height);
+            particles.forEach((p) => { p.update(); p.draw(); });
+            requestAnimationFrame(animateParticles);
+        }
+        animateParticles();
 
-    function sendRealLoveEmail() {
-        playClickSound('love');
-        alert("💖 ကျေးဇူးပါဗျာ... သင့်ရဲ့ အတည်ပြုချက်ကို အောင်မြင်စွာ ပို့လိုက်ပါပြီ 🩵");
-        
-        if (!FORMSPREE_ENDPOINT || FORMSPREE_ENDPOINT.includes("YOUR_FORM_ID")) {
-            console.log("Formspree URL ထည့်သွင်းရန် လိုအပ်ပါသည်။");
-            return;
+        function createImpactBurst(x, y) {
+            for (let i = 0; i < 35; i++) {
+                const p = new Particle();
+                p.x = x; p.y = y;
+                p.speedY = (Math.random() - 0.5) * 9;
+                p.speedX = (Math.random() - 0.5) * 9;
+                p.opacity = 1;
+                p.size = Math.random() * 14 + 5;
+                particles.push(p);
+                setTimeout(() => {
+                    const index = particles.indexOf(p);
+                    if (index > -1) particles.splice(index, 1);
+                }, 1500);
+            }
         }
 
-        const payload = {
-            "Message": "❤️ ဟေး.. တစ်ဖက်လူက 'တကယ်ချစ်တယ်' ဆိုတဲ့ ခလုတ်ကိုနှိပ်ပြီး အတည်ပြုလိုက်ပါပြီ!",
-            "Submitted At": new Date().toLocaleString()
-        };
+        /* ==========================================
+           3. AUDIO CONTROLLER
+           ========================================== */
+        const musicToggle = document.getElementById('musicToggle');
+        const bgMusic = document.getElementById('bgMusic');
+        let isPlaying = false;
 
-        fetch(FORMSPREE_ENDPOINT, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                "Accept": "application/json"
-            },
-            body: JSON.stringify(payload)
-        }).catch(error => console.error("Error:", error));
-    }
+        function playMusic() {
+            if (!isPlaying) {
+                bgMusic.play().then(() => {
+                    isPlaying = true;
+                    musicToggle.classList.add('playing');
+                    musicToggle.innerHTML = '<i class="fas fa-pause"></i>';
+                }).catch((err) => {
+                    console.log("Audio playback blocked:", err);
+                });
+            }
+        }
 
-    function sendToFormspree(finalAnswer, note = "") {
-        if (!FORMSPREE_ENDPOINT || FORMSPREE_ENDPOINT.includes("YOUR_FORM_ID")) return;
+        musicToggle.addEventListener('click', () => {
+            if (isPlaying) {
+                bgMusic.pause();
+                musicToggle.classList.remove('playing');
+                musicToggle.innerHTML = '<i class="fas fa-music"></i>';
+                isPlaying = false;
+            } else {
+                playMusic();
+            }
+        });
 
-        const payload = {
-            "Status": note,
-            "Final Answer": finalAnswer,
-            "မအေးဘူး နှိပ်သည့်အကြိမ်": clickCounts["မအေးဘူး"],
-            "အေးတယ် နှိပ်သည့်အကြိမ်": clickCounts["အေးတယ်"],
-            "မဖြေဘူး နှိပ်သည့်အကြိမ်": clickCounts["မဖြေဘူး"],
-            "ချစ်တယ် နှိပ်သည့်အကြိမ်": clickCounts["ချစ်တယ်"],
-            "Submitted At": new Date().toLocaleString()
-        };
+        /* ==========================================
+           4. REALISTIC FLEXING BOW & STRING MECHANICS
+           ========================================== */
+        const arrow = document.getElementById('arrow');
+        const bowContainer = document.getElementById('bowContainer');
+        const bowString = document.getElementById('bowString');
+        const bowLimb = document.getElementById('bowLimb');
+        const sceneIntro = document.getElementById('sceneIntro');
+        const sceneGif = document.getElementById('sceneGif');
+        const sceneCake = document.getElementById('sceneCake');
 
-        fetch(FORMSPREE_ENDPOINT, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                "Accept": "application/json"
-            },
-            body: JSON.stringify(payload)
-        }).catch(error => console.error(error));
-    }
-</script>
+        let isDragging = false;
+        let startX = 0;
+        let pullDistance = 0;
+        let isArrowFired = false;
+        const maxPull = 85;
 
+        function getClientX(e) {
+            return e.touches && e.touches.length > 0 ? e.touches[0].clientX : e.clientX;
+        }
+
+        function onStart(e) {
+            if (isArrowFired) return;
+            isDragging = true;
+            startX = getClientX(e);
+            arrow.style.transition = 'none';
+            bowString.style.transition = 'none';
+            bowLimb.style.transition = 'none';
+        }
+
+        function onMove(e) {
+            if (!isDragging || isArrowFired) return;
+            const currentX = getClientX(e);
+            const deltaX = startX - currentX;
+
+            if (deltaX > 0) {
+                pullDistance = Math.min(deltaX, maxPull);
+                arrow.style.transform = `translate(${-pullDistance}px, -50%)`;
+                
+                const containerWidth = bowContainer.clientWidth || 130;
+                const svgPullDistance = pullDistance * (160 / containerWidth);
+
+                const flexX = svgPullDistance * 0.15;
+                const flexY = svgPullDistance * 0.08;
+
+                const topTipX = 35 - flexX;
+                const topTipY = 10 + flexY;
+                const botTipX = 35 - flexX;
+                const botTipY = 190 - flexY;
+                const pullX = 35 - svgPullDistance;
+                const controlX = 85 - (flexX * 0.5);
+
+                bowString.setAttribute('d', `M ${topTipX} ${topTipY} L ${pullX} 100 L ${botTipX} ${botTipY}`);
+                bowLimb.setAttribute('d', `M ${topTipX} ${topTipY} Q ${controlX} 100 ${botTipX} ${botTipY}`);
+            }
+        }
+
+        function onEnd() {
+            if (!isDragging || isArrowFired) return;
+            isDragging = false;
+
+            if (pullDistance > 25) {
+                fireArrow();
+            } else {
+                arrow.style.transition = 'transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
+                arrow.style.transform = 'translate(0px, -50%)';
+                
+                bowString.style.transition = 'd 0.3s ease';
+                bowString.setAttribute('d', 'M 35 10 L 35 100 L 35 190');
+
+                bowLimb.style.transition = 'd 0.3s ease';
+                bowLimb.setAttribute('d', 'M 35 10 Q 85 100 35 190');
+
+                pullDistance = 0;
+            }
+        }
+
+        arrow.addEventListener('mousedown', onStart);
+        window.addEventListener('mousemove', onMove);
+        window.addEventListener('mouseup', onEnd);
+
+        arrow.addEventListener('touchstart', onStart, {passive: true});
+        window.addEventListener('touchmove', onMove, {passive: true});
+        window.addEventListener('touchend', onEnd);
+
+        function fireArrow() {
+            isArrowFired = true;
+
+            // မြှားပစ်လိုက်တာနဲ့ Music ဖွင့်မည်
+            playMusic();
+
+            bowString.style.transition = 'd 0.08s ease-out';
+            bowString.setAttribute('d', 'M 35 10 L 35 100 L 35 190');
+
+            bowLimb.style.transition = 'd 0.1s ease-out';
+            bowLimb.setAttribute('d', 'M 35 10 Q 85 100 35 190');
+
+            arrow.style.transition = 'transform 0.3s cubic-bezier(0.1, 0.9, 0.2, 1)';
+            arrow.style.transform = 'translate(220px, -50%)';
+
+            setTimeout(() => {
+                const rect = arrow.getBoundingClientRect();
+                createImpactBurst(rect.right, rect.top + 10);
+
+                document.body.style.transform = 'translate(3px, -3px)';
+                setTimeout(() => document.body.style.transform = 'none', 100);
+
+                // နောက်တစ်ဆင့် (No-Frame GIF) သို့ ကူးပြောင်းမည်
+                setTimeout(() => {
+                    sceneIntro.classList.remove('active');
+                    sceneGif.classList.add('active');
+                }, 500);
+            }, 300);
+        }
+
+        /* ==========================================
+           5. TAP GIF TO REVEAL CAKE GIF & MESSAGE CARD
+           ========================================== */
+        const gifStageTrigger = document.getElementById('gifStageTrigger');
+        let isGifClicked = false;
+
+        gifStageTrigger.addEventListener('click', () => {
+            if (isGifClicked) return;
+            isGifClicked = true;
+
+            const rect = gifStageTrigger.getBoundingClientRect();
+            createImpactBurst(rect.left + rect.width / 2, rect.top + rect.height / 2);
+
+            sceneGif.classList.remove('active');
+            setTimeout(() => {
+                sceneCake.classList.add('active');
+                startTypingEffect();
+            }, 400);
+        });
+
+        function startTypingEffect() {
+            document.getElementById('displayName').textContent = birthdayName;
+            document.getElementById('displaySender').textContent = senderName;
+
+            const messageElement = document.getElementById('displayMessage');
+            messageElement.textContent = '';
+            let charIndex = 0;
+
+            function typeChar() {
+                if (charIndex < birthdayMessage.length) {
+                    messageElement.textContent += birthdayMessage.charAt(charIndex);
+                    charIndex++;
+                    setTimeout(typeChar, 35);
+                }
+            }
+            setTimeout(typeChar, 600);
+        }
+    </script>
 </body>
 </html>
