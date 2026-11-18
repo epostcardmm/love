@@ -1,891 +1,651 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="my">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Happy Birthday!</title>
-    <!-- Google Fonts -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Love Surprise - Soft Green</title>
+    <!-- Google Fonts for Burmese Typography & Handwritten Aesthetics -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Great+Vibes&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
-    <!-- FontAwesome for Audio Icon -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Padauk:wght@400;700&family=Pyidaungsu:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
     
     <style>
-        /* ==========================================
-           RESET & VARIABLES (SOFT PINK THEME)
-           ========================================== */
-        *, *::before, *::after {
+        * {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
+            font-family: 'Pyidaungsu', 'Padauk', sans-serif;
         }
 
-        :root {
-            --bg-gradient: radial-gradient(circle at center, #fff5f8 0%, #ffe3ec 55%, #ffc9da 100%);
-            --primary-pink: #ff6b9d;
-            --secondary-pink: #e84378;
-            --deep-rose: #7a2845;
-            --accent-gold: #d49b27;
-            --glass-bg: rgba(255, 255, 255, 0.65);
-            --glass-border: rgba(255, 255, 255, 0.9);
-            --font-heading: 'Cinzel', serif;
-            --font-script: 'Great Vibes', cursive;
-            --font-body: 'Montserrat', sans-serif;
-        }
-
-        html, body {
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-            background: var(--bg-gradient);
-            font-family: var(--font-body);
-            color: var(--deep-rose);
-            user-select: none;
-            -webkit-user-select: none;
-            -webkit-tap-highlight-color: transparent;
-            touch-action: none;
-        }
-
-        /* ==========================================
-           CANVAS & BACKGROUND GLOWS
-           ========================================== */
-        #particleCanvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 1;
-            pointer-events: none;
-        }
-
-        .glow-orb {
-            position: fixed;
-            border-radius: 50%;
-            filter: blur(80px);
-            z-index: 1;
-            pointer-events: none;
-            opacity: 0.65;
-            animation: floatGlow 12s ease-in-out infinite alternate;
-        }
-
-        .orb-1 {
-            width: 350px;
-            height: 350px;
-            background: #ffb3c6;
-            top: -50px;
-            left: -50px;
-        }
-
-        .orb-2 {
-            width: 450px;
-            height: 450px;
-            background: #ffccd5;
-            bottom: -100px;
-            right: -100px;
-        }
-
-        @keyframes floatGlow {
-            0% { transform: translate(0, 0) scale(1); }
-            100% { transform: translate(60px, 40px) scale(1.2); }
-        }
-
-        /* ==========================================
-           AUDIO TOGGLE
-           ========================================== */
-        .music-btn {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            z-index: 100;
-            background: var(--glass-bg);
-            border: 1.5px solid var(--glass-border);
-            backdrop-filter: blur(10px);
-            color: var(--secondary-pink);
-            width: 48px;
-            height: 48px;
-            border-radius: 50%;
-            cursor: pointer;
+        /* New Background Design: Soft Mint Gradient with Delicate Polka Dots & Ambient Glow */
+        body {
+            background-color: #f0fdf4;
+            background-image: 
+                radial-gradient(circle at 15% 20%, rgba(167, 243, 208, 0.55) 0%, transparent 45%),
+                radial-gradient(circle at 85% 80%, rgba(110, 231, 183, 0.45) 0%, transparent 50%),
+                radial-gradient(#86efac 1.5px, transparent 1.5px),
+                radial-gradient(#bbf7d0 1.5px, #f0fdf4 1.5px);
+            background-size: 100% 100%, 100% 100%, 36px 36px, 36px 36px;
+            background-position: 0 0, 0 0, 0 0, 18px 18px;
             display: flex;
-            align-items: center;
             justify-content: center;
-            font-size: 1.2rem;
-            box-shadow: 0 6px 20px rgba(232, 67, 120, 0.18);
-            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            align-items: center;
+            min-height: 100vh;
+            overflow-x: hidden;
+            padding: 15px;
         }
 
-        .music-btn:hover {
-            transform: scale(1.1);
-            background: #ffffff;
-            box-shadow: 0 0 20px rgba(255, 107, 157, 0.4);
-        }
-
-        .music-btn.playing {
-            animation: pulseAudio 2s infinite;
-            background: var(--primary-pink);
-            color: #ffffff;
-            border-color: var(--primary-pink);
-        }
-
-        @keyframes pulseAudio {
-            0%, 100% { box-shadow: 0 0 10px rgba(255, 107, 157, 0.6); }
-            50% { box-shadow: 0 0 25px rgba(255, 107, 157, 0.9); }
-        }
-
-        /* ==========================================
-           MAIN SCENE STRUCTURE
-           ========================================== */
-        .container {
+        .card-container {
+            width: 100%;
+            max-width: 440px;
+            min-height: 520px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
             position: relative;
-            width: 100%;
-            height: 100%;
-            z-index: 10;
-            display: flex;
-            justify-content: center;
-            align-items: center;
         }
 
-        .scene {
-            position: absolute;
-            width: 100%;
-            max-width: 900px;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
-            visibility: hidden;
-            transform: scale(0.95);
-            transition: opacity 1s cubic-bezier(0.4, 0, 0.2, 1), 
-                        transform 1s cubic-bezier(0.4, 0, 0.2, 1),
-                        visibility 1s;
-        }
-
-        .scene.active {
-            opacity: 1;
-            visibility: visible;
-            transform: scale(1);
-        }
-
-        /* ==========================================
-           SCENE 1: ARCHERY MECHANICS
-           ========================================== */
-        .intro-content {
+        /* Translucent Soft Mint Glassmorphism Card Style */
+        .interactive-card {
+            background: rgba(255, 255, 255, 0.88);
+            padding: 35px 22px;
+            border-radius: 30px;
+            box-shadow: 
+                0 20px 50px rgba(16, 185, 129, 0.14),
+                0 4px 15px rgba(5, 150, 105, 0.06);
             text-align: center;
-            display: flex;
+            width: 100%;
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            border: none;
+            transition: all 0.4s ease;
+        }
+
+        .step {
+            display: none;
             flex-direction: column;
             align-items: center;
+            gap: 20px;
+            animation: fadeIn 0.4s ease-in-out forwards;
+        }
+
+        .step.active {
+            display: flex;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        /* GIF Box */
+        img.gif-box {
+            width: 170px;
+            height: 170px;
+            object-fit: cover;
+            border-radius: 22px;
+            box-shadow: 0 12px 28px rgba(16, 185, 129, 0.22);
+            border: none;
+        }
+
+        /* Step 1, 2, 3 Question Text (Deep Emerald Green) */
+        .interactive-card h2 {
+            color: #047857 !important;
+            font-size: 1.5rem !important;
+            line-height: 1.5 !important;
+            font-weight: 700 !important;
+            text-shadow: 0 1px 2px rgba(255, 255, 255, 0.9);
+            margin: 0 !important;
+        }
+
+        .btn-group {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
             width: 100%;
+            min-height: 110px;
+            position: relative;
+            padding: 10px;
         }
 
-        .subtitle {
-            font-size: 1.05rem;
-            letter-spacing: 3px;
-            text-transform: uppercase;
-            color: var(--secondary-pink);
-            font-weight: 500;
-            margin-bottom: 10px;
-        }
-
-        .intro-heading {
-            font-family: var(--font-heading);
-            font-size: clamp(1.3rem, 4vw, 2.3rem);
-            font-weight: 600;
+        button {
+            padding: 18px 40px;
+            min-height: 60px;
+            font-size: 1.25rem;
+            font-weight: 800;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.25s ease, background 0.25s ease;
             letter-spacing: 1px;
-            margin-bottom: 30px;
-            background: linear-gradient(135deg, #7a2845 0%, #e84378 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .interactive-stage {
-            position: relative;
-            width: 360px;
-            height: 260px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            touch-action: none;
-        }
-
-        .bow-container {
-            position: relative;
-            width: 130px;
-            height: 200px;
-            display: flex;
-            align-items: center;
+            user-select: none;
+            touch-action: manipulation;
+            min-width: 130px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+            display: inline-flex;
             justify-content: center;
-        }
-
-        .bow-svg {
-            width: 100%;
-            height: 100%;
-            overflow: visible;
-            filter: drop-shadow(0 4px 10px rgba(212, 155, 39, 0.35));
-        }
-
-        .arrow-element {
-            position: absolute;
-            left: 21.875%;
-            top: 50%;
-            width: 130px;
-            height: 24px;
-            transform: translateY(-50%);
-            cursor: grab;
-            filter: drop-shadow(0 3px 8px rgba(232, 67, 120, 0.4));
-            z-index: 10;
-            touch-action: none;
-        }
-
-        .arrow-element:active {
-            cursor: grabbing;
-        }
-
-        /* Target နေရာတွင် အစားထိုးမည့် No-Frame GIF */
-        .target-gif-container {
-            position: relative;
-            width: 130px;
-            height: 130px;
-            z-index: 5;
-            display: flex;
             align-items: center;
+        }
+
+        /* Soft Vibrant Green Yes Button */
+        .btn-yes {
+            background: linear-gradient(135deg, #34d399, #10b981);
+            color: white;
+            box-shadow: 0 8px 25px rgba(16, 185, 129, 0.42);
+        }
+
+        .btn-yes:hover {
+            transform: translateY(-3px) scale(1.06);
+            box-shadow: 0 12px 30px rgba(16, 185, 129, 0.6);
+        }
+
+        .btn-yes:active {
+            transform: translateY(1px) scale(0.98);
+        }
+
+        /* Muted Sage Green No Button */
+        .btn-no {
+            background: linear-gradient(135deg, #6ee7b7, #34d399);
+            color: #064e3b;
+            box-shadow: 0 8px 22px rgba(52, 211, 153, 0.35);
+        }
+
+        .btn-no:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 12px 28px rgba(52, 211, 153, 0.5);
+        }
+
+        /* Popup Container Wrapper */
+        .btn-no-wrapper {
+            position: relative;
+            display: inline-flex;
             justify-content: center;
+            align-items: center;
         }
 
-        .target-no-frame-gif {
-            width: 110px;
-            height: auto;
-            border: none;
-            outline: none;
-            box-shadow: none;
-            background: transparent;
-            border-radius: 0;
-            filter: drop-shadow(0 8px 20px rgba(232, 67, 120, 0.45));
-            animation: heartbeatGif 1.8s ease-in-out infinite;
-        }
-
-        @keyframes heartbeatGif {
-            0%, 100% { transform: scale(1); }
-            15% { transform: scale(1.12); }
-            30% { transform: scale(1); }
-            45% { transform: scale(1.08); }
-        }
-
-        .pulse-ring {
+        /* Soft Mint Popup Warning Window Above Button */
+        .popup-warning {
             position: absolute;
-            top: 50%;
+            bottom: 110%;
             left: 50%;
-            width: 100%;
-            height: 100%;
-            border: 2px solid var(--primary-pink);
-            border-radius: 50%;
-            transform: translate(-50%, -50%) scale(0.8);
-            opacity: 0.7;
-            animation: pulseExpand 2.5s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
+            transform: translateX(-50%);
+            background: rgba(236, 253, 245, 0.96);
+            color: #047857;
+            border: 2px solid #6ee7b7;
+            padding: 8px 14px;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            white-space: nowrap;
+            box-shadow: 0 6px 18px rgba(16, 185, 129, 0.22);
+            z-index: 10000;
             pointer-events: none;
+            backdrop-filter: blur(4px);
+            animation: popupBounce 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
-        .pulse-ring.delay {
-            animation-delay: 1.25s;
+        .popup-warning::after {
+            content: '';
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            border-width: 6px;
+            border-style: solid;
+            border-color: #6ee7b7 transparent transparent transparent;
         }
 
-        @keyframes pulseExpand {
-            0% { transform: translate(-50%, -50%) scale(0.6); opacity: 0.8; }
-            100% { transform: translate(-50%, -50%) scale(1.8); opacity: 0; }
+        @keyframes popupBounce {
+            0% { opacity: 0; transform: translate(-50%, 10px) scale(0.8); }
+            100% { opacity: 1; transform: translate(-50%, 0) scale(1); }
         }
 
-        .drag-hint {
-            margin-top: 35px;
-            font-size: 0.95rem;
-            color: var(--deep-rose);
-            font-weight: 500;
-            letter-spacing: 1.5px;
-            animation: bounce 2s infinite;
+        /* Step 2 Full Screen Running No Button */
+        #btn-no-2-wrapper {
+            position: relative;
+            transition: top 0.2s ease-out, left 0.2s ease-out;
+            z-index: 9999;
         }
 
-        @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
-            40% { transform: translateY(-8px); }
-            60% { transform: translateY(-4px); }
+        #btn-no-2-wrapper.escaped {
+            position: fixed !important;
+            margin: 0 !important;
         }
 
-        /* ==========================================
-           SCENE 2: NO-FRAME GIF STAGE
-           ========================================== */
-        .gif-stage-wrapper {
+        /* Falling Swaying GIF Container (Between Step 3 & Step 4) */
+        .falling-envelope-container {
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            text-align: center;
+            padding: 20px;
+            user-select: none;
+            animation: fallAndSway 3.2s cubic-bezier(0.25, 1, 0.5, 1) forwards, floatGentle 2.6s ease-in-out infinite 3.2s;
         }
 
+        @keyframes fallAndSway {
+            0% {
+                transform: translateY(-280px) rotate(-18deg);
+                opacity: 0;
+            }
+            30% {
+                transform: translateY(-120px) rotate(14deg);
+                opacity: 1;
+            }
+            60% {
+                transform: translateY(20px) rotate(-10deg);
+            }
+            85% {
+                transform: translateY(-8px) rotate(6deg);
+            }
+            100% {
+                transform: translateY(0px) rotate(0deg);
+                opacity: 1;
+            }
+        }
+
+        @keyframes floatGentle {
+            0%, 100% {
+                transform: translateY(0px) rotate(-4deg);
+            }
+            50% {
+                transform: translateY(-14px) rotate(4deg);
+            }
+        }
+
+        /* Frame-less Transparent GIF */
         .no-frame-gif {
-            width: 240px;
+            width: 210px;
             height: auto;
-            max-width: 75vw;
-            border: none;
-            outline: none;
-            box-shadow: none;
-            background: transparent;
-            border-radius: 0;
-            filter: drop-shadow(0 12px 24px rgba(232, 67, 120, 0.25));
-            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            background: transparent !important;
+            border: none !important;
+            box-shadow: none !important;
+            border-radius: 0 !important;
+            filter: drop-shadow(0 12px 20px rgba(16, 185, 129, 0.28));
+            transition: transform 0.3s ease;
         }
 
-        .scene.active .no-frame-gif {
-            animation: dropInBounce 1s cubic-bezier(0.22, 1, 0.36, 1) forwards, floatGif 3s ease-in-out 1s infinite alternate;
-        }
-
-        .gif-stage-wrapper:hover .no-frame-gif,
-        .gif-stage-wrapper:active .no-frame-gif {
+        .falling-envelope-container:hover .no-frame-gif {
             transform: scale(1.08);
         }
 
-        @keyframes dropInBounce {
+        .tap-hint-badge {
+            margin-top: 18px;
+            background: rgba(255, 255, 255, 0.94);
+            color: #059669;
+            font-weight: 700;
+            font-size: 1.05rem;
+            padding: 8px 20px;
+            border-radius: 30px;
+            box-shadow: 0 8px 20px rgba(16, 185, 129, 0.2);
+            backdrop-filter: blur(6px);
+            border: none;
+            animation: pulseHint 1.6s infinite ease-in-out;
+        }
+
+        @keyframes pulseHint {
+            0%, 100% { transform: scale(1); opacity: 0.9; }
+            50% { transform: scale(1.06); opacity: 1; }
+        }
+
+        /* Step 4 Paper Letter Pop-in Animation & Soft Mint Aesthetic Redesign */
+        .paper-letter-wrapper {
+            position: relative;
+            width: 100%;
+            max-width: 380px;
+            margin: 0 auto;
+            padding: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10;
+        }
+
+        .paper-letter-pop {
+            animation: popInLetter 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+
+        @keyframes popInLetter {
             0% {
                 opacity: 0;
-                transform: translateY(-180px) scale(0.7);
+                transform: scale(0.3) rotate(-12deg);
             }
-            65% {
-                opacity: 1;
-                transform: translateY(15px) scale(1.03);
-            }
-            82% {
-                transform: translateY(-8px) scale(0.99);
+            70% {
+                transform: scale(1.04) rotate(-2deg);
             }
             100% {
                 opacity: 1;
-                transform: translateY(0) scale(1);
+                transform: scale(1) rotate(-2deg);
             }
         }
 
-        @keyframes floatGif {
-            0% { transform: translateY(0); }
-            100% { transform: translateY(-12px); }
-        }
-
-        .tap-gif-hint {
-            margin-top: 20px;
-            font-size: 1rem;
-            color: var(--secondary-pink);
-            font-weight: 600;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            text-shadow: 0 2px 10px rgba(255, 255, 255, 0.8);
-            animation: pulseText 1.8s infinite;
-        }
-
-        @keyframes pulseText {
-            0%, 100% { opacity: 0.7; transform: scale(0.98); }
-            50% { opacity: 1; transform: scale(1.04); }
-        }
-
-        /* ==========================================
-           SCENE 3: NO-FRAME CAKE GIF & MESSAGE CARD
-           ========================================== */
-        .cake-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 18px;
-            width: 100%;
-        }
-
-        .cake-no-frame-gif {
-            width: 190px;
-            height: auto;
-            max-width: 55vw;
-            border: none;
-            outline: none;
-            box-shadow: none;
-            background: transparent;
-            border-radius: 0;
-            filter: drop-shadow(0 10px 20px rgba(232, 67, 120, 0.25));
-            animation: floatCakeGif 3.5s ease-in-out infinite alternate;
-        }
-
-        @keyframes floatCakeGif {
-            0% { transform: translateY(0) scale(1); }
-            100% { transform: translateY(-10px) scale(1.03); }
-        }
-
-        .message-card {
-            background: var(--glass-bg);
-            border: 1.5px solid var(--glass-border);
-            backdrop-filter: blur(18px);
-            -webkit-backdrop-filter: blur(18px);
-            border-radius: 24px;
-            padding: 28px 25px;
-            text-align: center;
-            width: 100%;
-            max-width: 520px;
-            box-shadow: 0 18px 45px rgba(232, 67, 120, 0.16), inset 0 1px 1px rgba(255, 255, 255, 0.9);
+        .paper-sheet {
             position: relative;
+            background: linear-gradient(135deg, rgba(236, 253, 245, 0.98), rgba(255, 255, 255, 0.98));
+            backdrop-filter: blur(12px);
+            background-image: 
+                radial-gradient(rgba(16, 185, 129, 0.14) 1.5px, transparent 0),
+                linear-gradient(to right, rgba(16, 185, 129, 0.04) 1px, transparent 1px);
+            background-size: 14px 14px, 100% 100%;
+            width: 100%;
+            padding: 38px 26px 30px 26px;
+            border-radius: 20px;
+            box-shadow: 
+                -10px 20px 40px rgba(16, 185, 129, 0.22),
+                0 4px 15px rgba(0, 0, 0, 0.04);
+            border: none;
         }
 
-        .script-title {
-            font-family: var(--font-script);
-            font-size: clamp(2.6rem, 6vw, 4.2rem);
-            color: var(--secondary-pink);
-            text-shadow: 0 2px 12px rgba(255, 107, 157, 0.25);
-            line-height: 1.1;
-            margin-bottom: 5px;
+        .paperclip {
+            position: absolute;
+            top: 14px;
+            right: 30px;
+            width: 18px;
+            height: 45px;
+            border: 3px solid #34d399;
+            border-radius: 12px;
+            z-index: 6;
+            transform: rotate(8deg);
+            box-shadow: 2px 3px 6px rgba(16, 185, 129, 0.25);
+            background: transparent;
         }
 
-        .recipient-name {
-            font-family: var(--font-heading);
-            font-size: clamp(1.2rem, 3.5vw, 1.9rem);
-            color: var(--accent-gold);
+        .paperclip::after {
+            content: '';
+            position: absolute;
+            top: 5px;
+            left: 2px;
+            width: 8px;
+            height: 28px;
+            border: 2px solid #10b981;
+            border-radius: 8px;
+        }
+
+        .letter-content {
+            font-family: 'Pyidaungsu', sans-serif;
+            color: #374151;
+            line-height: 1.85;
+            font-size: 0.98rem;
+            text-align: left;
+        }
+
+        .letter-title {
+            text-align: center;
+            font-size: 1.4rem;
+            color: #059669;
             font-weight: 700;
-            letter-spacing: 2px;
-            margin-bottom: 14px;
-            text-transform: uppercase;
+            margin-bottom: 16px;
+            border-bottom: 2px dashed #6ee7b7;
+            padding-bottom: 10px;
+            letter-spacing: 0.5px;
         }
 
-        .body-text {
-            font-size: 0.96rem;
-            line-height: 1.65;
-            color: var(--deep-rose);
-            min-height: 65px;
-            font-weight: 400;
-        }
-
-        .card-divider {
-            margin: 14px 0 8px;
-            font-size: 0.95rem;
-            opacity: 0.85;
-        }
-
-        .sender-container {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 12px;
-            margin-top: 4px;
-        }
-
-        .sender-tag {
-            font-family: var(--font-script);
-            font-size: 1.75rem;
-            color: var(--secondary-pink);
-        }
-
-        @media (max-width: 600px) {
-            .scene {
-                padding: 12px;
-            }
-            .interactive-stage {
-                width: 300px;
-                height: 210px;
-            }
-            .bow-container {
-                width: 100px;
-                height: 160px;
-            }
-            .arrow-element {
-                width: 105px;
-            }
-            .target-gif-container {
-                width: 95px;
-                height: 95px;
-            }
-            .target-no-frame-gif {
-                width: 85px;
-            }
-            .no-frame-gif {
-                width: 190px;
-            }
-            .cake-no-frame-gif {
-                width: 150px;
-            }
-            .message-card {
-                padding: 22px 18px;
-            }
-            .drag-hint {
-                margin-top: 20px;
-                font-size: 0.85rem;
-            }
+        .letter-signature {
+            text-align: right;
+            margin-top: 20px;
+            font-weight: 700;
+            color: #047857;
+            font-size: 1.05rem;
         }
     </style>
 </head>
 <body>
 
-    <!-- Background Particle Canvas -->
-    <canvas id="particleCanvas"></canvas>
+    <div class="card-container">
+        
+        <!-- STEP 1 -->
+        <div class="interactive-card step active" id="step-1">
+            <img class="gif-box" src="https://media.tenor.com/1hePhNN7SesAAAAi/friday.gif" alt="Cute Gif 1">
+            <h2><b>ပြန်ချစ်ပါတော့လား နွေးထွေးပေးချင်ပြီ… 🌿💚</b></h2>
+            <div class="btn-group">
+                <button class="btn-yes" onclick="playClickSound('yes'); nextStep(2)">Yes</button>
+                <div class="btn-no-wrapper" id="btn-no-1-wrapper">
+                    <button class="btn-no" id="btn-no-1" onclick="playClickSound('no'); handleNo1()">No</button>
+                </div>
+            </div>
+        </div>
 
-    <!-- Background Ambient Glows -->
-    <div class="glow-orb orb-1"></div>
-    <div class="glow-orb orb-2"></div>
+        <!-- STEP 2 -->
+        <div class="interactive-card step" id="step-2">
+            <img class="gif-box" src="https://media.tenor.com/oB0wHCkD6F4AAAAi/danilimz.gif" alt="Cute Gif 2">
+            <h2><b>အတည်ပြန်ချစ်တော့နော် အများကြီးချစ်ပေးမှာပါ… 🥺</b></h2>
+            <div class="btn-group" id="btn-container-2">
+                <button class="btn-yes" onclick="playClickSound('yes'); nextStep(3)">Yes</button>
+                <div class="btn-no-wrapper" id="btn-no-2-wrapper" onmouseover="moveNoButton(event)" onclick="moveNoButton(event)" ontouchstart="moveNoButton(event)">
+                    <button class="btn-no" id="btn-no-2">No</button>
+                </div>
+            </div>
+        </div>
 
-    <!-- Music Toggle Button -->
-    <button id="musicToggle" class="music-btn" aria-label="Toggle Music">
-        <i class="fas fa-music"></i>
-    </button>
-    <audio id="bgMusic" loop src="https://www.image2url.com/r2/default/audio/1787495373201-df2f60dc-9f05-4f83-9273-6ff68a797dcb.mp3"></audio>
+        <!-- STEP 3 -->
+        <div class="interactive-card step" id="step-3">
+            <img class="gif-box" src="https://media.tenor.com/fXhEKniUt9wAAAAi/bubu-dudu.gif" alt="Cute Gif 3">
+            <h2><b>ဒါဆိုရင် ဖိတ်စာသွားရိုက်လိုက်တော့မယ်နော် 💚</b></h2>
+            <div class="btn-group">
+                <button class="btn-yes" id="btn-yes-3" onclick="playClickSound('yes'); nextStep('falling')">Yes</button>
+                <div class="btn-no-wrapper" id="btn-no-3-wrapper">
+                    <button class="btn-no" id="btn-no-3" onclick="playClickSound('no'); handleNo3()">No</button>
+                </div>
+            </div>
+        </div>
 
-    <!-- Main Container -->
-    <main class="container">
+        <!-- STEP 3.5: FALLING GIF STEP -->
+        <div class="step" id="step-falling" style="width: 100%;">
+            <div class="falling-envelope-container" onclick="playClickSound('yes'); openLetter()">
+                <!-- Frame-less Transparent Envelope GIF -->
+                <img class="no-frame-gif" src="https://i.ibb.co/998CGXMF/64654.png" alt="Falling Envelope GIF">
+                <div class="tap-hint-badge">✉️ ePostcard For You ✨</div>
+            </div>
+        </div>
 
-        <!-- SCENE 1: ARCHERY INTERACTION -->
-        <section id="sceneIntro" class="scene active">
-            <div class="intro-content">
-                <p class="subtitle">A special magic just for you...</p>
-                <h1 class="intro-heading">Pull Back the Arrow & Release</h1>
-                
-                <div class="interactive-stage" id="targetStage">
-                    <!-- Bow Assembly -->
-                    <div class="bow-container" id="bowContainer">
-                        <svg class="bow-svg" id="bowSvg" viewBox="0 0 160 200">
-                            <!-- Bow Limb (Flexing Tips) -->
-                            <path id="bowLimb" d="M 35 10 Q 85 100 35 190" fill="none" stroke="#d49b27" stroke-width="4.5" stroke-linecap="round"/>
-                            <!-- Bow Grip Handle -->
-                            <line x1="61" y1="92" x2="61" y2="108" stroke="#9e5a36" stroke-width="6.5" stroke-linecap="round"/>
-                            <!-- Fine Taut Bowstring -->
-                            <path id="bowString" d="M 35 10 L 35 100 L 35 190" fill="none" stroke="#e84378" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-                        </svg>
+        <!-- STEP 4 (Love Letter Paper Card) -->
+        <div class="step" id="step-4" style="width: 100%;">
+            <div class="paper-letter-wrapper paper-letter-pop">
+                <div class="paper-sheet">
+                    <div class="paperclip"></div>
 
-                        <!-- Draggable Realistic Arrow -->
-                        <div class="arrow-element" id="arrow">
-                            <svg viewBox="0 0 130 24">
-                                <!-- Arrow Shaft -->
-                                <line x1="5" y1="12" x2="118" y2="12" stroke="#d49b27" stroke-width="3" />
-                                <!-- Arrowhead (Front) -->
-                                <polygon points="115,4 130,12 115,20" fill="#d49b27" />
-                                <!-- Top Feather Fin -->
-                                <path d="M 26 10 L 20 3 L 5 3 L 14 10 Z" fill="#ff6b9d" stroke="#d49b27" stroke-width="0.8"/>
-                                <!-- Bottom Feather Fin -->
-                                <path d="M 26 14 L 20 21 L 5 21 L 14 14 Z" fill="#ff6b9d" stroke="#d49b27" stroke-width="0.8"/>
-                            </svg>
+                    <div class="letter-content">
+                        <div class="letter-title">သို့ / ချစ်ရပါသော </div>
+                        <p>ကိုယ့်အတွက်တော့ ဒီကမ္ဘာပေါ်မှာ အလှပဆုံးနဲ့ အဓိပ္ပာယ်အရှိဆုံး အချိန်တွေက မင်း နဲ့အတူ ရှိနေရတဲ့ အချိန်တွေပါပဲ။ </p>
+                        <br>
+                        <p>တစ်ရက်ထက် တစ်ရက် ပိုပြီး ရင်းနှီးလာလေ၊ မင်းလေးအပေါ်ထားတဲ့ ကိုယ့်ရဲ့ ခံစားချက်တွေက ပိုပြီး ကြီးမားလာလေပါကွာ</p>
+                        <br>
+                        <p>ကိုယ့်ကို ချစ်ခွင့်ပြုပါတော့နော်..</p>
+                        
+                        <div class="letter-signature">
+                            love you sooo mush..💚
                         </div>
                     </div>
-
-                    <!-- Target နေရာတွင် No-Frame GIF ထည့်သွင်းခြင်း -->
-                    <div class="target-gif-container" id="heartTarget">
-                        <div class="pulse-ring"></div>
-                        <div class="pulse-ring delay"></div>
-                        <img src="https://i.ibb.co/3mQy1yJZ/image.png" 
-                             alt="Target GIF" 
-                             class="target-no-frame-gif">
-                    </div>
-                </div>
-
-                <p class="drag-hint" id="hintText"><i class="fas fa-hand-pointer"></i> Pull the arrow back and let go!</p>
-            </div>
-        </section>
-
-        <!-- SCENE 2: NO-FRAME GIF STAGE -->
-        <section id="sceneGif" class="scene">
-            <div class="gif-stage-wrapper" id="gifStageTrigger">
-                <img src="https://i.ibb.co/YBMkL4k3/3.png" 
-                     alt="Tap to Open" 
-                     class="no-frame-gif">
-                <p class="tap-gif-hint"><i class="fas fa-hand-sparkles"></i> Tap me!</p>
-            </div>
-        </section>
-
-        <!-- SCENE 3: NO-FRAME CAKE GIF & MESSAGE CARD -->
-        <section id="sceneCake" class="scene">
-            <div class="cake-container">
-                <!-- Birthday Cake အစားထိုး No-Frame GIF -->
-                <img src="https://i.ibb.co/3mQy1yJZ/image.png" 
-                     alt="Birthday Cake GIF" 
-                     class="cake-no-frame-gif">
-
-                <!-- Romantic Soft Pink Birthday Card -->
-                <div class="message-card">
-                    <h2 class="script-title" id="displayTitle">Happy Birthday</h2>
-                    <h3 class="recipient-name" id="displayName">Your Name</h3>
-                    <p class="body-text" id="displayMessage"></p>
-                    <div class="card-divider">🌸 💖 🌸</div>
-                    <div class="sender-container">
-                        <p class="sender-tag" id="displaySender"></p>
-                    </div>
                 </div>
             </div>
-        </section>
+        </div>
 
-    </main>
+    </div>
 
     <script>
-        /* ==========================================
-           1. PERSONALIZATION VARIABLES
-           ========================================== */
-        const birthdayName = "My Dearest";
-        const birthdayMessage = "Wishing you an unforgettable day filled with endless laughter, warmth, and magical moments. May all your dreams light up like stars tonight!";
-        const senderName = "With all my love ❤️";
-
-        /* ==========================================
-           2. PARTICLE SYSTEM (SOFT PINK PALETTE)
-           ========================================== */
-        const canvas = document.getElementById('particleCanvas');
-        const ctx = canvas.getContext('2d');
-        let width, height;
-        let particles = [];
-
-        function resizeCanvas() {
-            width = canvas.width = window.innerWidth;
-            height = canvas.height = window.innerHeight;
-        }
-
-        window.addEventListener('resize', resizeCanvas);
-        resizeCanvas();
-
-        class Particle {
-            constructor() { this.reset(); }
-            reset() {
-                this.x = Math.random() * width;
-                this.y = height + Math.random() * 100;
-                this.size = Math.random() * 12 + 6;
-                this.speedY = Math.random() * 1.2 + 0.4;
-                this.speedX = Math.sin(Math.random() * Math.PI) * 0.8;
-                this.opacity = Math.random() * 0.55 + 0.25;
-                this.type = Math.random() > 0.35 ? 'heart' : 'circle';
-                const colors = ['#ff6b9d', '#ff85a1', '#ffffff', '#e84378'];
-                this.color = colors[Math.floor(Math.random() * colors.length)];
-                this.rotation = Math.random() * 360;
-                this.rotSpeed = (Math.random() - 0.5) * 1.5;
+        // Web Audio API သုံး၍ Button နှိပ်လျှင် အသံထွက်စေသော Function
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        function playClickSound(type = 'yes') {
+            if (audioCtx.state === 'suspended') {
+                audioCtx.resume();
             }
-            update() {
-                this.y -= this.speedY;
-                this.x += Math.sin(this.y * 0.01) * 0.5 + this.speedX;
-                this.rotation += this.rotSpeed;
-                if (this.y < -30) this.reset();
-            }
-            draw() {
-                ctx.save();
-                ctx.translate(this.x, this.y);
-                ctx.rotate((this.rotation * Math.PI) / 180);
-                ctx.globalAlpha = this.opacity;
-                ctx.fillStyle = this.color;
-                if (this.type === 'heart') {
-                    ctx.beginPath();
-                    const topCurveHeight = this.size * 0.3;
-                    ctx.moveTo(0, topCurveHeight);
-                    ctx.bezierCurveTo(0, 0, -this.size / 2, 0, -this.size / 2, topCurveHeight);
-                    ctx.bezierCurveTo(-this.size / 2, (this.size + topCurveHeight) / 2, 0, this.size, 0, this.size);
-                    ctx.bezierCurveTo(0, this.size, this.size / 2, (this.size + topCurveHeight) / 2, this.size / 2, topCurveHeight);
-                    ctx.bezierCurveTo(this.size / 2, 0, 0, 0, 0, topCurveHeight);
-                    ctx.closePath();
-                    ctx.fill();
-                } else {
-                    ctx.beginPath();
-                    ctx.arc(0, 0, this.size / 3, 0, Math.PI * 2);
-                    ctx.fill();
-                }
-                ctx.restore();
-            }
-        }
-
-        for (let i = 0; i < 45; i++) particles.push(new Particle());
-
-        function animateParticles() {
-            ctx.clearRect(0, 0, width, height);
-            particles.forEach((p) => { p.update(); p.draw(); });
-            requestAnimationFrame(animateParticles);
-        }
-        animateParticles();
-
-        function createImpactBurst(x, y) {
-            for (let i = 0; i < 35; i++) {
-                const p = new Particle();
-                p.x = x; p.y = y;
-                p.speedY = (Math.random() - 0.5) * 9;
-                p.speedX = (Math.random() - 0.5) * 9;
-                p.opacity = 1;
-                p.size = Math.random() * 14 + 5;
-                particles.push(p);
-                setTimeout(() => {
-                    const index = particles.indexOf(p);
-                    if (index > -1) particles.splice(index, 1);
-                }, 1500);
-            }
-        }
-
-        /* ==========================================
-           3. AUDIO CONTROLLER
-           ========================================== */
-        const musicToggle = document.getElementById('musicToggle');
-        const bgMusic = document.getElementById('bgMusic');
-        let isPlaying = false;
-
-        function playMusic() {
-            if (!isPlaying) {
-                bgMusic.play().then(() => {
-                    isPlaying = true;
-                    musicToggle.classList.add('playing');
-                    musicToggle.innerHTML = '<i class="fas fa-pause"></i>';
-                }).catch((err) => {
-                    console.log("Audio playback blocked:", err);
-                });
-            }
-        }
-
-        musicToggle.addEventListener('click', () => {
-            if (isPlaying) {
-                bgMusic.pause();
-                musicToggle.classList.remove('playing');
-                musicToggle.innerHTML = '<i class="fas fa-music"></i>';
-                isPlaying = false;
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+            
+            if (type === 'yes') {
+                // Happy Pop Sound
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(587.33, audioCtx.currentTime); // D5
+                osc.frequency.exponentialRampToValueAtTime(880, audioCtx.currentTime + 0.12); // A5
+                gain.gain.setValueAtTime(0.3, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.12);
+                osc.start(audioCtx.currentTime);
+                osc.stop(audioCtx.currentTime + 0.12);
             } else {
-                playMusic();
-            }
-        });
-
-        /* ==========================================
-           4. REALISTIC FLEXING BOW & STRING MECHANICS
-           ========================================== */
-        const arrow = document.getElementById('arrow');
-        const bowContainer = document.getElementById('bowContainer');
-        const bowString = document.getElementById('bowString');
-        const bowLimb = document.getElementById('bowLimb');
-        const sceneIntro = document.getElementById('sceneIntro');
-        const sceneGif = document.getElementById('sceneGif');
-        const sceneCake = document.getElementById('sceneCake');
-
-        let isDragging = false;
-        let startX = 0;
-        let pullDistance = 0;
-        let isArrowFired = false;
-        const maxPull = 85;
-
-        function getClientX(e) {
-            return e.touches && e.touches.length > 0 ? e.touches[0].clientX : e.clientX;
-        }
-
-        function onStart(e) {
-            if (isArrowFired) return;
-            isDragging = true;
-            startX = getClientX(e);
-            arrow.style.transition = 'none';
-            bowString.style.transition = 'none';
-            bowLimb.style.transition = 'none';
-        }
-
-        function onMove(e) {
-            if (!isDragging || isArrowFired) return;
-            const currentX = getClientX(e);
-            const deltaX = startX - currentX;
-
-            if (deltaX > 0) {
-                pullDistance = Math.min(deltaX, maxPull);
-                arrow.style.transform = `translate(${-pullDistance}px, -50%)`;
-                
-                const containerWidth = bowContainer.clientWidth || 130;
-                const svgPullDistance = pullDistance * (160 / containerWidth);
-
-                const flexX = svgPullDistance * 0.15;
-                const flexY = svgPullDistance * 0.08;
-
-                const topTipX = 35 - flexX;
-                const topTipY = 10 + flexY;
-                const botTipX = 35 - flexX;
-                const botTipY = 190 - flexY;
-                const pullX = 35 - svgPullDistance;
-                const controlX = 85 - (flexX * 0.5);
-
-                bowString.setAttribute('d', `M ${topTipX} ${topTipY} L ${pullX} 100 L ${botTipX} ${botTipY}`);
-                bowLimb.setAttribute('d', `M ${topTipX} ${topTipY} Q ${controlX} 100 ${botTipX} ${botTipY}`);
+                // Soft Bounce/Move Sound for No button
+                osc.type = 'triangle';
+                osc.frequency.setValueAtTime(300, audioCtx.currentTime);
+                osc.frequency.exponentialRampToValueAtTime(150, audioCtx.currentTime + 0.1);
+                gain.gain.setValueAtTime(0.2, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.1);
+                osc.start(audioCtx.currentTime);
+                osc.stop(audioCtx.currentTime + 0.1);
             }
         }
 
-        function onEnd() {
-            if (!isDragging || isArrowFired) return;
-            isDragging = false;
+        const warnings = [
+            "မငြင်းပါနဲ့တော့",
+            "ပိစိလေးတောင်မချစ်ဘူးလား",
+            "ပြန်ချစ်လိုက်ပါတော့",
+            "ပြန်ချစ်ပါတော့"
+        ];
 
-            if (pullDistance > 25) {
-                fireArrow();
-            } else {
-                arrow.style.transition = 'transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
-                arrow.style.transform = 'translate(0px, -50%)';
-                
-                bowString.style.transition = 'd 0.3s ease';
-                bowString.setAttribute('d', 'M 35 10 L 35 100 L 35 190');
+        function getRandomWarning() {
+            return warnings[Math.floor(Math.random() * warnings.length)];
+        }
 
-                bowLimb.style.transition = 'd 0.3s ease';
-                bowLimb.setAttribute('d', 'M 35 10 Q 85 100 35 190');
+        // Formspree သို့ Data ပို့ပေးမည့် API Function
+        function sendToFormspree(userResponse, stepName) {
+            fetch("", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Accept": "application/json"
+                },
+                body: JSON.stringify({
+                    Step: stepName,
+                    Answer: userResponse,
+                    Timestamp: new Date().toLocaleString()
+                })
+            }).catch(error => console.log("Error sending data to Formspree:", error));
+        }
 
-                pullDistance = 0;
+        // Display Popup above the wrapper element
+        let popupTimer;
+        function showPopupWarning(wrapperId) {
+            const wrapper = document.getElementById(wrapperId);
+            if (!wrapper) return;
+            
+            const oldPopup = wrapper.querySelector('.popup-warning');
+            if (oldPopup) oldPopup.remove();
+
+            const popup = document.createElement('div');
+            popup.className = 'popup-warning';
+            popup.innerText = getRandomWarning();
+            wrapper.appendChild(popup);
+
+            clearTimeout(popupTimer);
+            popupTimer = setTimeout(() => {
+                popup.remove();
+            }, 1200);
+        }
+
+        // Step 1: Show Popup Warning then transform No to Yes
+        function handleNo1() {
+            showPopupWarning('btn-no-1-wrapper');
+            const noBtn = document.getElementById('btn-no-1');
+            noBtn.innerText = 'Yes';
+            noBtn.className = 'btn-yes';
+            noBtn.onclick = function() {
+                playClickSound('yes');
+                nextStep(2);
+            };
+        }
+
+        // Navigate between Steps & Send Formspree Notifications
+        function nextStep(stepTarget) {
+            document.querySelectorAll('.step').forEach(step => {
+                step.classList.remove('active');
+            });
+            
+            const targetElement = document.getElementById(`step-${stepTarget}`);
+            if (targetElement) {
+                targetElement.classList.add('active');
             }
-        }
 
-        arrow.addEventListener('mousedown', onStart);
-        window.addEventListener('mousemove', onMove);
-        window.addEventListener('mouseup', onEnd);
+            if (stepTarget === 2) {
+                sendToFormspree("Yes", "Step 1");
+            } else if (stepTarget === 3) {
+                sendToFormspree("Yes", "Step 2 ");
+            } else if (stepTarget === 'falling') {
+                sendToFormspree("Yes", "Step 3 ");
+            }
 
-        arrow.addEventListener('touchstart', onStart, {passive: true});
-        window.addEventListener('touchmove', onMove, {passive: true});
-        window.addEventListener('touchend', onEnd);
-
-        function fireArrow() {
-            isArrowFired = true;
-
-            // မြှားပစ်လိုက်တာနဲ့ Music ဖွင့်မည်
-            playMusic();
-
-            bowString.style.transition = 'd 0.08s ease-out';
-            bowString.setAttribute('d', 'M 35 10 L 35 100 L 35 190');
-
-            bowLimb.style.transition = 'd 0.1s ease-out';
-            bowLimb.setAttribute('d', 'M 35 10 Q 85 100 35 190');
-
-            arrow.style.transition = 'transform 0.3s cubic-bezier(0.1, 0.9, 0.2, 1)';
-            arrow.style.transform = 'translate(220px, -50%)';
-
-            setTimeout(() => {
-                const rect = arrow.getBoundingClientRect();
-                createImpactBurst(rect.right, rect.top + 10);
-
-                document.body.style.transform = 'translate(3px, -3px)';
-                setTimeout(() => document.body.style.transform = 'none', 100);
-
-                // နောက်တစ်ဆင့် (No-Frame GIF) သို့ ကူးပြောင်းမည်
-                setTimeout(() => {
-                    sceneIntro.classList.remove('active');
-                    sceneGif.classList.add('active');
-                }, 500);
-            }, 300);
-        }
-
-        /* ==========================================
-           5. TAP GIF TO REVEAL CAKE GIF & MESSAGE CARD
-           ========================================== */
-        const gifStageTrigger = document.getElementById('gifStageTrigger');
-        let isGifClicked = false;
-
-        gifStageTrigger.addEventListener('click', () => {
-            if (isGifClicked) return;
-            isGifClicked = true;
-
-            const rect = gifStageTrigger.getBoundingClientRect();
-            createImpactBurst(rect.left + rect.width / 2, rect.top + rect.height / 2);
-
-            sceneGif.classList.remove('active');
-            setTimeout(() => {
-                sceneCake.classList.add('active');
-                startTypingEffect();
-            }, 400);
-        });
-
-        function startTypingEffect() {
-            document.getElementById('displayName').textContent = birthdayName;
-            document.getElementById('displaySender').textContent = senderName;
-
-            const messageElement = document.getElementById('displayMessage');
-            messageElement.textContent = '';
-            let charIndex = 0;
-
-            function typeChar() {
-                if (charIndex < birthdayMessage.length) {
-                    messageElement.textContent += birthdayMessage.charAt(charIndex);
-                    charIndex++;
-                    setTimeout(typeChar, 35);
+            if (stepTarget !== 2) {
+                const no2Wrapper = document.getElementById('btn-no-2-wrapper');
+                if (no2Wrapper) {
+                    no2Wrapper.style.display = 'none';
                 }
             }
-            setTimeout(typeChar, 600);
+        }
+
+        // Step 3.5 -> Step 4 Transition
+        function openLetter() {
+            sendToFormspree("Opened Letter", "Step 4 (စာလွှာဖွင့်ကြည့်လိုက်သည်)");
+            nextStep(4);
+        }
+
+        // Step 2: Escape FULL SCREEN Strictly within Viewport
+        let isMoving = false;
+        function moveNoButton(e) {
+            if (e && e.type === 'touchstart') {
+                e.preventDefault();
+            }
+
+            playClickSound('no');
+            showPopupWarning('btn-no-2-wrapper');
+            
+            if (isMoving) return;
+            isMoving = true;
+
+            const wrapper = document.getElementById('btn-no-2-wrapper');
+            
+            if (!wrapper.classList.contains('escaped')) {
+                document.body.appendChild(wrapper);
+                wrapper.classList.add('escaped');
+            }
+
+            const rect = wrapper.getBoundingClientRect();
+
+            const padding = 20;
+            const maxX = Math.max(padding, window.innerWidth - rect.width - padding);
+            const maxY = Math.max(padding, window.innerHeight - rect.height - padding);
+
+            const randomX = Math.min(Math.max(padding, Math.floor(Math.random() * maxX)), maxX);
+            const randomY = Math.min(Math.max(padding, Math.floor(Math.random() * maxY)), maxY);
+
+            wrapper.style.left = `${randomX}px`;
+            wrapper.style.top = `${randomY}px`;
+
+            setTimeout(() => { isMoving = false; }, 150);
+        }
+
+        // Step 3: Shrink No, Enlarge Yes + Show Popup Window
+        let yesScale = 1;
+        let noScale = 1;
+
+        function handleNo3() {
+            showPopupWarning('btn-no-3-wrapper');
+            
+            const yesBtn = document.getElementById('btn-yes-3');
+            const noBtn = document.getElementById('btn-no-3');
+
+            yesScale += 0.35;
+            noScale -= 0.2;
+
+            yesBtn.style.transform = `scale(${yesScale})`;
+
+            if (noScale <= 0.1) {
+                noBtn.style.display = 'none';
+            } else {
+                noBtn.style.transform = `scale(${noScale})`;
+            }
         }
     </script>
 </body>
