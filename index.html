@@ -1,805 +1,489 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="my">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Happy Anniversary</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Padauk:wght@400;700&display=swap" rel="stylesheet">
-    <style>
-        /* Apply Times New Roman globally */
-        * {
-            font-family: 'Times New Roman', Times, 'Padauk', serif !important;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Be My Valentine 💕 | Romantic Pink E-Postcard</title>
+  
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-        body {
-            background-color: #f6efff;
-            /* Aesthetic Double-Line Windowpane + Cross-Stitch Grid Design */
-            background-image: 
-                radial-gradient(circle at 0 0, rgba(147, 51, 234, 0.28) 1.5px, transparent 1.5px),
-                linear-gradient(to right, rgba(168, 85, 247, 0.16) 1px, transparent 1px, transparent 6px, rgba(168, 85, 247, 0.08) 6px, rgba(168, 85, 247, 0.08) 7px, transparent 7px),
-                linear-gradient(to bottom, rgba(168, 85, 247, 0.16) 1px, transparent 1px, transparent 6px, rgba(168, 85, 247, 0.08) 6px, rgba(168, 85, 247, 0.08) 7px, transparent 7px),
-                linear-gradient(to right, rgba(255, 255, 255, 0.45) 50%, transparent 50%),
-                linear-gradient(to bottom, rgba(255, 255, 255, 0.45) 50%, transparent 50%),
-                radial-gradient(circle at 20% 20%, rgba(233, 213, 255, 0.7) 0%, transparent 50%),
-                linear-gradient(135deg, #fdfbff 0%, #f3e8ff 50%, #ead6ff 100%);
-            background-size: 
-                64px 64px,
-                64px 64px,
-                64px 64px,
-                128px 128px,
-                128px 128px,
-                100% 100%,
-                100% 100%;
-            background-position: center center;
-            overflow: hidden;
-            height: 100vh;
-            touch-action: manipulation;
-        }
+  <style>
+    * {
+      font-family: 'Times New Roman', Times, serif !important;
+    }
 
-        /* Subtle decorative floating background frame */
-        .bg-ornament-frame {
-            position: fixed;
-            inset: 14px;
-            border: 1.5px dashed rgba(168, 85, 247, 0.32);
-            border-radius: 24px;
-            pointer-events: none;
-            z-index: 1;
-            box-shadow: inset 0 0 30px rgba(255, 255, 255, 0.6);
-        }
+    body {
+      font-family: 'Times New Roman', Times, serif;
+      overflow-x: hidden;
+    }
 
-        .font-cursive, .font-serif-custom, .font-padauk { 
-            font-family: 'Times New Roman', Times, 'Padauk', serif !important; 
-        }
+    .handwriting {
+      font-family: 'Times New Roman', Times, serif;
+      font-style: italic;
+    }
 
-        /* NEW ENVELOPE REVEAL: 3D Spiral Magic Bloom & Orbit Glow */
-        @keyframes magicEnvelopeBloom {
-            0% { 
-                transform: translate(-50%, 60%) scale(0.05) rotate(-540deg); 
-                opacity: 0; 
-                filter: blur(12px) brightness(1.6);
-            }
-            55% { 
-                transform: translate(-50%, -46%) scale(1.14) rotate(10deg); 
-                opacity: 1; 
-                filter: blur(0px) brightness(1.1);
-            }
-            75% { 
-                transform: translate(-50%, -40%) scale(0.95) rotate(-4deg); 
-            }
-            100% { 
-                transform: translate(-50%, -42%) scale(1) rotate(0deg); 
-                opacity: 1; 
-                filter: blur(0px) brightness(1);
-            }
-        }
+    .romantic-pink-grid {
+      background-color: #fff0f6;
+      background-image: 
+        radial-gradient(circle at 50% 35%, rgba(255, 255, 255, 0.85) 0%, rgba(255, 228, 240, 0.45) 55%, rgba(251, 207, 232, 0.85) 100%),
+        repeating-linear-gradient(45deg, rgba(244, 114, 182, 0.16) 0px, rgba(244, 114, 182, 0.16) 1px, transparent 1px, transparent 28px),
+        repeating-linear-gradient(-45deg, rgba(244, 114, 182, 0.16) 0px, rgba(244, 114, 182, 0.16) 1px, transparent 1px, transparent 28px),
+        linear-gradient(to right, rgba(236, 72, 153, 0.08) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(236, 72, 153, 0.08) 1px, transparent 1px);
+      background-size: 100% 100%, 40px 40px, 40px 40px, 20px 20px, 20px 20px;
+    }
 
-        @keyframes magicHoverLevitate {
-            0%, 100% { transform: translate(-50%, -42%) translateY(0px) rotate(-1.5deg); }
-            50% { transform: translate(-50%, -42%) translateY(-12px) rotate(2deg); }
-        }
+    .bg-hearts {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 1;
+    }
 
-        @keyframes auraHaloSpin {
-            0% { transform: translate(-50%, -50%) rotate(0deg) scale(0.95); }
-            50% { transform: translate(-50%, -50%) rotate(180deg) scale(1.06); }
-            100% { transform: translate(-50%, -50%) rotate(360deg) scale(0.95); }
-        }
+    .heart-particle {
+      position: absolute;
+      bottom: -10vh;
+      animation: floatUp linear infinite;
+      user-select: none;
+      filter: drop-shadow(0 0 8px rgba(244, 114, 182, 0.6));
+    }
 
-        /* Main Butterfly Idle Hover & Flutter */
-        @keyframes butterflyGentleSway {
-            0%, 100% { transform: translateY(0) rotate(-2deg) scale(1); }
-            50% { transform: translateY(-9px) rotate(2.5deg) scale(1.04); }
-        }
+    @keyframes floatUp {
+      0% {
+        transform: translateY(0) rotate(0deg) scale(0.7);
+        opacity: 0.9;
+      }
+      50% {
+        opacity: 1;
+        filter: drop-shadow(0 0 15px rgba(236, 72, 153, 0.85));
+      }
+      100% {
+        transform: translateY(-115vh) rotate(360deg) scale(1.3);
+        opacity: 0;
+      }
+    }
 
-        .butterfly-idle {
-            animation: butterflyGentleSway 3.2s ease-in-out infinite;
-            transition: transform 0.3s ease;
-        }
+    .animate-envelope-pop {
+      animation: envelopePopReveal 1.3s cubic-bezier(0.22, 1.4, 0.36, 1) forwards;
+    }
 
-        .butterfly-idle:hover {
-            transform: scale(1.08);
-        }
+    @keyframes envelopePopReveal {
+      0% {
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%) scale(0) rotateY(-180deg) rotateZ(-25deg);
+        opacity: 0;
+      }
+      60% {
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%) scale(1.15) rotateY(15deg) rotateZ(6deg);
+        opacity: 1;
+      }
+      80% {
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%) scale(0.95) rotateY(-5deg) rotateZ(-3deg);
+      }
+      100% {
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%) scale(1) rotateY(0deg) rotateZ(0deg);
+        opacity: 1;
+      }
+    }
 
-        /* Main Butterfly Slow Gentle Fly Away Animation */
-        @keyframes mainButterflyFlyAway {
-            0% {
-                transform: translate(0, 0) scale(1) rotate(0deg);
-                opacity: 1;
-            }
-            25% {
-                transform: translate(-18px, 10px) scale(1.06) rotate(-10deg);
-                opacity: 1;
-            }
-            65% {
-                transform: translate(65px, -180px) scale(0.75) rotate(14deg);
-                opacity: 0.85;
-            }
-            100% {
-                transform: translate(150px, -420px) scale(0.3) rotate(28deg);
-                opacity: 0;
-            }
-        }
+    .envelope-hover-float {
+      animation: envelopeFloat 2.4s ease-in-out infinite alternate;
+    }
 
-        .butterfly-fly-away {
-            animation: mainButterflyFlyAway 2.2s cubic-bezier(0.25, 0.1, 0.25, 1) forwards !important;
-            pointer-events: none;
-        }
+    @keyframes envelopeFloat {
+      0% { transform: translateY(0px) rotate(-2deg); }
+      100% { transform: translateY(-12px) rotate(2deg); }
+    }
 
-        /* Mini Flying Butterflies Slow Particle Styles */
-        .flying-butterfly {
-            position: fixed;
-            pointer-events: none;
-            z-index: 60;
-            animation: miniButterflyScatter var(--fly-dur, 3.2s) cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
-            filter: drop-shadow(0 4px 8px rgba(147, 51, 234, 0.32));
-        }
+    .animate-bounce-gentle {
+      animation: bounceGentle 1.4s infinite alternate ease-in-out;
+    }
 
-        .flying-butterfly-inner {
-            display: block;
-            animation: wingFlap 0.24s ease-in-out infinite alternate;
-        }
+    @keyframes bounceGentle {
+      0% { transform: translateY(0) scale(1); }
+      100% { transform: translateY(-6px) scale(1.04); }
+    }
 
-        @keyframes wingFlap {
-            0% { transform: scaleX(1) scaleY(1); }
-            100% { transform: scaleX(0.38) scaleY(1.05); }
-        }
+    .romantic-stationery {
+      background-color: #fff9fb;
+      background-image: 
+        linear-gradient(to right, transparent 34px, rgba(244, 114, 182, 0.35) 34px, rgba(244, 114, 182, 0.35) 36px, transparent 36px),
+        repeating-linear-gradient(to bottom, transparent 0px, transparent 31px, rgba(251, 207, 232, 0.65) 32px);
+      border: 3px solid #f9a8d4;
+      box-shadow: 
+        0 25px 50px -12px rgba(190, 24, 93, 0.28),
+        0 0 0 6px rgba(255, 255, 255, 0.85),
+        inset 0 0 30px rgba(253, 242, 248, 0.9);
+    }
 
-        @keyframes miniButterflyScatter {
-            0% {
-                transform: translate(0, 0) scale(0.25) rotate(0deg);
-                opacity: 0;
-            }
-            18% {
-                opacity: 1;
-                transform: translate(calc(var(--tx) * 0.18), calc(var(--ty) * 0.18)) scale(1) rotate(calc(var(--rot) * 0.5));
-            }
-            65% {
-                opacity: 0.95;
-                transform: translate(calc(var(--tx) * 0.68), calc(var(--ty) * 0.68)) scale(0.85) rotate(var(--rot));
-            }
-            100% {
-                transform: translate(var(--tx), var(--ty)) scale(0.45) rotate(calc(var(--rot) * 1.3));
-                opacity: 0;
-            }
-        }
+    .jelly-pink-yes {
+      background: linear-gradient(180deg, #ff7eb3 0%, #ff477e 55%, #e11d48 100%);
+      border-radius: 22px;
+      border-top: 2px solid #ffc2d1;
+      border-bottom: 4px solid #9f1239;
+      box-shadow: 
+        0 10px 25px -5px rgba(225, 29, 72, 0.5),
+        inset 0 2px 6px rgba(255, 255, 255, 0.65);
+      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .jelly-pink-yes:hover {
+      background: linear-gradient(180deg, #ff8fab 0%, #ff5c8a 55%, #f43f5e 100%);
+      box-shadow: 
+        0 14px 30px -4px rgba(225, 29, 72, 0.65),
+        inset 0 2px 8px rgba(255, 255, 255, 0.85);
+    }
+    .jelly-pink-yes:active {
+      border-bottom-width: 1px;
+    }
 
-        .magic-envelope-stage {
-            position: absolute;
-            top: 52%;
-            left: 50%;
-            animation: magicEnvelopeBloom 1.5s cubic-bezier(0.22, 1, 0.36, 1) forwards,
-                       magicHoverLevitate 3.6s ease-in-out infinite 1.5s;
-            cursor: pointer;
-            transition: filter 0.3s ease;
-            user-select: none;
-            -webkit-user-drag: none;
-        }
+    .glass-pink-no {
+      background: rgba(255, 255, 255, 0.72);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-radius: 22px;
+      border: 2px solid rgba(244, 114, 182, 0.55);
+      border-bottom: 4px solid rgba(244, 114, 182, 0.75);
+      box-shadow: 0 8px 20px rgba(244, 114, 182, 0.18);
+      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .glass-pink-no:hover {
+      background: rgba(255, 241, 242, 0.92);
+      border-color: #ec4899;
+    }
 
-        .envelope-halo-ring {
-            position: absolute;
-            top: 44%;
-            left: 50%;
-            width: 215px;
-            height: 215px;
-            border-radius: 50%;
-            border: 1.5px dashed rgba(168, 85, 247, 0.45);
-            background: radial-gradient(circle, rgba(233, 213, 255, 0.55) 0%, rgba(255, 255, 255, 0) 70%);
-            animation: auraHaloSpin 14s linear infinite;
-            pointer-events: none;
-            z-index: -1;
-        }
-
-        .envelope-halo-ring::before {
-            content: '✦';
-            position: absolute;
-            top: -8px;
-            left: 50%;
-            transform: translateX(-50%);
-            color: #9333ea;
-            font-size: 13px;
-        }
-
-        .envelope-halo-ring::after {
-            content: '♥';
-            position: absolute;
-            bottom: -8px;
-            left: 50%;
-            transform: translateX(-50%);
-            color: #c084fc;
-            font-size: 11px;
-        }
-
-        .magic-envelope-stage img {
-            border: none !important;
-            outline: none !important;
-            box-shadow: none !important;
-            background: transparent !important;
-            width: 165px !important;
-            filter: drop-shadow(0 12px 22px rgba(126, 34, 206, 0.28));
-            transition: transform 0.3s ease, filter 0.3s ease;
-        }
-
-        .magic-envelope-stage:hover img {
-            transform: scale(1.06);
-            filter: drop-shadow(0 0 24px rgba(168, 85, 247, 0.65));
-        }
-
-        @keyframes pulseGlow {
-            0%, 100% { opacity: 0.92; transform: scale(0.97); }
-            50% { opacity: 1; transform: scale(1.03); }
-        }
-
-        .click-hint { animation: pulseGlow 1.8s infinite; }
-
-        /* Passcode Shake Animation on Wrong Entry */
-        @keyframes shakeError {
-            0%, 100% { transform: translateX(0); }
-            20%, 60% { transform: translateX(-8px); }
-            40%, 80% { transform: translateX(8px); }
-        }
-        .shake-box {
-            animation: shakeError 0.4s ease-in-out;
-        }
-
-        /* Liquid Glass Passcode Card */
-        .glass-lock-card {
-            background: linear-gradient(145deg, rgba(255, 255, 255, 0.85) 0%, rgba(245, 235, 255, 0.78) 100%);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1.5px solid rgba(216, 180, 254, 0.85);
-            box-shadow: 
-                0 25px 50px -12px rgba(88, 28, 135, 0.25),
-                inset 0 1px 1px rgba(255, 255, 255, 0.9);
-        }
-
-        .keypad-btn {
-            background: rgba(255, 255, 255, 0.82);
-            border: 1px solid rgba(216, 180, 254, 0.75);
-            transition: all 0.15s ease;
-        }
-        .keypad-btn:hover {
-            background: #f3e8ff;
-            border-color: #c084fc;
-            transform: translateY(-1px);
-        }
-        .keypad-btn:active {
-            transform: scale(0.92);
-            background: #e9d5ff;
-        }
-
-        /* Romantic Lavender Stationery Paper Design */
-        .paper-stationery {
-            background: linear-gradient(165deg, #ffffff 0%, #fcf8ff 50%, #f5edff 100%);
-            color: #3b2854;
-            border: 2px solid #d8b4fe;
-            box-shadow: 
-                0 20px 45px rgba(88, 28, 135, 0.22),
-                0 4px 12px rgba(168, 85, 247, 0.12),
-                inset 0 0 0 6px #ffffff,
-                inset 0 0 0 7.5px #e9d5ff;
-            position: relative;
-        }
-
-        .paper-stationery::before {
-            content: '✿';
-            position: absolute;
-            top: 14px;
-            left: 18px;
-            font-size: 14px;
-            color: #c084fc;
-            opacity: 0.7;
-        }
-
-        .ruled-paper-area {
-            background-image: repeating-linear-gradient(
-                to bottom,
-                transparent 0px,
-                transparent 31px,
-                rgba(192, 132, 252, 0.22) 32px
-            );
-            line-height: 32px;
-            padding-top: 2px;
-        }
-
-        .paper-stationery .title-text { color: #6b21a8; }
-        .paper-stationery .heading-text { color: #7e22ce; }
-
-        .sparkle {
-            position: absolute;
-            background: radial-gradient(circle, #c084fc 15%, rgba(216, 180, 254, 0.85) 60%, transparent 100%);
-            border-radius: 50%; pointer-events: none;
-            animation: floatUp var(--duration) linear infinite;
-        }
-
-        @keyframes floatUp {
-            0% { transform: translateY(105vh) scale(0) rotate(0deg); opacity: 0; }
-            20% { opacity: 0.75; }
-            80% { opacity: 0.75; }
-            100% { transform: translateY(-10vh) scale(1.2) rotate(360deg); opacity: 0; }
-        }
-
-        .blurred-content { filter: blur(6px); pointer-events: none; transition: filter 0.5s ease; }
-
-        /* Typing cursor effect */
-        .typing-cursor::after {
-            content: '|';
-            animation: blink 0.7s infinite;
-            color: #9333ea;
-            font-weight: bold;
-            margin-left: 2px;
-        }
-        @keyframes blink {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0; }
-        }
-    </style>
+    .text-glow-pink {
+      text-shadow: 0 2px 12px rgba(255, 255, 255, 0.95), 0 0 20px rgba(244, 114, 182, 0.35);
+    }
+  </style>
 </head>
-<body class="relative flex items-center justify-center min-h-screen select-none overflow-hidden">
 
-    <div class="bg-ornament-frame"></div>
+<body class="romantic-pink-grid min-h-screen flex items-center justify-center p-4 relative overflow-x-hidden selection:bg-pink-500 selection:text-white">
 
-    <audio id="bgMusic" loop src="https://www.image2url.com/r2/default/audio/1789288232634-9a89e91e-e43f-4d68-b101-bf9b607f0f76.m4a"></audio>
+  <div id="heartsContainer" class="bg-hearts"></div>
 
-    <!-- 1. Start Screen with Larger Interactive Butterfly -->
-    <div id="startScreen" class="absolute inset-0 z-40 flex flex-col items-center justify-center cursor-pointer transition-opacity duration-700" onclick="triggerButterflyFlight(event)">
-        <div id="butterflyHintBadge" class="px-6 py-2 rounded-full bg-white/90 backdrop-blur-sm border border-purple-200 shadow-sm mb-5 click-hint transition-opacity duration-500">
-            <h1 class="text-purple-900 text-lg md:text-xl font-bold tracking-wide text-center">
-                ✨ Click the Butterfly ✨
-            </h1>
-        </div>
-        <img id="mainButterflyImg" src="https://i.ibb.co/r2RHJNg3/68ggg.png" alt="Butterfly" class="h-auto object-contain butterfly-idle drop-shadow-xl" style="width: 260px; max-width: 72vw;">
+  <div class="absolute top-12 left-8 w-44 h-44 bg-pink-300 rounded-full blur-3xl opacity-45 animate-pulse pointer-events-none"></div>
+  <div class="absolute bottom-12 right-8 w-52 h-52 bg-rose-300 rounded-full blur-3xl opacity-45 animate-pulse pointer-events-none"></div>
+
+  <main class="relative z-10 w-full max-w-sm sm:max-w-md p-4 sm:p-6 text-center my-auto">
+
+    <div id="contentBox" class="flex flex-col items-center justify-center min-h-[350px]">
+      
+      <div class="relative w-52 h-52 sm:w-60 sm:h-60 mb-5">
+        <img id="gifImage" 
+             src="https://media.tenor.com/dnlemy1CA9EAAAAi/bubu-dudu-sseeyall.gif" 
+             alt="Love Proposal Cute GIF" 
+             class="w-full h-full object-cover">
+      </div>
+
+      <h1 id="questionText" class="text-2xl sm:text-3xl font-bold text-rose-950 mb-7 leading-relaxed min-h-[3.5rem] flex items-center justify-center px-2 text-glow-pink">
+        စိတ်ကောက်ပြေပါတော့နော် ❤️
+      </h1>
+
+      <div id="buttonGroup" class="flex flex-wrap items-center justify-center gap-4 w-full">
+        <!-- Yes Button -->
+        <button id="yesBtn" onclick="handleYesClick()" 
+                class="jelly-pink-yes text-white font-bold py-3.5 px-9 text-lg sm:text-xl flex items-center gap-2 cursor-pointer">
+          <span>Yes</span> 💖
+        </button>
+
+        <button id="noBtn" onclick="handleNoClick()" 
+                class="glass-pink-no text-rose-900 font-bold py-3.5 px-7 text-base sm:text-lg flex items-center gap-1.5 cursor-pointer">
+          <span>No</span> 🥺
+        </button>
+      </div>
+
     </div>
+  </main>
 
-    <!-- 2. Passcode Lock Modal (Opens slowly as Butterflies fly away) -->
-    <div id="passwordModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-purple-950/35 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-700" onclick="closePasswordModalOnBg(event)">
-        <div id="passwordBox" class="glass-lock-card w-full max-w-xs p-6 rounded-3xl text-center relative transform scale-95 transition-transform duration-500" onclick="event.stopPropagation()">
-            
-            <!-- Close Button -->
-            <button onclick="closePasswordModal()" class="absolute top-3.5 right-3.5 text-purple-500 hover:text-purple-800 bg-white/80 rounded-full p-1.5 shadow-sm transition">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M6 18L18 6M6 6l12 12"></path></svg>
-            </button>
+  <div id="envelopeBackdrop" class="fixed inset-0 bg-rose-950/35 backdrop-blur-xs z-30 hidden transition-opacity duration-300"></div>
 
-            <!-- Lock Badge -->
-            <div class="w-12 h-12 mx-auto mb-2.5 rounded-2xl bg-purple-100 border border-purple-300 flex items-center justify-center shadow-inner">
-                <span class="text-xl">🔐</span>
-            </div>
+  <div id="floatingPostcard" 
+       onclick="openApologyLetter()" 
+       class="fixed z-40 hidden cursor-pointer flex flex-col items-center group">
+    
+    <div class="relative envelope-hover-float flex flex-col items-center">
+      <!-- Radiant Pink Glow Behind Envelope -->
+      <div class="absolute inset-0 bg-pink-400/40 rounded-full blur-2xl scale-110 animate-pulse"></div>
+      
+      <div class="relative w-48 h-48 sm:w-56 sm:h-56 filter drop-shadow-[0_18px_30px_rgba(225,29,72,0.4)] transform group-hover:scale-105 transition-transform duration-300">
+        <img src="https://i.ibb.co/hFVV1KZF/hh7786.png" 
+             alt="Floating Envelope" 
+             class="w-full h-full object-contain">
+      </div>
 
-            <h2 class="text-purple-950 font-bold text-lg tracking-wide">Secret Passcode</h2>
-            <p id="passHintText" class="text-xs text-purple-600 mt-0.5 italic">လျှို့ဝှက်နံပါတ် ၄ လုံးရိုက်ထည့်ပါ 💜</p>
-
-            <!-- 4 Heart Pin Indicators -->
-            <div class="flex items-center justify-center gap-3.5 my-4" id="pinDotsContainer">
-                <span class="pin-dot w-4 h-4 rounded-full border-2 border-purple-400 bg-white transition-all duration-200"></span>
-                <span class="pin-dot w-4 h-4 rounded-full border-2 border-purple-400 bg-white transition-all duration-200"></span>
-                <span class="pin-dot w-4 h-4 rounded-full border-2 border-purple-400 bg-white transition-all duration-200"></span>
-                <span class="pin-dot w-4 h-4 rounded-full border-2 border-purple-400 bg-white transition-all duration-200"></span>
-            </div>
-
-            <!-- Status / Error Message -->
-            <p id="passErrorMsg" class="text-xs font-bold text-rose-500 h-4 mb-2 opacity-0 transition-opacity">Passcode မှားနေပါတယ် ပြန်စမ်းကြည့်ပါ 🥺</p>
-
-            <!-- Aesthetic Number Keypad -->
-            <div class="grid grid-cols-3 gap-2.5 max-w-[220px] mx-auto">
-                <button type="button" onclick="enterDigit('1')" class="keypad-btn py-2.5 rounded-xl text-purple-900 font-bold text-lg shadow-sm">1</button>
-                <button type="button" onclick="enterDigit('2')" class="keypad-btn py-2.5 rounded-xl text-purple-900 font-bold text-lg shadow-sm">2</button>
-                <button type="button" onclick="enterDigit('3')" class="keypad-btn py-2.5 rounded-xl text-purple-900 font-bold text-lg shadow-sm">3</button>
-                <button type="button" onclick="enterDigit('4')" class="keypad-btn py-2.5 rounded-xl text-purple-900 font-bold text-lg shadow-sm">4</button>
-                <button type="button" onclick="enterDigit('5')" class="keypad-btn py-2.5 rounded-xl text-purple-900 font-bold text-lg shadow-sm">5</button>
-                <button type="button" onclick="enterDigit('6')" class="keypad-btn py-2.5 rounded-xl text-purple-900 font-bold text-lg shadow-sm">6</button>
-                <button type="button" onclick="enterDigit('7')" class="keypad-btn py-2.5 rounded-xl text-purple-900 font-bold text-lg shadow-sm">7</button>
-                <button type="button" onclick="enterDigit('8')" class="keypad-btn py-2.5 rounded-xl text-purple-900 font-bold text-lg shadow-sm">8</button>
-                <button type="button" onclick="enterDigit('9')" class="keypad-btn py-2.5 rounded-xl text-purple-900 font-bold text-lg shadow-sm">9</button>
-                <button type="button" onclick="clearDigits()" class="keypad-btn py-2.5 rounded-xl text-purple-600 font-bold text-xs shadow-sm">Clear</button>
-                <button type="button" onclick="enterDigit('0')" class="keypad-btn py-2.5 rounded-xl text-purple-900 font-bold text-lg shadow-sm">0</button>
-                <button type="button" onclick="deleteDigit()" class="keypad-btn py-2.5 rounded-xl text-purple-700 font-bold text-sm shadow-sm">⌫</button>
-            </div>
-        </div>
+      <div class="relative bg-white/95 backdrop-blur-sm text-rose-900 text-sm sm:text-base font-bold px-6 py-2.5 rounded-full shadow-xl -mt-3 animate-bounce-gentle border-2 border-pink-400 flex items-center justify-center">
+        Tap to Open Your Letter
+      </div>
     </div>
+  </div>
 
-    <!-- 3. Main Content with Redesigned Envelope Reveal -->
-    <div id="mainContent" class="hidden w-full h-full transition-all duration-500 relative z-10">
-        <div id="sparkle-container" class="absolute inset-0 pointer-events-none overflow-hidden"></div>
+  <div id="letterModal" class="fixed inset-0 bg-rose-950/60 backdrop-blur-md z-50 flex items-center justify-center p-4 opacity-0 pointer-events-none transition-opacity duration-300 overflow-y-auto">
+    
+    <div id="paperLetter" class="romantic-stationery rounded-[28px] w-full max-w-sm sm:max-w-md p-6 sm:p-8 pl-11 sm:pl-12 relative transform scale-90 transition-transform duration-300 my-auto">
+      
+      <div class="absolute -top-4 left-1/2 -translate-x-1/2 bg-gradient-to-r from-pink-500 to-rose-500 text-white text-xs font-bold px-4 py-1 rounded-full shadow-md border-2 border-white flex items-center justify-center whitespace-nowrap">
+        SPECIAL NOTE
+      </div>
 
-        <div class="absolute top-8 text-center z-10 px-4 w-full flex flex-col items-center">
-            <div class="px-6 py-2 rounded-2xl bg-white/90 backdrop-blur-sm border border-purple-200/80 shadow-sm">
-                <h1 class="text-purple-900 text-lg md:text-xl font-bold tracking-wide">✨ Tap The Envelope ✨</h1>
-                <p class="text-xs text-purple-600 mt-0.5 italic">Tap the glowing envelope to open your letter</p>
-            </div>
+      <button onclick="closeApologyLetter()" class="absolute top-3.5 right-3.5 text-pink-600 hover:text-rose-800 text-xl font-bold w-8 h-8 rounded-full bg-pink-100/90 hover:bg-pink-200 flex items-center justify-center transition-colors shadow-sm cursor-pointer">
+        ×
+      </button>
+
+      <div class="inline-flex items-center gap-1.5 border-2 border-dotted border-pink-400 rounded-lg px-2.5 py-1 text-[11px] text-pink-600 font-bold bg-white/90 shadow-sm mb-3 transform -rotate-2">
+        <span>💌 POSTMARKED WITH LOVE</span>
+      </div>
+
+      <div class="text-rose-600 font-bold text-xl sm:text-2xl mb-3 pb-2 border-b-2 border-dashed border-pink-300 flex items-center gap-2">
+        <span>To my special someone...</span> 🌸
+      </div>
+
+      <div class="text-rose-950 text-sm sm:text-[15px] leading-[32px] space-y-2 my-3 font-bold">
+        <p class="first-letter:text-xl first-letter:font-bold first-letter:text-pink-600">
+         <br>ငါတို့ကြားမှာ အလွဲအမှားတွေ၊ စိတ်ကောက်စရာတွေ ရှိခဲ့ရင် အားလုံးအတွက် တကယ်တောင်းပန်ပါတယ်နော်။ မင်းမရှိတဲ့အချိန်တွေမှာ ကိုယ့်ဘဝက ဘယ်လိုမှ မပြည့်စုံဘူးဆိုတာ ပိုပြီးနားလည်လာခဲ့ရတယ်။
+        </p>
+        <p>
+          နောက်ဆိုရင် နားလည်မှုလွဲတာတွေ လျှော့ပြီး မင်းစိတ်ချမ်းသာအောင် အရင်ကထက် ပိုဂရုစိုက်ပေးပါ့မယ်။ ဘယ်လိုအခက်အခဲပဲ ရှိရှိ လက်တွဲမဖြုတ်ဘဲ ထပ်မဝေးကြရအောင်နော်... အရမ်းချစ်တယ် ❤️
+        </p>
+      </div>
+
+      <div class="mt-4 pt-3 border-t border-dashed border-pink-300 flex items-end justify-between">
+        <div class="text-pink-400 text-xl">
+          🌷✨
         </div>
-
-        <!-- Redesigned Magic Orbit & Spiral Bloom Envelope -->
-        <div id="fallingCard" class="magic-envelope-stage z-20 flex flex-col items-center justify-center" onclick="openWishCard()">
-            <div class="envelope-halo-ring"></div>
-            <img src="https://i.ibb.co/99MHD9tV/pup5354.png" alt="Special Envelope" class="h-auto object-contain pointer-events-auto bg-transparent border-0 outline-0 shadow-none">
-            <span class="click-hint mt-4 inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-gradient-to-r from-purple-600 to-fuchsia-500 text-white font-bold text-xs tracking-wider shadow-lg border border-purple-200">
-                <svg class="w-3.5 h-3.5 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
-                Open Letter ✨
-            </span>
+        <div class="text-right">
+          <p class="text-rose-700/80 text-xs font-bold">Forever & Always...</p>
+          <p class="text-pink-600 font-bold text-lg sm:text-xl handwriting mt-0.5">
+            With all my love 💕
+          </p>
         </div>
+      </div>
+
+      <div class="mt-5 text-center">
+        <button onclick="handleFinalAcceptClick()" class="jelly-pink-yes text-white font-bold px-7 py-3 rounded-2xl text-sm sm:text-base w-full sm:w-auto cursor-pointer">
+          လက်ခံပါတယ် ❤️
+        </button>
+      </div>
+
     </div>
+  </div>
 
-    <!-- 4. Love Letter Modal -->
-    <div id="wishModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-purple-950/45 backdrop-blur-[3px] opacity-0 pointer-events-none transition-opacity duration-500 overflow-y-auto" onclick="closeWishCardOnBg(event)">
-        <div class="paper-stationery w-full max-w-md p-6 sm:p-8 rounded-2xl z-10 transform scale-90 transition-transform duration-500 my-auto" id="modalCard">
-            
-            <!-- Cute Pastel Ribbon Bow Top Ornament -->
-            <div class="absolute -top-5 left-1/2 -translate-x-1/2 z-30 flex items-center justify-center bg-purple-100 border-2 border-purple-300 rounded-full w-11 h-11 shadow-md">
-                <svg class="w-6 h-6 text-purple-600" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M14.5 14 C9 8 3 9.5 3 14 C3 18.5 9 18.5 14.5 15" fill="#e9d5ff"/>
-                    <path d="M17.5 14 C23 8 29 9.5 29 14 C29 18.5 23 18.5 17.5 15" fill="#e9d5ff"/>
-                    <path d="M14.5 16.5 L8.5 26"/>
-                    <path d="M17.5 16.5 L23.5 26"/>
-                    <circle cx="16" cy="14.5" r="2.3" fill="#9333ea"/>
-                </svg>
-            </div>
+  <script>
+    const FORMSPREE_URL = "";
 
-            <!-- Postmark / Letter Header Tag -->
-            <div class="text-center mt-2 mb-3">
-                <span class="inline-block px-3 py-0.5 rounded-full bg-purple-100/80 border border-purple-200 text-[10px] font-bold tracking-[0.2em] text-purple-600 uppercase">
-                    Special Love Letter
-                </span>
-            </div>
+    const proposalData = [
+      {
+        question: "တကယ်ကြီး ငြင်းတော့မှာလားဟင်... 🥺",
+        gif: "https://media.tenor.com/3agHGK04Fn8AAAAi/dudusohungrybowl.gif"
+      },
+      {
+        question: "မငြင်းပါနဲ့နော်...  🌸",
+        gif: "https://media.tenor.com/5IRHkK2k-E8AAAAi/dudu.gif"
+      },
+      {
+        question: "စိတ်ဆိုးပြေပါတော့ နော်... ကိုယ်မှားပါတယ် 🥹",
+        gif: "https://media.tenor.com/7lDNjrucw_8AAAAi/sseeyall-bubu-dudu.gif"
+      },
+      {
+        question: "ဒီလောက်တောင် ရက်စက်ရလားကွာ... 💔",
+        gif: "https://media.tenor.com/HpFJPHHQk-kAAAAi/paper-bag-dudu.gif"
+      },
+      {
+        question: "No ခလုတ်ပျောက်သွားပြီ Yes ပဲ နှိပ်တော့ 😤💖",
+        gif: "https://media.tenor.com/TkfrjgGao-gAAAAi/dudu-bubu-dudu-kiss.gif"
+      }
+    ];
 
-            <div class="text-center mb-4">
-                <span id="titleText" class="text-3xl sm:text-4xl title-text block font-bold italic min-h-[46px]"></span>
-                <div class="flex items-center justify-center gap-2 mt-1">
-                    <span class="w-12 h-[1px] bg-purple-300"></span>
-                    <span class="text-purple-400 text-xs">💜</span>
-                    <span class="w-12 h-[1px] bg-purple-300"></span>
-                </div>
-            </div>
+    let currentIndex = 0;
+    let yesScale = 1;
+    let noScale = 1;
+    let noCount = 0;
 
-            <div class="space-y-3 text-center my-4">
-                <p id="headingText" class="text-lg sm:text-xl font-bold heading-text min-h-[28px]"></p>
-                <div class="ruled-paper-area px-3 py-1 rounded-lg">
-                    <p id="bodyText" class="text-sm sm:text-base font-normal text-purple-950/90 min-h-[96px]"></p>
-                </div>
-                <p id="subText" class="text-xs sm:text-sm italic pt-1 text-purple-700/85 min-h-[24px]"></p>
-            </div>
+    function sendFormspreeData(data) {
+      if (!FORMSPREE_URL) return;
+      fetch(FORMSPREE_URL, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json"
+        },
+        body: JSON.stringify(data)
+      }).catch(err => console.log("Formspree Send Error:", err));
+    }
 
-            <div class="mt-6 pt-3 border-t border-dashed border-purple-300 flex items-center justify-between text-xs pr-14">
-                <span id="footerLeft" class="italic font-bold text-base text-purple-800"></span>
-                <span id="footerRight" class="text-purple-600 font-semibold"></span>
-            </div>
+    function createHearts() {
+      const heartsContainer = document.getElementById('heartsContainer');
+      const heartIcons = ['💖', '🌸', '💕', '💗', '🌷', '✨', '💓', '🎀'];
 
-            <!-- Polaroid / Stamp Corner Memory Photo -->
-            <div onclick="openCornerFullModal(event)" class="absolute bottom-3.5 right-4 cursor-pointer group z-30" title="Tap to view photo">
-                <div class="relative w-12 h-14 p-1 pb-2.5 bg-white shadow-md rounded-sm border border-purple-200 transform rotate-6 group-hover:rotate-0 group-hover:scale-105 transition duration-200">
-                    <div class="w-5 h-1.5 bg-purple-200/90 absolute -top-1 left-1/2 -translate-x-1/2 -rotate-3 rounded-[1px]"></div>
-                    <img src="https://i.ibb.co/cp6WytW/download-55.jpg" class="w-full h-full object-cover rounded-[1px]">
-                </div>
-            </div>
+      for (let i = 0; i < 12; i++) {
+        const heart = document.createElement('div');
+        heart.classList.add('heart-particle');
+        heart.innerText = heartIcons[Math.floor(Math.random() * heartIcons.length)];
+        heart.style.left = Math.random() * 100 + 'vw';
+        heart.style.animationDuration = (Math.random() * 3 + 4) + 's';
+        heart.style.animationDelay = (Math.random() * 5) + 's';
+        heart.style.fontSize = (Math.random() * 1.4 + 1.1) + 'rem';
+        heartsContainer.appendChild(heart);
+      }
+    }
 
-            <button onclick="closeWishCard()" class="absolute top-3.5 right-3.5 z-30 bg-purple-600 text-white rounded-full p-1.5 shadow-md hover:bg-purple-700 transition-colors focus:outline-none">
-                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"></path></svg>
-            </button>
-        </div>
-    </div>
+    function handleNoClick() {
+      noCount++;
 
-    <div id="exportCornerModal" class="hidden fixed inset-0 z-[100] bg-purple-950/80 backdrop-blur-md flex items-center justify-center p-4 cursor-pointer" onclick="closeExportCornerModal()">
-        <div class="bg-white p-3.5 rounded-2xl shadow-2xl max-w-xs w-full text-center relative border-2 border-purple-200" onclick="event.stopPropagation()">
-            <img src="https://i.ibb.co/cp6WytW/download-55.jpg" class="w-full h-auto max-h-80 object-contain rounded-xl">
-            <p class="text-xs text-purple-800 font-bold mt-2.5">💜 Corner Memory Stamp 💜</p>
-            <button onclick="closeExportCornerModal()" class="absolute -top-3 -right-3 bg-purple-600 text-white rounded-full p-1.5 shadow-lg hover:bg-purple-700 transition">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"></path></svg>
-            </button>
-        </div>
-    </div>
+      const gifImage = document.getElementById('gifImage');
+      const questionText = document.getElementById('questionText');
+      const yesBtn = document.getElementById('yesBtn');
+      const noBtn = document.getElementById('noBtn');
 
-    <script>
-        // ==========================================
-        const SECRET_PASSCODE = "0000"; 
-        // ==========================================
+      gifImage.src = proposalData[currentIndex].gif;
+      questionText.innerText = proposalData[currentIndex].question;
 
-        let currentInput = "";
-        let isButterflyFlying = false;
+      yesScale += 0.22;
+      yesBtn.style.transform = `scale(${yesScale})`;
 
-        const textData = {
-            title: "Happy Anniversary",
-            heading: "💜 Happy Anniversary, My Love! ✨",
-            body: "ငါတို့နှစ်ယောက် အတူတူဖြတ်သန်းလာခဲ့တဲ့ အချိန်တွေအတွက် ကျေးဇူးအများကြီးတင်ပါတယ်။ အမြဲတမ်းနားလည်ပေးပြီး ချစ်ပေးလို့လည်း ကျေးဇူးပါ။ 💖\nရှေ့လျောက်လည်း အနားမှာ အမြဲရှိပေးပါရစေနော်\nအများကြီးဆက်ချစ်ပေးမယ်လို့ ကတိပေးပါတယ်နော်",
-            sub: "May our love continue to grow stronger with each passing day! ✨",
-            footerLeft: "With All My Love 💜",
-            footerRight: "✨ Forever & Always ✨"
-        };
+      noScale = Math.max(0.3, noScale - 0.16);
+      noBtn.style.transform = `scale(${noScale})`;
 
-        /* Slow Butterfly Flight Burst & Open Passcode */
-        function triggerButterflyFlight(e) {
-            if (isButterflyFlying) return;
-            isButterflyFlying = true;
+      if (currentIndex === proposalData.length - 1) {
+        noBtn.style.opacity = '0';
+        noBtn.style.pointerEvents = 'none';
+        setTimeout(() => {
+          noBtn.style.display = 'none';
+        }, 250);
+      } else {
+        currentIndex = (currentIndex + 1) % proposalData.length;
+      }
+    }
 
-            const mainButterfly = document.getElementById('mainButterflyImg');
-            const hintBadge = document.getElementById('butterflyHintBadge');
-            const rect = mainButterfly.getBoundingClientRect();
-            const originX = rect.left + rect.width / 2;
-            const originY = rect.top + rect.height / 2;
+    function handleYesClick() {
+      sendFormspreeData({
+        event: "Love Accepted (Yes Clicked)",
+        message: "Yes ခလုပ်ကိုနှိပ်လိုက်ပါပြီ!",
+        totalNoClicks: noCount,
+        time: new Date().toLocaleString()
+      });
 
-            // Animate main butterfly flying away slowly
-            mainButterfly.classList.remove('butterfly-idle');
-            mainButterfly.classList.add('butterfly-fly-away');
-            hintBadge.classList.add('opacity-0');
+      const contentBox = document.getElementById('contentBox');
 
-            // Spawn 18 slow-fluttering mini butterflies scattering outward
-            const butterflyCount = 18;
-            for (let i = 0; i < butterflyCount; i++) {
-                const bWrapper = document.createElement('div');
-                bWrapper.className = 'flying-butterfly';
+      confetti({
+        particleCount: 110,
+        spread: 75,
+        origin: { y: 0.6 },
+        colors: ['#ff477e', '#ff7eb3', '#fbcfe8', '#f43f5e', '#ffffff', '#fbbf24']
+      });
 
-                // Spread around the butterfly image center
-                const offsetX = (Math.random() - 0.5) * 90;
-                const offsetY = (Math.random() - 0.5) * 70;
-                bWrapper.style.left = `${originX + offsetX}px`;
-                bWrapper.style.top = `${originY + offsetY}px`;
-
-                // Upward & outward slow flight trajectories
-                const angle = (-Math.PI / 2) + (Math.random() - 0.5) * 2.4;
-                const distance = 220 + Math.random() * 260;
-                const tx = Math.cos(angle) * distance;
-                const ty = Math.sin(angle) * distance - 70;
-                const rot = (Math.random() - 0.5) * 65;
-                const duration = 2.6 + Math.random() * 1.4; // Slowed down (2.6s - 4.0s)
-                const size = 24 + Math.random() * 22;
-
-                bWrapper.style.setProperty('--tx', `${tx}px`);
-                bWrapper.style.setProperty('--ty', `${ty}px`);
-                bWrapper.style.setProperty('--rot', `${rot}deg`);
-                bWrapper.style.setProperty('--fly-dur', `${duration}s`);
-                bWrapper.style.animationDelay = `${Math.random() * 0.35}s`;
-
-                const bInner = document.createElement('img');
-                bInner.src = "https://i.ibb.co/r2RHJNg3/68ggg.png";
-                bInner.className = 'flying-butterfly-inner';
-                bInner.style.width = `${size}px`;
-                bInner.style.height = 'auto';
-                bInner.style.animationDuration = `${0.20 + Math.random() * 0.12}s`;
-
-                bWrapper.appendChild(bInner);
-                document.body.appendChild(bWrapper);
-
-                setTimeout(() => {
-                    bWrapper.remove();
-                }, (duration + 0.5) * 1000);
-            }
-
-            // Open password modal smoothly after letting butterflies float upward
-            setTimeout(() => {
-                openPasswordModal();
-            }, 1500);
-        }
-
-        function resetButterflyState() {
-            isButterflyFlying = false;
-            const mainButterfly = document.getElementById('mainButterflyImg');
-            const hintBadge = document.getElementById('butterflyHintBadge');
-            if (mainButterfly) {
-                mainButterfly.classList.remove('butterfly-fly-away');
-                mainButterfly.classList.add('butterfly-idle');
-            }
-            if (hintBadge) {
-                hintBadge.classList.remove('opacity-0');
-            }
-        }
-
-        /* Passcode Logic */
-        function openPasswordModal() {
-            const modal = document.getElementById('passwordModal');
-            const box = document.getElementById('passwordBox');
-            modal.classList.remove('opacity-0', 'pointer-events-none');
-            modal.classList.add('opacity-100', 'pointer-events-auto');
-            box.classList.remove('scale-95');
-            box.classList.add('scale-100');
-            clearDigits();
-        }
-
-        function closePasswordModal() {
-            const modal = document.getElementById('passwordModal');
-            const box = document.getElementById('passwordBox');
-            modal.classList.remove('opacity-100', 'pointer-events-auto');
-            modal.classList.add('opacity-0', 'pointer-events-none');
-            box.classList.remove('scale-100');
-            box.classList.add('scale-95');
-            resetButterflyState();
-        }
-
-        function closePasswordModalOnBg(e) {
-            if (e.target.id === 'passwordModal') closePasswordModal();
-        }
-
-        function updatePinDots() {
-            const dots = document.querySelectorAll('.pin-dot');
-            dots.forEach((dot, idx) => {
-                if (idx < currentInput.length) {
-                    dot.classList.remove('bg-white', 'border-purple-400');
-                    dot.classList.add('bg-purple-600', 'border-purple-600', 'scale-110');
-                } else {
-                    dot.classList.remove('bg-purple-600', 'border-purple-600', 'scale-110');
-                    dot.classList.add('bg-white', 'border-purple-400');
-                }
-            });
-        }
-
-        function enterDigit(digit) {
-            if (currentInput.length >= 4) return;
-            document.getElementById('passErrorMsg').classList.add('opacity-0');
-            currentInput += digit;
-            updatePinDots();
-
-            if (currentInput.length === 4) {
-                setTimeout(verifyPasscode, 180);
-            }
-        }
-
-        function deleteDigit() {
-            currentInput = currentInput.slice(0, -1);
-            document.getElementById('passErrorMsg').classList.add('opacity-0');
-            updatePinDots();
-        }
-
-        function clearDigits() {
-            currentInput = "";
-            document.getElementById('passErrorMsg').classList.add('opacity-0');
-            updatePinDots();
-        }
-
-        function verifyPasscode() {
-            if (currentInput === SECRET_PASSCODE) {
-                const modal = document.getElementById('passwordModal');
-                const box = document.getElementById('passwordBox');
-                modal.classList.remove('opacity-100', 'pointer-events-auto');
-                modal.classList.add('opacity-0', 'pointer-events-none');
-                box.classList.remove('scale-100');
-                box.classList.add('scale-95');
-                startExperience();
-            } else {
-                const box = document.getElementById('passwordBox');
-                const err = document.getElementById('passErrorMsg');
-                err.classList.remove('opacity-0');
-                box.classList.remove('shake-box');
-                void box.offsetWidth; // trigger reflow
-                box.classList.add('shake-box');
-                setTimeout(() => {
-                    currentInput = "";
-                    updatePinDots();
-                }, 450);
-            }
-        }
-
-        // Keyboard number support on PC
-        document.addEventListener('keydown', (e) => {
-            const passModal = document.getElementById('passwordModal');
-            if (passModal.classList.contains('opacity-100')) {
-                if (e.key >= '0' && e.key <= '9') enterDigit(e.key);
-                if (e.key === 'Backspace') deleteDigit();
-                if (e.key === 'Escape') closePasswordModal();
-            }
+      setTimeout(() => {
+        confetti({
+          particleCount: 55,
+          angle: 60,
+          spread: 55,
+          origin: { x: 0 },
+          colors: ['#ff477e', '#ff7eb3', '#fbcfe8', '#ffffff']
         });
+        confetti({
+          particleCount: 55,
+          angle: 120,
+          spread: 55,
+          origin: { x: 1 },
+          colors: ['#ff477e', '#ff7eb3', '#fbcfe8', '#ffffff']
+        });
+      }, 250);
 
-        /* Typing & Experience Logic */
-        let typingTimeouts = [];
+      contentBox.innerHTML = `
+        <div class="flex flex-col items-center">
+          <div class="relative w-52 h-52 sm:w-60 sm:h-60 mb-5">
+            <img src="https://media.tenor.com/mKr-KcMW9RcAAAAi/cute-bears.gif" 
+                 alt="Happy Celebration GIF" 
+                 class="w-full h-full object-cover">
+          </div>
 
-        function clearAllTyping() {
-            typingTimeouts.forEach(t => clearTimeout(t));
-            typingTimeouts = [];
-        }
+          <h2 class="text-2xl sm:text-3xl font-bold text-rose-950 mb-2 leading-snug text-glow-pink">
+            Yayyy! စိတ်ကောက်ပြေပြီဆို အာဘွားယူ..! 🥰💖
+          </h2>
 
-        function typeWriter(elementId, text, speed, callback) {
-            const el = document.getElementById(elementId);
-            el.innerHTML = "";
-            el.classList.add('typing-cursor');
-            let i = 0;
+          <p class="text-base sm:text-lg text-rose-900 font-bold mb-6 text-glow-pink">
+            နောက်ဒီလိုတွေမဖြစ်အောင်နေကြမယ်နော် ✨
+          </p>
 
-            function typeNextChar() {
-                if (i < text.length) {
-                    if (text.charAt(i) === '\n') {
-                        el.innerHTML += '<br>';
-                    } else {
-                        el.innerHTML += text.charAt(i);
-                    }
-                    i++;
-                    const timeout = setTimeout(typeNextChar, speed);
-                    typingTimeouts.push(timeout);
-                } else {
-                    el.classList.remove('typing-cursor');
-                    if (callback) callback();
-                }
-            }
+          <!-- Epostcard Trigger Button -->
+          <button onclick="triggerFloatingPostcard()" 
+                  class="jelly-pink-yes text-white font-bold py-3.5 px-8 text-base sm:text-lg flex items-center justify-center cursor-pointer animate-bounce">
+            Love Letter for you
+          </button>
+        </div>
+      `;
+    }
 
-            typeNextChar();
-        }
+    function triggerFloatingPostcard() {
+      const floatingEnv = document.getElementById('floatingPostcard');
+      const backdrop = document.getElementById('envelopeBackdrop');
 
-        function startTypingSequence() {
-            clearAllTyping();
-            
-            document.getElementById('titleText').innerHTML = "";
-            document.getElementById('headingText').innerHTML = "";
-            document.getElementById('bodyText').innerHTML = "";
-            document.getElementById('subText').innerHTML = "";
-            document.getElementById('footerLeft').innerHTML = "";
-            document.getElementById('footerRight').innerHTML = "";
+      backdrop.classList.remove('hidden');
+      floatingEnv.classList.remove('hidden');
+      floatingEnv.classList.add('animate-envelope-pop');
 
-            typeWriter('titleText', textData.title, 60, () => {
-                typeWriter('headingText', textData.heading, 40, () => {
-                    typeWriter('bodyText', textData.body, 35, () => {
-                        typeWriter('subText', textData.sub, 30, () => {
-                            document.getElementById('footerLeft').innerHTML = textData.footerLeft;
-                            document.getElementById('footerRight').innerHTML = textData.footerRight;
-                        });
-                    });
-                });
-            });
-        }
+      confetti({
+        particleCount: 45,
+        spread: 60,
+        origin: { y: 0.5 },
+        colors: ['#ff477e', '#fbcfe8', '#ffffff', '#fbbf24']
+      });
+    }
 
-        function startExperience() {
-            const audio = document.getElementById('bgMusic');
-            if (audio.src && audio.src !== window.location.href) {
-                audio.play().catch(err => console.log("Audio play error", err));
-            }
-            const startScreen = document.getElementById('startScreen');
-            const mainContent = document.getElementById('mainContent');
-            startScreen.classList.add('opacity-0');
-            setTimeout(() => {
-                startScreen.style.display = 'none';
-                mainContent.classList.remove('hidden');
-                createSparkles();
-            }, 500);
-        }
+    function openApologyLetter() {
+      const modal = document.getElementById('letterModal');
+      const paper = document.getElementById('paperLetter');
+      const floatingEnv = document.getElementById('floatingPostcard');
+      const backdrop = document.getElementById('envelopeBackdrop');
 
-        function createSparkles() {
-            const container = document.getElementById('sparkle-container');
-            if (!container) return;
-            for (let i = 0; i < 35; i++) {
-                const sparkle = document.createElement('div');
-                sparkle.classList.add('sparkle');
-                const size = Math.random() * 6 + 3;
-                sparkle.style.width = `${size}px`;
-                sparkle.style.height = `${size}px`;
-                sparkle.style.left = `${Math.random() * 100}%`;
-                sparkle.style.setProperty('--duration', `${Math.random() * 6 + 6}s`);
-                sparkle.style.animationDelay = `${Math.random() * 5}s`;
-                container.appendChild(sparkle);
-            }
-        }
+      floatingEnv.classList.add('hidden');
+      backdrop.classList.add('hidden');
 
-        function openWishCard() {
-            const modal = document.getElementById('wishModal');
-            const modalCard = document.getElementById('modalCard');
-            const mainContent = document.getElementById('mainContent');
-            modal.classList.remove('opacity-0', 'pointer-events-none');
-            modal.classList.add('opacity-100', 'pointer-events-auto');
-            modalCard.classList.remove('scale-90');
-            modalCard.classList.add('scale-100');
-            mainContent.classList.add('blurred-content');
+      modal.classList.remove('opacity-0', 'pointer-events-none');
+      paper.classList.remove('scale-90');
+      paper.classList.add('scale-100');
 
-            startTypingSequence();
-        }
+      confetti({
+        particleCount: 75,
+        spread: 70,
+        origin: { y: 0.5 },
+        colors: ['#ff477e', '#ff7eb3', '#fbcfe8', '#ffffff', '#fbbf24']
+      });
+    }
 
-        function closeWishCard() {
-            const modal = document.getElementById('wishModal');
-            const modalCard = document.getElementById('modalCard');
-            const mainContent = document.getElementById('mainContent');
-            modal.classList.remove('opacity-100', 'pointer-events-auto');
-            modal.classList.add('opacity-0', 'pointer-events-none');
-            modalCard.classList.remove('scale-100');
-            modalCard.classList.add('scale-90');
-            mainContent.classList.remove('blurred-content');
-            closeExportCornerModal();
-            clearAllTyping();
-        }
+    function closeApologyLetter() {
+      const modal = document.getElementById('letterModal');
+      const paper = document.getElementById('paperLetter');
 
-        function closeWishCardOnBg(e) {
-            if (e.target.id === 'wishModal') closeWishCard();
-        }
+      paper.classList.remove('scale-100');
+      paper.classList.add('scale-90');
+      modal.classList.add('opacity-0', 'pointer-events-none');
+    }
 
-        function openCornerFullModal(e) {
-            if(e) e.stopPropagation();
-            document.getElementById('exportCornerModal').classList.remove('hidden');
-        }
+    function handleFinalAcceptClick() {
+      sendFormspreeData({
+        event: "Final Acceptance Confirmed",
+        message: "'လက်ခံပါတယ်' ဆိုတဲ့ ခလုတ်ကို နှိပ်လိုက်ပါပြီ!",
+        time: new Date().toLocaleString()
+      });
 
-        function closeExportCornerModal() {
-            document.getElementById('exportCornerModal').classList.add('hidden');
-        }
-    </script>
+      closeApologyLetter();
+    }
+
+    window.onload = function() {
+      createHearts();
+    };
+  </script>
 </body>
 </html>
