@@ -1,489 +1,416 @@
 <!DOCTYPE html>
 <html lang="my">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Be My Valentine 💕 | Romantic Pink E-Postcard</title>
-  
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ချစ်တယ်</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Padauk and Noto Sans Myanmar for crisp, romantic Burmese typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Myanmar:wght@600;700;800&family=Padauk:wght@700&display=swap" rel="stylesheet">
+    <style>
+        /* Base styles for clean pastel aesthetic and smooth typography */
+        body {
+            font-family: 'Padauk', 'Noto Sans Myanmar', sans-serif;
+            background: radial-gradient(circle at 50% 45%, #fff8fa 0%, #fff0f4 55%, #ffe6ee 100%);
+            overflow: hidden;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+        }
 
-  <style>
-    * {
-      font-family: 'Times New Roman', Times, serif !important;
-    }
+        /* Seamless, frameless floating and heartbeat animation */
+        @keyframes cuteFloat {
+            0%, 100% {
+                transform: translateY(0px) rotate(0deg);
+            }
+            25% {
+                transform: translateY(-8px) rotate(-1.5deg);
+            }
+            75% {
+                transform: translateY(-5px) rotate(1.5deg);
+            }
+        }
 
-    body {
-      font-family: 'Times New Roman', Times, serif;
-      overflow-x: hidden;
-    }
+        @keyframes heartBeat {
+            0%, 100% {
+                transform: scale(1);
+            }
+            15% {
+                transform: scale(1.08);
+            }
+            30% {
+                transform: scale(0.98);
+            }
+            45% {
+                transform: scale(1.05);
+            }
+            60% {
+                transform: scale(1);
+            }
+        }
 
-    .handwriting {
-      font-family: 'Times New Roman', Times, serif;
-      font-style: italic;
-    }
+        @keyframes happySquish {
+            0% { transform: scale(1, 1); }
+            30% { transform: scale(1.22, 0.82); }
+            55% { transform: scale(0.88, 1.16); }
+            75% { transform: scale(1.08, 0.94); }
+            100% { transform: scale(1, 1); }
+        }
 
-    .romantic-pink-grid {
-      background-color: #fff0f6;
-      background-image: 
-        radial-gradient(circle at 50% 35%, rgba(255, 255, 255, 0.85) 0%, rgba(255, 228, 240, 0.45) 55%, rgba(251, 207, 232, 0.85) 100%),
-        repeating-linear-gradient(45deg, rgba(244, 114, 182, 0.16) 0px, rgba(244, 114, 182, 0.16) 1px, transparent 1px, transparent 28px),
-        repeating-linear-gradient(-45deg, rgba(244, 114, 182, 0.16) 0px, rgba(244, 114, 182, 0.16) 1px, transparent 1px, transparent 28px),
-        linear-gradient(to right, rgba(236, 72, 153, 0.08) 1px, transparent 1px),
-        linear-gradient(to bottom, rgba(236, 72, 153, 0.08) 1px, transparent 1px);
-      background-size: 100% 100%, 40px 40px, 40px 40px, 20px 20px, 20px 20px;
-    }
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.25; transform: scale(0.8) rotate(0deg); }
+            50% { opacity: 1; transform: scale(1.25) rotate(18deg); }
+        }
 
-    .bg-hearts {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-      z-index: 1;
-    }
+        @keyframes textRevealPop {
+            0% {
+                opacity: 0;
+                transform: translateY(25px) scale(0.65);
+                filter: blur(6px);
+            }
+            60% {
+                opacity: 1;
+                transform: translateY(-6px) scale(1.06);
+                filter: blur(0px);
+            }
+            80% {
+                transform: translateY(2px) scale(0.98);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
 
-    .heart-particle {
-      position: absolute;
-      bottom: -10vh;
-      animation: floatUp linear infinite;
-      user-select: none;
-      filter: drop-shadow(0 0 8px rgba(244, 114, 182, 0.6));
-    }
+        @keyframes romanticGlow {
+            0%, 100% {
+                text-shadow: 0 6px 24px rgba(244, 63, 94, 0.25), 0 0 40px rgba(251, 113, 133, 0.18);
+                transform: translateY(0px);
+            }
+            50% {
+                text-shadow: 0 10px 32px rgba(244, 63, 94, 0.42), 0 0 55px rgba(251, 113, 133, 0.35);
+                transform: translateY(-4px);
+            }
+        }
 
-    @keyframes floatUp {
-      0% {
-        transform: translateY(0) rotate(0deg) scale(0.7);
-        opacity: 0.9;
-      }
-      50% {
-        opacity: 1;
-        filter: drop-shadow(0 0 15px rgba(236, 72, 153, 0.85));
-      }
-      100% {
-        transform: translateY(-115vh) rotate(360deg) scale(1.3);
-        opacity: 0;
-      }
-    }
+        @keyframes gentlePulseHint {
+            0%, 100% { opacity: 0.65; transform: translateY(0); }
+            50% { opacity: 1; transform: translateY(-3px); }
+        }
 
-    .animate-envelope-pop {
-      animation: envelopePopReveal 1.3s cubic-bezier(0.22, 1.4, 0.36, 1) forwards;
-    }
+        .frameless-character {
+            animation: cuteFloat 4.2s ease-in-out infinite;
+            cursor: pointer;
+            transition: filter 0.3s ease;
+        }
 
-    @keyframes envelopePopReveal {
-      0% {
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%) scale(0) rotateY(-180deg) rotateZ(-25deg);
-        opacity: 0;
-      }
-      60% {
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%) scale(1.15) rotateY(15deg) rotateZ(6deg);
-        opacity: 1;
-      }
-      80% {
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%) scale(0.95) rotateY(-5deg) rotateZ(-3deg);
-      }
-      100% {
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%) scale(1) rotateY(0deg) rotateZ(0deg);
-        opacity: 1;
-      }
-    }
+        .frameless-character:hover {
+            filter: drop-shadow(0 14px 26px rgba(244, 63, 94, 0.22));
+        }
 
-    .envelope-hover-float {
-      animation: envelopeFloat 2.4s ease-in-out infinite alternate;
-    }
+        .heart-body-pulse {
+            transform-origin: 120px 125px;
+            animation: heartBeat 2.2s ease-in-out infinite;
+        }
 
-    @keyframes envelopeFloat {
-      0% { transform: translateY(0px) rotate(-2deg); }
-      100% { transform: translateY(-12px) rotate(2deg); }
-    }
+        .squish-active {
+            transform-origin: 120px 125px;
+            animation: happySquish 0.55s cubic-bezier(0.34, 1.56, 0.64, 1) forwards !important;
+        }
 
-    .animate-bounce-gentle {
-      animation: bounceGentle 1.4s infinite alternate ease-in-out;
-    }
+        .sparkle-1 { transform-origin: 42px 58px; animation: twinkle 2.4s ease-in-out infinite; }
+        .sparkle-2 { transform-origin: 202px 66px; animation: twinkle 2.9s ease-in-out 0.8s infinite; }
+        .sparkle-3 { transform-origin: 194px 176px; animation: twinkle 2.6s ease-in-out 1.4s infinite; }
+        .sparkle-4 { transform-origin: 46px 172px; animation: twinkle 3.1s ease-in-out 0.4s infinite; }
 
-    @keyframes bounceGentle {
-      0% { transform: translateY(0) scale(1); }
-      100% { transform: translateY(-6px) scale(1.04); }
-    }
+        .love-text-gradient {
+            background: linear-gradient(135deg, #ff3366 0%, #f43f5e 45%, #e11d48 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            line-height: 1.55;
+        }
 
-    .romantic-stationery {
-      background-color: #fff9fb;
-      background-image: 
-        linear-gradient(to right, transparent 34px, rgba(244, 114, 182, 0.35) 34px, rgba(244, 114, 182, 0.35) 36px, transparent 36px),
-        repeating-linear-gradient(to bottom, transparent 0px, transparent 31px, rgba(251, 207, 232, 0.65) 32px);
-      border: 3px solid #f9a8d4;
-      box-shadow: 
-        0 25px 50px -12px rgba(190, 24, 93, 0.28),
-        0 0 0 6px rgba(255, 255, 255, 0.85),
-        inset 0 0 30px rgba(253, 242, 248, 0.9);
-    }
+        .love-text-revealed {
+            animation: textRevealPop 0.75s cubic-bezier(0.22, 1, 0.36, 1) forwards,
+                       romanticGlow 3s ease-in-out 0.75s infinite;
+        }
 
-    .jelly-pink-yes {
-      background: linear-gradient(180deg, #ff7eb3 0%, #ff477e 55%, #e11d48 100%);
-      border-radius: 22px;
-      border-top: 2px solid #ffc2d1;
-      border-bottom: 4px solid #9f1239;
-      box-shadow: 
-        0 10px 25px -5px rgba(225, 29, 72, 0.5),
-        inset 0 2px 6px rgba(255, 255, 255, 0.65);
-      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-    }
-    .jelly-pink-yes:hover {
-      background: linear-gradient(180deg, #ff8fab 0%, #ff5c8a 55%, #f43f5e 100%);
-      box-shadow: 
-        0 14px 30px -4px rgba(225, 29, 72, 0.65),
-        inset 0 2px 8px rgba(255, 255, 255, 0.85);
-    }
-    .jelly-pink-yes:active {
-      border-bottom-width: 1px;
-    }
+        .hint-pulse {
+            animation: gentlePulseHint 2.2s ease-in-out infinite;
+        }
 
-    .glass-pink-no {
-      background: rgba(255, 255, 255, 0.72);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-      border-radius: 22px;
-      border: 2px solid rgba(244, 114, 182, 0.55);
-      border-bottom: 4px solid rgba(244, 114, 182, 0.75);
-      box-shadow: 0 8px 20px rgba(244, 114, 182, 0.18);
-      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-    }
-    .glass-pink-no:hover {
-      background: rgba(255, 241, 242, 0.92);
-      border-color: #ec4899;
-    }
-
-    .text-glow-pink {
-      text-shadow: 0 2px 12px rgba(255, 255, 255, 0.95), 0 0 20px rgba(244, 114, 182, 0.35);
-    }
-  </style>
+        /* Floating particle styles */
+        .burst-particle {
+            position: fixed;
+            pointer-events: none;
+            z-index: 50;
+            will-change: transform, opacity;
+        }
+    </style>
 </head>
+<body class="min-h-screen w-full flex flex-col items-center justify-center relative px-4">
 
-<body class="romantic-pink-grid min-h-screen flex items-center justify-center p-4 relative overflow-x-hidden selection:bg-pink-500 selection:text-white">
+    <!-- Main Centered Frameless Stage -->
+    <main class="flex flex-col items-center justify-center text-center z-10 w-full max-w-lg">
+        
+        <!-- Frameless Animated Cute Heart Character (No border, no card, no background frame) -->
+        <div id="cuteTrigger" role="button" tabindex="0" aria-label="ချစ်စရာ အသည်းပုံလေးကို နှိပ်ပါ"
+             class="frameless-character relative flex items-center justify-center p-2 focus:outline-none">
+            
+            <!-- Seamless Custom Animated SVG Character (GIF-like smooth loop) -->
+            <svg id="cuteSvg" class="w-52 h-52 sm:w-64 sm:h-64 md:w-72 md:h-72 overflow-visible" viewBox="0 0 240 240" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <!-- Soft romantic pastel gradients -->
+                    <linearGradient id="heartGrad" x1="50" y1="40" x2="190" y2="200" gradientUnits="userSpaceOnUse">
+                        <stop offset="0%" stop-color="#FF8FA3"/>
+                        <stop offset="50%" stop-color="#FF5C8A"/>
+                        <stop offset="100%" stop-color="#F43F5E"/>
+                    </linearGradient>
+                    <linearGradient id="heartHighlight" x1="75" y1="60" x2="120" y2="115" gradientUnits="userSpaceOnUse">
+                        <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.65"/>
+                        <stop offset="100%" stop-color="#FFFFFF" stop-opacity="0"/>
+                    </linearGradient>
+                    <radialGradient id="cheekBlush" cx="50%" cy="50%" r="50%">
+                        <stop offset="0%" stop-color="#FF2A5F" stop-opacity="0.55"/>
+                        <stop offset="100%" stop-color="#FF2A5F" stop-opacity="0"/>
+                    </radialGradient>
+                </defs>
 
-  <div id="heartsContainer" class="bg-hearts"></div>
+                <!-- Ambient Floating Sparkles around the frameless character -->
+                <g class="sparkle-1">
+                    <path d="M42 48L44.5 55.5L52 58L44.5 60.5L42 68L39.5 60.5L32 58L39.5 55.5L42 48Z" fill="#FFB3C6"/>
+                </g>
+                <g class="sparkle-2">
+                    <path d="M202 56L204.2 62.8L211 65L204.2 67.2L202 74L199.8 67.2L193 65L199.8 62.8L202 56Z" fill="#FF8FA3"/>
+                </g>
+                <g class="sparkle-3">
+                    <path d="M194 168L196 174L202 176L196 178L194 184L192 178L186 176L192 174L194 168Z" fill="#FFC2D1"/>
+                </g>
+                <g class="sparkle-4">
+                    <circle cx="46" cy="172" r="3.5" fill="#FF8FA3"/>
+                </g>
 
-  <div class="absolute top-12 left-8 w-44 h-44 bg-pink-300 rounded-full blur-3xl opacity-45 animate-pulse pointer-events-none"></div>
-  <div class="absolute bottom-12 right-8 w-52 h-52 bg-rose-300 rounded-full blur-3xl opacity-45 animate-pulse pointer-events-none"></div>
+                <!-- Pulsing & Squishable Heart Character Group -->
+                <g id="heartCharacterGroup" class="heart-body-pulse">
+                    <!-- Main Plump Cute Heart Body -->
+                    <path d="M120 198C120 198 36 146 36 88C36 60.5 57.8 40 84.5 40C100.8 40 114.2 48.2 120 60.2C125.8 48.2 139.2 40 155.5 40C182.2 40 204 60.5 204 88C204 146 120 198 120 198Z" 
+                          fill="url(#heartGrad)"/>
+                    
+                    <!-- Glossy Highlight on Top Left Curve -->
+                    <path d="M56 85C56 66 70 53 86 53C92 53 96 56 95 61C94 65 89 66 84 67C73 69 67 78 66 88C65.5 93 61 95 58 92C56.5 90.5 56 88 56 85Z" 
+                          fill="url(#heartHighlight)"/>
 
-  <main class="relative z-10 w-full max-w-sm sm:max-w-md p-4 sm:p-6 text-center my-auto">
+                    <!-- Cute Little Arms -->
+                    <path d="M43 114C31 111 25 119 29 127C33 134 45 132 52 126" stroke="#FF5C8A" stroke-width="8" stroke-linecap="round"/>
+                    <path d="M197 114C209 111 215 119 211 127C207 134 195 132 188 126" stroke="#FF5C8A" stroke-width="8" stroke-linecap="round"/>
 
-    <div id="contentBox" class="flex flex-col items-center justify-center min-h-[350px]">
-      
-      <div class="relative w-52 h-52 sm:w-60 sm:h-60 mb-5">
-        <img id="gifImage" 
-             src="https://media.tenor.com/dnlemy1CA9EAAAAi/bubu-dudu-sseeyall.gif" 
-             alt="Love Proposal Cute GIF" 
-             class="w-full h-full object-cover">
-      </div>
+                    <!-- Kawaii Face: Rosy Cheeks -->
+                    <ellipse cx="83" cy="118" rx="13" ry="8" fill="url(#cheekBlush)"/>
+                    <ellipse cx="157" cy="118" rx="13" ry="8" fill="url(#cheekBlush)"/>
 
-      <h1 id="questionText" class="text-2xl sm:text-3xl font-bold text-rose-950 mb-7 leading-relaxed min-h-[3.5rem] flex items-center justify-center px-2 text-glow-pink">
-        စိတ်ကောက်ပြေပါတော့နော် ❤️
-      </h1>
+                    <!-- Kawaii Face: Eyes (Default cute eyes) -->
+                    <g id="eyesDefault">
+                        <circle cx="94" cy="105" r="7.5" fill="#4A1525"/>
+                        <circle cx="91.5" cy="102.5" r="2.6" fill="#FFFFFF"/>
+                        <circle cx="96" cy="107" r="1.2" fill="#FFFFFF"/>
 
-      <div id="buttonGroup" class="flex flex-wrap items-center justify-center gap-4 w-full">
-        <!-- Yes Button -->
-        <button id="yesBtn" onclick="handleYesClick()" 
-                class="jelly-pink-yes text-white font-bold py-3.5 px-9 text-lg sm:text-xl flex items-center gap-2 cursor-pointer">
-          <span>Yes</span> 💖
-        </button>
+                        <circle cx="146" cy="105" r="7.5" fill="#4A1525"/>
+                        <circle cx="143.5" cy="102.5" r="2.6" fill="#FFFFFF"/>
+                        <circle cx="148" cy="107" r="1.2" fill="#FFFFFF"/>
+                    </g>
 
-        <button id="noBtn" onclick="handleNoClick()" 
-                class="glass-pink-no text-rose-900 font-bold py-3.5 px-7 text-base sm:text-lg flex items-center gap-1.5 cursor-pointer">
-          <span>No</span> 🥺
-        </button>
-      </div>
+                    <!-- Kawaii Face: Happy Closed Arcs (Shown when clicked!) -->
+                    <g id="eyesHappy" class="hidden">
+                        <path d="M85 106C88 99 99 99 102 106" stroke="#4A1525" stroke-width="4.5" stroke-linecap="round"/>
+                        <path d="M138 106C141 99 152 99 155 106" stroke="#4A1525" stroke-width="4.5" stroke-linecap="round"/>
+                    </g>
 
-    </div>
-  </main>
+                    <!-- Kawaii Face: Cute Little Smile -->
+                    <path id="mouthDefault" d="M111 116C114 121 126 121 129 116" stroke="#4A1525" stroke-width="4" stroke-linecap="round"/>
+                    <path id="mouthHappy" class="hidden" d="M109 114C112 126 128 126 131 114Z" fill="#FF2A5F" stroke="#4A1525" stroke-width="3" stroke-linejoin="round"/>
+                </g>
+            </svg>
+        </div>
 
-  <div id="envelopeBackdrop" class="fixed inset-0 bg-rose-950/35 backdrop-blur-xs z-30 hidden transition-opacity duration-300"></div>
-
-  <div id="floatingPostcard" 
-       onclick="openApologyLetter()" 
-       class="fixed z-40 hidden cursor-pointer flex flex-col items-center group">
-    
-    <div class="relative envelope-hover-float flex flex-col items-center">
-      <!-- Radiant Pink Glow Behind Envelope -->
-      <div class="absolute inset-0 bg-pink-400/40 rounded-full blur-2xl scale-110 animate-pulse"></div>
-      
-      <div class="relative w-48 h-48 sm:w-56 sm:h-56 filter drop-shadow-[0_18px_30px_rgba(225,29,72,0.4)] transform group-hover:scale-105 transition-transform duration-300">
-        <img src="https://i.ibb.co/hFVV1KZF/hh7786.png" 
-             alt="Floating Envelope" 
-             class="w-full h-full object-contain">
-      </div>
-
-      <div class="relative bg-white/95 backdrop-blur-sm text-rose-900 text-sm sm:text-base font-bold px-6 py-2.5 rounded-full shadow-xl -mt-3 animate-bounce-gentle border-2 border-pink-400 flex items-center justify-center">
-        Tap to Open Your Letter
-      </div>
-    </div>
-  </div>
-
-  <div id="letterModal" class="fixed inset-0 bg-rose-950/60 backdrop-blur-md z-50 flex items-center justify-center p-4 opacity-0 pointer-events-none transition-opacity duration-300 overflow-y-auto">
-    
-    <div id="paperLetter" class="romantic-stationery rounded-[28px] w-full max-w-sm sm:max-w-md p-6 sm:p-8 pl-11 sm:pl-12 relative transform scale-90 transition-transform duration-300 my-auto">
-      
-      <div class="absolute -top-4 left-1/2 -translate-x-1/2 bg-gradient-to-r from-pink-500 to-rose-500 text-white text-xs font-bold px-4 py-1 rounded-full shadow-md border-2 border-white flex items-center justify-center whitespace-nowrap">
-        SPECIAL NOTE
-      </div>
-
-      <button onclick="closeApologyLetter()" class="absolute top-3.5 right-3.5 text-pink-600 hover:text-rose-800 text-xl font-bold w-8 h-8 rounded-full bg-pink-100/90 hover:bg-pink-200 flex items-center justify-center transition-colors shadow-sm cursor-pointer">
-        ×
-      </button>
-
-      <div class="inline-flex items-center gap-1.5 border-2 border-dotted border-pink-400 rounded-lg px-2.5 py-1 text-[11px] text-pink-600 font-bold bg-white/90 shadow-sm mb-3 transform -rotate-2">
-        <span>💌 POSTMARKED WITH LOVE</span>
-      </div>
-
-      <div class="text-rose-600 font-bold text-xl sm:text-2xl mb-3 pb-2 border-b-2 border-dashed border-pink-300 flex items-center gap-2">
-        <span>To my special someone...</span> 🌸
-      </div>
-
-      <div class="text-rose-950 text-sm sm:text-[15px] leading-[32px] space-y-2 my-3 font-bold">
-        <p class="first-letter:text-xl first-letter:font-bold first-letter:text-pink-600">
-         <br>ငါတို့ကြားမှာ အလွဲအမှားတွေ၊ စိတ်ကောက်စရာတွေ ရှိခဲ့ရင် အားလုံးအတွက် တကယ်တောင်းပန်ပါတယ်နော်။ မင်းမရှိတဲ့အချိန်တွေမှာ ကိုယ့်ဘဝက ဘယ်လိုမှ မပြည့်စုံဘူးဆိုတာ ပိုပြီးနားလည်လာခဲ့ရတယ်။
+        <!-- Subtle Tap Hint (Visible before first tap) -->
+        <p id="tapHint" class="hint-pulse mt-2 text-rose-400/90 text-base sm:text-lg font-semibold tracking-wide transition-opacity duration-500">
+            (နှိပ်ကြည့်ပါ)
         </p>
-        <p>
-          နောက်ဆိုရင် နားလည်မှုလွဲတာတွေ လျှော့ပြီး မင်းစိတ်ချမ်းသာအောင် အရင်ကထက် ပိုဂရုစိုက်ပေးပါ့မယ်။ ဘယ်လိုအခက်အခဲပဲ ရှိရှိ လက်တွဲမဖြုတ်ဘဲ ထပ်မဝေးကြရအောင်နော်... အရမ်းချစ်တယ် ❤️
-        </p>
-      </div>
 
-      <div class="mt-4 pt-3 border-t border-dashed border-pink-300 flex items-end justify-between">
-        <div class="text-pink-400 text-xl">
-          🌷✨
+        <!-- Large Romantic Burmese Text Reveal Container -->
+        <div id="loveMessageContainer" class="min-h-[110px] sm:min-h-[130px] flex flex-col items-center justify-center mt-1">
+            <h1 id="loveText" 
+                class="hidden love-text-gradient text-6xl sm:text-7xl md:text-8xl font-extrabold tracking-wide select-none px-4 py-2">
+                ချစ်တယ်
+            </h1>
         </div>
-        <div class="text-right">
-          <p class="text-rose-700/80 text-xs font-bold">Forever & Always...</p>
-          <p class="text-pink-600 font-bold text-lg sm:text-xl handwriting mt-0.5">
-            With all my love 💕
-          </p>
-        </div>
-      </div>
 
-      <div class="mt-5 text-center">
-        <button onclick="handleFinalAcceptClick()" class="jelly-pink-yes text-white font-bold px-7 py-3 rounded-2xl text-sm sm:text-base w-full sm:w-auto cursor-pointer">
-          လက်ခံပါတယ် ❤️
-        </button>
-      </div>
+    </main>
 
-    </div>
-  </div>
+    <script>
+        (function () {
+            const trigger = document.getElementById('cuteTrigger');
+            const heartGroup = document.getElementById('heartCharacterGroup');
+            const eyesDefault = document.getElementById('eyesDefault');
+            const eyesHappy = document.getElementById('eyesHappy');
+            const mouthDefault = document.getElementById('mouthDefault');
+            const mouthHappy = document.getElementById('mouthHappy');
+            const tapHint = document.getElementById('tapHint');
+            const loveText = document.getElementById('loveText');
 
-  <script>
-    const FORMSPREE_URL = "";
+            let isRevealed = false;
+            let expressionTimeout = null;
 
-    const proposalData = [
-      {
-        question: "တကယ်ကြီး ငြင်းတော့မှာလားဟင်... 🥺",
-        gif: "https://media.tenor.com/3agHGK04Fn8AAAAi/dudusohungrybowl.gif"
-      },
-      {
-        question: "မငြင်းပါနဲ့နော်...  🌸",
-        gif: "https://media.tenor.com/5IRHkK2k-E8AAAAi/dudu.gif"
-      },
-      {
-        question: "စိတ်ဆိုးပြေပါတော့ နော်... ကိုယ်မှားပါတယ် 🥹",
-        gif: "https://media.tenor.com/7lDNjrucw_8AAAAi/sseeyall-bubu-dudu.gif"
-      },
-      {
-        question: "ဒီလောက်တောင် ရက်စက်ရလားကွာ... 💔",
-        gif: "https://media.tenor.com/HpFJPHHQk-kAAAAi/paper-bag-dudu.gif"
-      },
-      {
-        question: "No ခလုတ်ပျောက်သွားပြီ Yes ပဲ နှိပ်တော့ 😤💖",
-        gif: "https://media.tenor.com/TkfrjgGao-gAAAAi/dudu-bubu-dudu-kiss.gif"
-      }
-    ];
+            // Romantic pastel & vibrant heart colors for particle bursts
+            const heartColors = [
+                '#FF2A5F',
+                '#FF5C8A',
+                '#FF8FA3',
+                '#F43F5E',
+                '#FB7185',
+                '#FDA4AF',
+                '#FFB3C6'
+            ];
 
-    let currentIndex = 0;
-    let yesScale = 1;
-    let noScale = 1;
-    let noCount = 0;
+            /**
+             * Spawns a burst of floating mini hearts and sparkles around the click/center point
+             */
+            function createHeartBurst(originX, originY, count = 24) {
+                for (let i = 0; i < count; i++) {
+                    const particle = document.createElement('div');
+                    particle.className = 'burst-particle';
 
-    function sendFormspreeData(data) {
-      if (!FORMSPREE_URL) return;
-      fetch(FORMSPREE_URL, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "Accept": "application/json"
-        },
-        body: JSON.stringify(data)
-      }).catch(err => console.log("Formspree Send Error:", err));
-    }
+                    const isSparkle = i % 4 === 0;
+                    const color = heartColors[Math.floor(Math.random() * heartColors.length)];
+                    const size = isSparkle ? (Math.random() * 12 + 10) : (Math.random() * 18 + 14);
 
-    function createHearts() {
-      const heartsContainer = document.getElementById('heartsContainer');
-      const heartIcons = ['💖', '🌸', '💕', '💗', '🌷', '✨', '💓', '🎀'];
+                    if (isSparkle) {
+                        particle.innerHTML = `
+                            <svg width="${size}" height="${size}" viewBox="0 0 24 24" fill="none">
+                                <path d="M12 2L14.2 9.8L22 12L14.2 14.2L12 22L9.8 14.2L2 12L9.8 9.8L12 2Z" fill="${color}"/>
+                            </svg>
+                        `;
+                    } else {
+                        particle.innerHTML = `
+                            <svg width="${size}" height="${size}" viewBox="0 0 24 24" fill="none">
+                                <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" fill="${color}"/>
+                            </svg>
+                        `;
+                    }
 
-      for (let i = 0; i < 12; i++) {
-        const heart = document.createElement('div');
-        heart.classList.add('heart-particle');
-        heart.innerText = heartIcons[Math.floor(Math.random() * heartIcons.length)];
-        heart.style.left = Math.random() * 100 + 'vw';
-        heart.style.animationDuration = (Math.random() * 3 + 4) + 's';
-        heart.style.animationDelay = (Math.random() * 5) + 's';
-        heart.style.fontSize = (Math.random() * 1.4 + 1.1) + 'rem';
-        heartsContainer.appendChild(heart);
-      }
-    }
+                    // Position particle near the character center or tap location
+                    const startX = originX + (Math.random() - 0.5) * 40;
+                    const startY = originY + (Math.random() - 0.5) * 40;
+                    particle.style.left = `${startX}px`;
+                    particle.style.top = `${startY}px`;
 
-    function handleNoClick() {
-      noCount++;
+                    document.body.appendChild(particle);
 
-      const gifImage = document.getElementById('gifImage');
-      const questionText = document.getElementById('questionText');
-      const yesBtn = document.getElementById('yesBtn');
-      const noBtn = document.getElementById('noBtn');
+                    // Radial burst trajectory with gentle upward float
+                    const angle = (Math.PI * 2 * i) / count + (Math.random() - 0.5) * 0.45;
+                    const velocity = Math.random() * 140 + 75;
+                    const destX = Math.cos(angle) * velocity;
+                    const destY = Math.sin(angle) * velocity - (Math.random() * 90 + 40);
+                    const rotation = (Math.random() - 0.5) * 90;
+                    const duration = Math.random() * 600 + 850;
 
-      gifImage.src = proposalData[currentIndex].gif;
-      questionText.innerText = proposalData[currentIndex].question;
+                    const animation = particle.animate([
+                        {
+                            transform: 'translate(-50%, -50%) scale(0.2) rotate(0deg)',
+                            opacity: 1
+                        },
+                        {
+                            transform: `translate(calc(-50% + ${destX * 0.65}px), calc(-50% + ${destY * 0.65}px)) scale(1.15) rotate(${rotation * 0.6}deg)`,
+                            opacity: 1,
+                            offset: 0.55
+                        },
+                        {
+                            transform: `translate(calc(-50% + ${destX}px), calc(-50% + ${destY}px)) scale(0.75) rotate(${rotation}deg)`,
+                            opacity: 0
+                        }
+                    ], {
+                        duration: duration,
+                        easing: 'cubic-bezier(0.16, 1, 0.3, 1)',
+                        fill: 'forwards'
+                    });
 
-      yesScale += 0.22;
-      yesBtn.style.transform = `scale(${yesScale})`;
+                    animation.onfinish = () => {
+                        particle.remove();
+                    };
+                }
+            }
 
-      noScale = Math.max(0.3, noScale - 0.16);
-      noBtn.style.transform = `scale(${noScale})`;
+            /**
+             * Triggers cute squish bounce and happy facial expression on the character
+             */
+            function animateCharacterReaction() {
+                // Restart squish animation cleanly
+                heartGroup.classList.remove('squish-active');
+                void heartGroup.offsetWidth; // Force reflow
+                heartGroup.classList.add('squish-active');
 
-      if (currentIndex === proposalData.length - 1) {
-        noBtn.style.opacity = '0';
-        noBtn.style.pointerEvents = 'none';
-        setTimeout(() => {
-          noBtn.style.display = 'none';
-        }, 250);
-      } else {
-        currentIndex = (currentIndex + 1) % proposalData.length;
-      }
-    }
+                // Switch to joyful expression
+                eyesDefault.classList.add('hidden');
+                mouthDefault.classList.add('hidden');
+                eyesHappy.classList.remove('hidden');
+                mouthHappy.classList.remove('hidden');
 
-    function handleYesClick() {
-      sendFormspreeData({
-        event: "Love Accepted (Yes Clicked)",
-        message: "Yes ခလုပ်ကိုနှိပ်လိုက်ပါပြီ!",
-        totalNoClicks: noCount,
-        time: new Date().toLocaleString()
-      });
+                clearTimeout(expressionTimeout);
+                expressionTimeout = setTimeout(() => {
+                    heartGroup.classList.remove('squish-active');
+                    eyesHappy.classList.add('hidden');
+                    mouthHappy.classList.add('hidden');
+                    eyesDefault.classList.remove('hidden');
+                    mouthDefault.classList.remove('hidden');
+                }, 1100);
+            }
 
-      const contentBox = document.getElementById('contentBox');
+            /**
+             * Handles click/tap interaction
+             */
+            function handleInteraction(event) {
+                const rect = trigger.getBoundingClientRect();
+                const centerX = rect.left + rect.width / 2;
+                const centerY = rect.top + rect.height / 2;
 
-      confetti({
-        particleCount: 110,
-        spread: 75,
-        origin: { y: 0.6 },
-        colors: ['#ff477e', '#ff7eb3', '#fbcfe8', '#f43f5e', '#ffffff', '#fbbf24']
-      });
+                // Use pointer coordinates if available, otherwise center of character
+                const burstX = (event && event.clientX) ? event.clientX : centerX;
+                const burstY = (event && event.clientY) ? event.clientY : centerY;
 
-      setTimeout(() => {
-        confetti({
-          particleCount: 55,
-          angle: 60,
-          spread: 55,
-          origin: { x: 0 },
-          colors: ['#ff477e', '#ff7eb3', '#fbcfe8', '#ffffff']
-        });
-        confetti({
-          particleCount: 55,
-          angle: 120,
-          spread: 55,
-          origin: { x: 1 },
-          colors: ['#ff477e', '#ff7eb3', '#fbcfe8', '#ffffff']
-        });
-      }, 250);
+                // Trigger joyful animation & heart burst
+                animateCharacterReaction();
+                createHeartBurst(burstX, burstY, isRevealed ? 22 : 30);
 
-      contentBox.innerHTML = `
-        <div class="flex flex-col items-center">
-          <div class="relative w-52 h-52 sm:w-60 sm:h-60 mb-5">
-            <img src="https://media.tenor.com/mKr-KcMW9RcAAAAi/cute-bears.gif" 
-                 alt="Happy Celebration GIF" 
-                 class="w-full h-full object-cover">
-          </div>
+                // First tap: hide hint and reveal "LOL ထီးကြည့်တာလား"
+                if (!isRevealed) {
+                    isRevealed = true;
+                    tapHint.style.opacity = '0';
+                    setTimeout(() => {
+                        tapHint.classList.add('hidden');
+                    }, 300);
 
-          <h2 class="text-2xl sm:text-3xl font-bold text-rose-950 mb-2 leading-snug text-glow-pink">
-            Yayyy! စိတ်ကောက်ပြေပြီဆို အာဘွားယူ..! 🥰💖
-          </h2>
+                    loveText.classList.remove('hidden');
+                    loveText.classList.add('love-text-revealed');
+                } else {
+                    // Subsequent taps: extra celebratory heart burst + subtle bounce on the text
+                    loveText.style.transform = 'scale(1.08)';
+                    setTimeout(() => {
+                        loveText.style.transform = '';
+                    }, 220);
+                }
+            }
 
-          <p class="text-base sm:text-lg text-rose-900 font-bold mb-6 text-glow-pink">
-            နောက်ဒီလိုတွေမဖြစ်အောင်နေကြမယ်နော် ✨
-          </p>
-
-          <!-- Epostcard Trigger Button -->
-          <button onclick="triggerFloatingPostcard()" 
-                  class="jelly-pink-yes text-white font-bold py-3.5 px-8 text-base sm:text-lg flex items-center justify-center cursor-pointer animate-bounce">
-            Love Letter for you
-          </button>
-        </div>
-      `;
-    }
-
-    function triggerFloatingPostcard() {
-      const floatingEnv = document.getElementById('floatingPostcard');
-      const backdrop = document.getElementById('envelopeBackdrop');
-
-      backdrop.classList.remove('hidden');
-      floatingEnv.classList.remove('hidden');
-      floatingEnv.classList.add('animate-envelope-pop');
-
-      confetti({
-        particleCount: 45,
-        spread: 60,
-        origin: { y: 0.5 },
-        colors: ['#ff477e', '#fbcfe8', '#ffffff', '#fbbf24']
-      });
-    }
-
-    function openApologyLetter() {
-      const modal = document.getElementById('letterModal');
-      const paper = document.getElementById('paperLetter');
-      const floatingEnv = document.getElementById('floatingPostcard');
-      const backdrop = document.getElementById('envelopeBackdrop');
-
-      floatingEnv.classList.add('hidden');
-      backdrop.classList.add('hidden');
-
-      modal.classList.remove('opacity-0', 'pointer-events-none');
-      paper.classList.remove('scale-90');
-      paper.classList.add('scale-100');
-
-      confetti({
-        particleCount: 75,
-        spread: 70,
-        origin: { y: 0.5 },
-        colors: ['#ff477e', '#ff7eb3', '#fbcfe8', '#ffffff', '#fbbf24']
-      });
-    }
-
-    function closeApologyLetter() {
-      const modal = document.getElementById('letterModal');
-      const paper = document.getElementById('paperLetter');
-
-      paper.classList.remove('scale-100');
-      paper.classList.add('scale-90');
-      modal.classList.add('opacity-0', 'pointer-events-none');
-    }
-
-    function handleFinalAcceptClick() {
-      sendFormspreeData({
-        event: "Final Acceptance Confirmed",
-        message: "'လက်ခံပါတယ်' ဆိုတဲ့ ခလုတ်ကို နှိပ်လိုက်ပါပြီ!",
-        time: new Date().toLocaleString()
-      });
-
-      closeApologyLetter();
-    }
-
-    window.onload = function() {
-      createHearts();
-    };
-  </script>
+            // Support click, touch, and keyboard accessibility
+            trigger.addEventListener('click', handleInteraction);
+            trigger.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    handleInteraction();
+                }
+            });
+        })();
+    </script>
 </body>
 </html>
