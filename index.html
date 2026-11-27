@@ -7,135 +7,316 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Padauk:wght@400;700&family=Great+Vibes&family=Playfair+Display:ital,wght@0,600;1,400&family=Poppins:wght@400;500;600;700&family=Dancing+Script:wght@600&family=Cinzel:wght@600&family=Caveat:wght@600&display=swap" rel="stylesheet">
-    <style id="dynamicThemeStyle">
+    <link href="https://fonts.googleapis.com/css2?family=Padauk:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* Apply Times New Roman globally */
+        * {
+            font-family: 'Times New Roman', Times, 'Padauk', serif !important;
+        }
+
         body {
-            font-family: 'Poppins', sans-serif;
-            background: radial-gradient(circle at center, #f0f9ff, #0284c7, #0c4a6e);
+            background-color: #f6efff;
+            /* Aesthetic Double-Line Windowpane + Cross-Stitch Grid Design */
+            background-image: 
+                radial-gradient(circle at 0 0, rgba(147, 51, 234, 0.28) 1.5px, transparent 1.5px),
+                linear-gradient(to right, rgba(168, 85, 247, 0.16) 1px, transparent 1px, transparent 6px, rgba(168, 85, 247, 0.08) 6px, rgba(168, 85, 247, 0.08) 7px, transparent 7px),
+                linear-gradient(to bottom, rgba(168, 85, 247, 0.16) 1px, transparent 1px, transparent 6px, rgba(168, 85, 247, 0.08) 6px, rgba(168, 85, 247, 0.08) 7px, transparent 7px),
+                linear-gradient(to right, rgba(255, 255, 255, 0.45) 50%, transparent 50%),
+                linear-gradient(to bottom, rgba(255, 255, 255, 0.45) 50%, transparent 50%),
+                radial-gradient(circle at 20% 20%, rgba(233, 213, 255, 0.7) 0%, transparent 50%),
+                linear-gradient(135deg, #fdfbff 0%, #f3e8ff 50%, #ead6ff 100%);
+            background-size: 
+                64px 64px,
+                64px 64px,
+                64px 64px,
+                128px 128px,
+                128px 128px,
+                100% 100%,
+                100% 100%;
+            background-position: center center;
             overflow: hidden;
             height: 100vh;
             touch-action: manipulation;
         }
-    </style>
-    <style>
-        .font-cursive { font-family: 'Great Vibes', cursive; }
-        .font-serif-custom { font-family: 'Playfair Display', serif; }
-        .font-padauk { font-family: 'Padauk', sans-serif; }
 
-        @keyframes floatDownToCenter {
-            0% { transform: translate(-50%, -100vh) rotate(-12deg); opacity: 0; }
-            20% { opacity: 1; }
-            35% { transform: translate(-35%, -15vh) rotate(8deg); }
-            65% { transform: translate(-60%, 10vh) rotate(-6deg); }
-            85% { transform: translate(-45%, 22vh) rotate(4deg); }
-            100% { transform: translate(-50%, 25vh) rotate(-2deg); }
+        /* Subtle decorative floating background frame */
+        .bg-ornament-frame {
+            position: fixed;
+            inset: 14px;
+            border: 1.5px dashed rgba(168, 85, 247, 0.32);
+            border-radius: 24px;
+            pointer-events: none;
+            z-index: 1;
+            box-shadow: inset 0 0 30px rgba(255, 255, 255, 0.6);
         }
 
-        @keyframes centerSwaying {
-            0%, 100% { transform: translate(-50%, 25vh) rotate(-2deg) scale(1); }
-            50% { transform: translate(-50%, 21vh) rotate(2deg) scale(1.03); }
+        .font-cursive, .font-serif-custom, .font-padauk { 
+            font-family: 'Times New Roman', Times, 'Padauk', serif !important; 
         }
 
-        @keyframes bouquetGentleSway {
-            0%, 100% { transform: translateY(0) rotate(0deg) scale(1); }
-            50% { transform: translateY(-4px) rotate(1.5deg) scale(1.02); }
+        /* NEW ENVELOPE REVEAL: 3D Spiral Magic Bloom & Orbit Glow */
+        @keyframes magicEnvelopeBloom {
+            0% { 
+                transform: translate(-50%, 60%) scale(0.05) rotate(-540deg); 
+                opacity: 0; 
+                filter: blur(12px) brightness(1.6);
+            }
+            55% { 
+                transform: translate(-50%, -46%) scale(1.14) rotate(10deg); 
+                opacity: 1; 
+                filter: blur(0px) brightness(1.1);
+            }
+            75% { 
+                transform: translate(-50%, -40%) scale(0.95) rotate(-4deg); 
+            }
+            100% { 
+                transform: translate(-50%, -42%) scale(1) rotate(0deg); 
+                opacity: 1; 
+                filter: blur(0px) brightness(1);
+            }
         }
 
-        .bouquet-sway {
-            animation: bouquetGentleSway 3.5s ease-in-out infinite;
+        @keyframes magicHoverLevitate {
+            0%, 100% { transform: translate(-50%, -42%) translateY(0px) rotate(-1.5deg); }
+            50% { transform: translate(-50%, -42%) translateY(-12px) rotate(2deg); }
         }
 
-        .free-floating-image {
+        @keyframes auraHaloSpin {
+            0% { transform: translate(-50%, -50%) rotate(0deg) scale(0.95); }
+            50% { transform: translate(-50%, -50%) rotate(180deg) scale(1.06); }
+            100% { transform: translate(-50%, -50%) rotate(360deg) scale(0.95); }
+        }
+
+        /* Main Butterfly Idle Hover & Flutter */
+        @keyframes butterflyGentleSway {
+            0%, 100% { transform: translateY(0) rotate(-2deg) scale(1); }
+            50% { transform: translateY(-9px) rotate(2.5deg) scale(1.04); }
+        }
+
+        .butterfly-idle {
+            animation: butterflyGentleSway 3.2s ease-in-out infinite;
+            transition: transform 0.3s ease;
+        }
+
+        .butterfly-idle:hover {
+            transform: scale(1.08);
+        }
+
+        /* Main Butterfly Slow Gentle Fly Away Animation */
+        @keyframes mainButterflyFlyAway {
+            0% {
+                transform: translate(0, 0) scale(1) rotate(0deg);
+                opacity: 1;
+            }
+            25% {
+                transform: translate(-18px, 10px) scale(1.06) rotate(-10deg);
+                opacity: 1;
+            }
+            65% {
+                transform: translate(65px, -180px) scale(0.75) rotate(14deg);
+                opacity: 0.85;
+            }
+            100% {
+                transform: translate(150px, -420px) scale(0.3) rotate(28deg);
+                opacity: 0;
+            }
+        }
+
+        .butterfly-fly-away {
+            animation: mainButterflyFlyAway 2.2s cubic-bezier(0.25, 0.1, 0.25, 1) forwards !important;
+            pointer-events: none;
+        }
+
+        /* Mini Flying Butterflies Slow Particle Styles */
+        .flying-butterfly {
+            position: fixed;
+            pointer-events: none;
+            z-index: 60;
+            animation: miniButterflyScatter var(--fly-dur, 3.2s) cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
+            filter: drop-shadow(0 4px 8px rgba(147, 51, 234, 0.32));
+        }
+
+        .flying-butterfly-inner {
+            display: block;
+            animation: wingFlap 0.24s ease-in-out infinite alternate;
+        }
+
+        @keyframes wingFlap {
+            0% { transform: scaleX(1) scaleY(1); }
+            100% { transform: scaleX(0.38) scaleY(1.05); }
+        }
+
+        @keyframes miniButterflyScatter {
+            0% {
+                transform: translate(0, 0) scale(0.25) rotate(0deg);
+                opacity: 0;
+            }
+            18% {
+                opacity: 1;
+                transform: translate(calc(var(--tx) * 0.18), calc(var(--ty) * 0.18)) scale(1) rotate(calc(var(--rot) * 0.5));
+            }
+            65% {
+                opacity: 0.95;
+                transform: translate(calc(var(--tx) * 0.68), calc(var(--ty) * 0.68)) scale(0.85) rotate(var(--rot));
+            }
+            100% {
+                transform: translate(var(--tx), var(--ty)) scale(0.45) rotate(calc(var(--rot) * 1.3));
+                opacity: 0;
+            }
+        }
+
+        .magic-envelope-stage {
             position: absolute;
-            top: 25%;
+            top: 52%;
             left: 50%;
-            animation: floatDownToCenter 6s cubic-bezier(0.25, 1, 0.5, 1) forwards,
-                       centerSwaying 4s ease-in-out infinite 6s;
+            animation: magicEnvelopeBloom 1.5s cubic-bezier(0.22, 1, 0.36, 1) forwards,
+                       magicHoverLevitate 3.6s ease-in-out infinite 1.5s;
             cursor: pointer;
-            transition: filter 0.3s ease, transform 0.5s ease;
+            transition: filter 0.3s ease;
             user-select: none;
             -webkit-user-drag: none;
         }
 
-        .free-floating-image img {
+        .envelope-halo-ring {
+            position: absolute;
+            top: 44%;
+            left: 50%;
+            width: 215px;
+            height: 215px;
+            border-radius: 50%;
+            border: 1.5px dashed rgba(168, 85, 247, 0.45);
+            background: radial-gradient(circle, rgba(233, 213, 255, 0.55) 0%, rgba(255, 255, 255, 0) 70%);
+            animation: auraHaloSpin 14s linear infinite;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .envelope-halo-ring::before {
+            content: '✦';
+            position: absolute;
+            top: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #9333ea;
+            font-size: 13px;
+        }
+
+        .envelope-halo-ring::after {
+            content: '♥';
+            position: absolute;
+            bottom: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #c084fc;
+            font-size: 11px;
+        }
+
+        .magic-envelope-stage img {
             border: none !important;
             outline: none !important;
             box-shadow: none !important;
             background: transparent !important;
-            width: 160px !important;
+            width: 165px !important;
+            filter: drop-shadow(0 12px 22px rgba(126, 34, 206, 0.28));
+            transition: transform 0.3s ease, filter 0.3s ease;
         }
 
-        .free-floating-image:hover img {
-            filter: drop-shadow(0 0 18px rgba(125, 211, 252, 0.9));
+        .magic-envelope-stage:hover img {
+            transform: scale(1.06);
+            filter: drop-shadow(0 0 24px rgba(168, 85, 247, 0.65));
         }
 
         @keyframes pulseGlow {
-            0%, 100% { opacity: 0.8; transform: scale(0.95); }
-            50% { opacity: 1; transform: scale(1.05); }
+            0%, 100% { opacity: 0.92; transform: scale(0.97); }
+            50% { opacity: 1; transform: scale(1.03); }
         }
 
         .click-hint { animation: pulseGlow 1.8s infinite; }
 
-        /* Theme Paper Styles */
-        .paper-skyblue {
-            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
-            color: #0c4a6e;
-            border: 2px solid #7dd3fc;
-            box-shadow: 0 15px 35px rgba(14, 165, 233, 0.25);
+        /* Passcode Shake Animation on Wrong Entry */
+        @keyframes shakeError {
+            0%, 100% { transform: translateX(0); }
+            20%, 60% { transform: translateX(-8px); }
+            40%, 80% { transform: translateX(8px); }
         }
-        .paper-skyblue .title-text { color: #0284c7; }
-        .paper-skyblue .heading-text { color: #0369a1; }
-
-        .paper-pink {
-            background: linear-gradient(135deg, #fdf2f8 0%, #fce7f3 100%);
-            color: #831843;
-            border: 2px solid #f9a8d4;
-            box-shadow: 0 15px 35px rgba(236, 72, 153, 0.25);
+        .shake-box {
+            animation: shakeError 0.4s ease-in-out;
         }
-        .paper-pink .title-text { color: #db2777; }
-        .paper-pink .heading-text { color: #be185d; }
 
-        .paper-purple {
-            background: linear-gradient(135deg, #faf5ff 0%, #f3e8ff 100%);
-            color: #4c1d95;
+        /* Liquid Glass Passcode Card */
+        .glass-lock-card {
+            background: linear-gradient(145deg, rgba(255, 255, 255, 0.85) 0%, rgba(245, 235, 255, 0.78) 100%);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1.5px solid rgba(216, 180, 254, 0.85);
+            box-shadow: 
+                0 25px 50px -12px rgba(88, 28, 135, 0.25),
+                inset 0 1px 1px rgba(255, 255, 255, 0.9);
+        }
+
+        .keypad-btn {
+            background: rgba(255, 255, 255, 0.82);
+            border: 1px solid rgba(216, 180, 254, 0.75);
+            transition: all 0.15s ease;
+        }
+        .keypad-btn:hover {
+            background: #f3e8ff;
+            border-color: #c084fc;
+            transform: translateY(-1px);
+        }
+        .keypad-btn:active {
+            transform: scale(0.92);
+            background: #e9d5ff;
+        }
+
+        /* Romantic Lavender Stationery Paper Design */
+        .paper-stationery {
+            background: linear-gradient(165deg, #ffffff 0%, #fcf8ff 50%, #f5edff 100%);
+            color: #3b2854;
             border: 2px solid #d8b4fe;
-            box-shadow: 0 15px 35px rgba(147, 51, 234, 0.25);
+            box-shadow: 
+                0 20px 45px rgba(88, 28, 135, 0.22),
+                0 4px 12px rgba(168, 85, 247, 0.12),
+                inset 0 0 0 6px #ffffff,
+                inset 0 0 0 7.5px #e9d5ff;
+            position: relative;
         }
-        .paper-purple .title-text { color: #7e22ce; }
-        .paper-purple .heading-text { color: #6b21a8; }
 
-        .paper-vintage {
-            background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
-            color: #78350f;
-            border: 2px solid #fcd34d;
-            box-shadow: 0 15px 35px rgba(217, 119, 6, 0.25);
+        .paper-stationery::before {
+            content: '✿';
+            position: absolute;
+            top: 14px;
+            left: 18px;
+            font-size: 14px;
+            color: #c084fc;
+            opacity: 0.7;
         }
-        .paper-vintage .title-text { color: #b45309; }
-        .paper-vintage .heading-text { color: #92400e; }
 
-        .paperclip {
-            position: absolute; top: 10px; right: 24px;
-            width: 14px; height: 42px; border: 2px solid currentColor;
-            opacity: 0.55;
-            border-radius: 10px; box-shadow: 2px 2px 4px rgba(0,0,0,0.15);
-            z-index: 30; pointer-events: none;
+        .ruled-paper-area {
+            background-image: repeating-linear-gradient(
+                to bottom,
+                transparent 0px,
+                transparent 31px,
+                rgba(192, 132, 252, 0.22) 32px
+            );
+            line-height: 32px;
+            padding-top: 2px;
         }
-        .paperclip::after {
-            content: ''; position: absolute; top: 6px; left: 2px;
-            width: 6px; height: 26px; border: 2px solid currentColor; border-radius: 6px;
-        }
+
+        .paper-stationery .title-text { color: #6b21a8; }
+        .paper-stationery .heading-text { color: #7e22ce; }
 
         .sparkle {
             position: absolute;
-            background: radial-gradient(circle, #ffffff 10%, rgba(186, 230, 253, 0.9) 60%, transparent 100%);
+            background: radial-gradient(circle, #c084fc 15%, rgba(216, 180, 254, 0.85) 60%, transparent 100%);
             border-radius: 50%; pointer-events: none;
             animation: floatUp var(--duration) linear infinite;
         }
 
         @keyframes floatUp {
             0% { transform: translateY(105vh) scale(0) rotate(0deg); opacity: 0; }
-            20% { opacity: 0.85; }
-            80% { opacity: 0.85; }
+            20% { opacity: 0.75; }
+            80% { opacity: 0.75; }
             100% { transform: translateY(-10vh) scale(1.2) rotate(360deg); opacity: 0; }
         }
 
@@ -145,6 +326,7 @@
         .typing-cursor::after {
             content: '|';
             animation: blink 0.7s infinite;
+            color: #9333ea;
             font-weight: bold;
             margin-left: 2px;
         }
@@ -152,292 +334,349 @@
             0%, 100% { opacity: 1; }
             50% { opacity: 0; }
         }
-
-        /* Custom Scrollbar for Editor Drawer */
-        #editorPanel::-webkit-scrollbar { width: 5px; }
-        #editorPanel::-webkit-scrollbar-track { background: rgba(15, 23, 42, 0.5); }
-        #editorPanel::-webkit-scrollbar-thumb { background: rgba(56, 189, 248, 0.5); border-radius: 10px; }
     </style>
 </head>
-<body class="relative flex items-center justify-center min-h-screen select-none overflow-hidden font-serif-custom">
+<body class="relative flex items-center justify-center min-h-screen select-none overflow-hidden">
+
+    <div class="bg-ornament-frame"></div>
 
     <audio id="bgMusic" loop src="https://www.image2url.com/r2/default/audio/1789288232634-9a89e91e-e43f-4d68-b101-bf9b607f0f76.m4a"></audio>
 
-    <!-- Floating Edit Button (Hidden automatically when exported as clean HTML) -->
-    <button id="editToggleBtn" onclick="toggleEditor()" class="fixed top-4 right-4 z-[60] flex items-center gap-1.5 px-3.5 py-2 rounded-full bg-slate-900/70 hover:bg-slate-900/90 text-white backdrop-blur-md border border-white/25 shadow-lg text-xs font-sans font-semibold transition-all cursor-pointer">
-        <svg class="w-4 h-4 text-sky-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
-        <span>Edit Card</span>
-    </button>
-
-    <!-- Start Screen -->
-    <div id="startScreen" class="absolute inset-0 z-40 flex flex-col items-center justify-center cursor-pointer transition-opacity duration-700" onclick="startExperience()">
-        <h1 id="startHintDisplay" class="text-white text-lg md:text-xl font-bold tracking-wide drop-shadow-md mb-6 click-hint text-center px-4">
-            ✨ Click the bouquet ✨
-        </h1>
-        <img id="bouquetImgDisplay" src="https://i.ibb.co/zHSrxp8G/blue-Sticker-bouquet-removebg-preview.png" alt="Bouquet" class="h-auto object-contain hover:scale-105 transition-transform duration-300 bouquet-sway" style="width: 180px;">
+    <!-- 1. Start Screen with Larger Interactive Butterfly -->
+    <div id="startScreen" class="absolute inset-0 z-40 flex flex-col items-center justify-center cursor-pointer transition-opacity duration-700" onclick="triggerButterflyFlight(event)">
+        <div id="butterflyHintBadge" class="px-6 py-2 rounded-full bg-white/90 backdrop-blur-sm border border-purple-200 shadow-sm mb-5 click-hint transition-opacity duration-500">
+            <h1 class="text-purple-900 text-lg md:text-xl font-bold tracking-wide text-center">
+                ✨ Click the Butterfly ✨
+            </h1>
+        </div>
+        <img id="mainButterflyImg" src="https://i.ibb.co/r2RHJNg3/68ggg.png" alt="Butterfly" class="h-auto object-contain butterfly-idle drop-shadow-xl" style="width: 260px; max-width: 72vw;">
     </div>
 
-    <!-- Main Screen -->
-    <div id="mainContent" class="hidden w-full h-full transition-all duration-500">
-        <div id="sparkle-container" class="absolute inset-0 pointer-events-none overflow-hidden"></div>
-        <div class="absolute w-80 h-80 bg-white/10 rounded-full blur-3xl pointer-events-none"></div>
-        <div class="absolute w-72 h-72 bg-white/10 rounded-full blur-3xl pointer-events-none -top-10 -left-10"></div>
+    <!-- 2. Passcode Lock Modal (Opens slowly as Butterflies fly away) -->
+    <div id="passwordModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-purple-950/35 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-700" onclick="closePasswordModalOnBg(event)">
+        <div id="passwordBox" class="glass-lock-card w-full max-w-xs p-6 rounded-3xl text-center relative transform scale-95 transition-transform duration-500" onclick="event.stopPropagation()">
+            
+            <!-- Close Button -->
+            <button onclick="closePasswordModal()" class="absolute top-3.5 right-3.5 text-purple-500 hover:text-purple-800 bg-white/80 rounded-full p-1.5 shadow-sm transition">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
 
-        <div class="absolute top-8 text-center z-10 px-4 w-full">
-            <h1 id="mainTitleDisplay" class="text-white text-base md:text-lg font-bold tracking-wide drop-shadow-md">✨ Tap The Envelope ✨</h1>
-            <p id="mainSubDisplay" class="text-xs text-white/80 mt-1">Tap the floating envelope to open wish</p>
+            <!-- Lock Badge -->
+            <div class="w-12 h-12 mx-auto mb-2.5 rounded-2xl bg-purple-100 border border-purple-300 flex items-center justify-center shadow-inner">
+                <span class="text-xl">🔐</span>
+            </div>
+
+            <h2 class="text-purple-950 font-bold text-lg tracking-wide">Secret Passcode</h2>
+            <p id="passHintText" class="text-xs text-purple-600 mt-0.5 italic">လျှို့ဝှက်နံပါတ် ၄ လုံးရိုက်ထည့်ပါ 💜</p>
+
+            <!-- 4 Heart Pin Indicators -->
+            <div class="flex items-center justify-center gap-3.5 my-4" id="pinDotsContainer">
+                <span class="pin-dot w-4 h-4 rounded-full border-2 border-purple-400 bg-white transition-all duration-200"></span>
+                <span class="pin-dot w-4 h-4 rounded-full border-2 border-purple-400 bg-white transition-all duration-200"></span>
+                <span class="pin-dot w-4 h-4 rounded-full border-2 border-purple-400 bg-white transition-all duration-200"></span>
+                <span class="pin-dot w-4 h-4 rounded-full border-2 border-purple-400 bg-white transition-all duration-200"></span>
+            </div>
+
+            <!-- Status / Error Message -->
+            <p id="passErrorMsg" class="text-xs font-bold text-rose-500 h-4 mb-2 opacity-0 transition-opacity">Passcode မှားနေပါတယ် ပြန်စမ်းကြည့်ပါ 🥺</p>
+
+            <!-- Aesthetic Number Keypad -->
+            <div class="grid grid-cols-3 gap-2.5 max-w-[220px] mx-auto">
+                <button type="button" onclick="enterDigit('1')" class="keypad-btn py-2.5 rounded-xl text-purple-900 font-bold text-lg shadow-sm">1</button>
+                <button type="button" onclick="enterDigit('2')" class="keypad-btn py-2.5 rounded-xl text-purple-900 font-bold text-lg shadow-sm">2</button>
+                <button type="button" onclick="enterDigit('3')" class="keypad-btn py-2.5 rounded-xl text-purple-900 font-bold text-lg shadow-sm">3</button>
+                <button type="button" onclick="enterDigit('4')" class="keypad-btn py-2.5 rounded-xl text-purple-900 font-bold text-lg shadow-sm">4</button>
+                <button type="button" onclick="enterDigit('5')" class="keypad-btn py-2.5 rounded-xl text-purple-900 font-bold text-lg shadow-sm">5</button>
+                <button type="button" onclick="enterDigit('6')" class="keypad-btn py-2.5 rounded-xl text-purple-900 font-bold text-lg shadow-sm">6</button>
+                <button type="button" onclick="enterDigit('7')" class="keypad-btn py-2.5 rounded-xl text-purple-900 font-bold text-lg shadow-sm">7</button>
+                <button type="button" onclick="enterDigit('8')" class="keypad-btn py-2.5 rounded-xl text-purple-900 font-bold text-lg shadow-sm">8</button>
+                <button type="button" onclick="enterDigit('9')" class="keypad-btn py-2.5 rounded-xl text-purple-900 font-bold text-lg shadow-sm">9</button>
+                <button type="button" onclick="clearDigits()" class="keypad-btn py-2.5 rounded-xl text-purple-600 font-bold text-xs shadow-sm">Clear</button>
+                <button type="button" onclick="enterDigit('0')" class="keypad-btn py-2.5 rounded-xl text-purple-900 font-bold text-lg shadow-sm">0</button>
+                <button type="button" onclick="deleteDigit()" class="keypad-btn py-2.5 rounded-xl text-purple-700 font-bold text-sm shadow-sm">⌫</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 3. Main Content with Redesigned Envelope Reveal -->
+    <div id="mainContent" class="hidden w-full h-full transition-all duration-500 relative z-10">
+        <div id="sparkle-container" class="absolute inset-0 pointer-events-none overflow-hidden"></div>
+
+        <div class="absolute top-8 text-center z-10 px-4 w-full flex flex-col items-center">
+            <div class="px-6 py-2 rounded-2xl bg-white/90 backdrop-blur-sm border border-purple-200/80 shadow-sm">
+                <h1 class="text-purple-900 text-lg md:text-xl font-bold tracking-wide">✨ Tap The Envelope ✨</h1>
+                <p class="text-xs text-purple-600 mt-0.5 italic">Tap the glowing envelope to open your letter</p>
+            </div>
         </div>
 
-        <div id="fallingCard" class="free-floating-image z-20 flex flex-col items-center justify-center" onclick="openWishCard()">
-            <img id="envelopeImgDisplay" src="https://i.ibb.co/xK7Lfv0H/Untitled-Design-1-removebg-preview.png" alt="Special" class="h-auto object-contain pointer-events-auto bg-transparent border-0 outline-0 shadow-none bouquet-sway" style="width: 160px;">
-            <span id="envelopeBtnDisplay" class="click-hint mt-3 inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white text-slate-900 font-bold text-xs tracking-wider shadow-lg border border-white/60">
-                <svg class="w-3.5 h-3.5 animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5M7.188 2.239l.777 2.897M5.136 7.965l-2.898-.777M13.95 4.05l-2.122 2.122m-5.657 5.656l-2.12 2.122"></path></svg>
-                <span id="envelopeBtnText">Click Me ✨</span>
+        <!-- Redesigned Magic Orbit & Spiral Bloom Envelope -->
+        <div id="fallingCard" class="magic-envelope-stage z-20 flex flex-col items-center justify-center" onclick="openWishCard()">
+            <div class="envelope-halo-ring"></div>
+            <img src="https://i.ibb.co/99MHD9tV/pup5354.png" alt="Special Envelope" class="h-auto object-contain pointer-events-auto bg-transparent border-0 outline-0 shadow-none">
+            <span class="click-hint mt-4 inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-gradient-to-r from-purple-600 to-fuchsia-500 text-white font-bold text-xs tracking-wider shadow-lg border border-purple-200">
+                <svg class="w-3.5 h-3.5 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                Open Letter ✨
             </span>
         </div>
     </div>
 
-    <!-- Wish Modal -->
-    <div id="wishModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/60 backdrop-blur-[2px] opacity-0 pointer-events-none transition-opacity duration-500 overflow-y-auto" onclick="closeWishCardOnBg(event)">
-        <div class="paper-skyblue relative w-full max-w-md p-6 sm:p-8 rounded-xl z-10 shadow-2xl transform scale-90 transition-transform duration-500 my-auto" id="modalCard">
-            <div class="paperclip"></div>
-            <div class="text-center mb-4 pt-3">
-                <span id="titleText" class="text-3xl sm:text-4xl title-text block font-cursive min-h-[48px]"></span>
-                <div class="w-20 h-0.5 bg-current opacity-25 mx-auto mt-2"></div>
-            </div>
-            <div class="space-y-3 text-center leading-relaxed my-4 font-padauk">
-                <p id="headingText" class="text-lg sm:text-xl font-bold heading-text drop-shadow-sm min-h-[28px]"></p>
-                <p id="bodyText" class="text-sm sm:text-base font-medium px-2 opacity-95 min-h-[80px]"></p>
-                <p id="subText" class="text-xs sm:text-sm italic pt-1 opacity-80 min-h-[24px]"></p>
-            </div>
-            <div class="mt-6 pt-3 border-t border-current/20 flex items-center justify-between text-xs">
-                <span id="footerLeft" class="font-cursive text-base opacity-90"></span>
-                <span id="footerRight" class="opacity-80"></span>
-            </div>
-            <div onclick="openCornerFullModal(event)" class="absolute bottom-3 right-3 cursor-pointer group z-30">
-                <div class="w-11 h-11 p-0.5 bg-white shadow-md rounded border border-slate-300 transform rotate-3 group-hover:rotate-0 transition duration-200">
-                    <img id="stampThumbDisplay" src="https://i.ibb.co/cp6WytW/download-55.jpg" class="w-full h-full object-cover rounded-sm">
-                </div>
-            </div>
-            <button onclick="closeWishCard()" class="absolute top-3 right-3 z-30 bg-slate-800/80 text-white rounded-full p-1.5 shadow-md hover:bg-slate-900 transition-colors focus:outline-none">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"></path></svg>
-            </button>
-        </div>
-    </div>
-
-    <!-- Corner Memory Stamp Full Modal -->
-    <div id="exportCornerModal" class="hidden fixed inset-0 z-[100] bg-slate-950/85 backdrop-blur-md flex items-center justify-center p-4 cursor-pointer" onclick="closeExportCornerModal()">
-        <div class="bg-white p-3.5 rounded-2xl shadow-2xl max-w-xs w-full text-center relative border border-slate-200" onclick="event.stopPropagation()">
-            <img id="stampFullDisplay" src="https://i.ibb.co/cp6WytW/download-55.jpg" class="w-full h-auto max-h-80 object-contain rounded-xl">
-            <p id="stampCaptionDisplay" class="text-xs text-slate-700 font-semibold mt-2.5 font-sans">✨ Corner Memory Stamp ✨</p>
-            <button onclick="closeExportCornerModal()" class="absolute -top-3 -right-3 bg-slate-800 text-white rounded-full p-1.5 shadow-lg hover:bg-slate-900 transition">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"></path></svg>
-            </button>
-        </div>
-    </div>
-
-    <!-- Self-Edit Studio Drawer -->
-    <div id="editorDrawer" class="fixed inset-0 z-[120] hidden font-sans">
-        <div class="absolute inset-0 bg-slate-950/60 backdrop-blur-xs" onclick="toggleEditor()"></div>
-        <div id="editorPanel" class="absolute right-0 top-0 h-full w-full max-w-md bg-slate-900/95 text-slate-100 border-l border-white/15 shadow-2xl overflow-y-auto p-5 flex flex-col gap-4 select-text">
+    <!-- 4. Love Letter Modal -->
+    <div id="wishModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-purple-950/45 backdrop-blur-[3px] opacity-0 pointer-events-none transition-opacity duration-500 overflow-y-auto" onclick="closeWishCardOnBg(event)">
+        <div class="paper-stationery w-full max-w-md p-6 sm:p-8 rounded-2xl z-10 transform scale-90 transition-transform duration-500 my-auto" id="modalCard">
             
-            <div class="flex items-center justify-between border-b border-white/15 pb-3 sticky top-0 bg-slate-900/95 z-10">
-                <div>
-                    <h2 class="text-base font-bold text-sky-400 flex items-center gap-1.5">✨ Card Customizer</h2>
-                    <p class="text-[11px] text-slate-400">စာသား၊ ပုံ၊ သီချင်းနှင့် Theme များကို စိတ်ကြိုက်ပြင်ဆင်ပါ</p>
-                </div>
-                <button onclick="toggleEditor()" class="p-1.5 rounded-lg bg-white/10 hover:bg-white/20 text-slate-300">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-                </button>
+            <!-- Cute Pastel Ribbon Bow Top Ornament -->
+            <div class="absolute -top-5 left-1/2 -translate-x-1/2 z-30 flex items-center justify-center bg-purple-100 border-2 border-purple-300 rounded-full w-11 h-11 shadow-md">
+                <svg class="w-6 h-6 text-purple-600" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M14.5 14 C9 8 3 9.5 3 14 C3 18.5 9 18.5 14.5 15" fill="#e9d5ff"/>
+                    <path d="M17.5 14 C23 8 29 9.5 29 14 C29 18.5 23 18.5 17.5 15" fill="#e9d5ff"/>
+                    <path d="M14.5 16.5 L8.5 26"/>
+                    <path d="M17.5 16.5 L23.5 26"/>
+                    <circle cx="16" cy="14.5" r="2.3" fill="#9333ea"/>
+                </svg>
             </div>
 
-            <!-- Quick Preview Switcher -->
-            <div class="grid grid-cols-3 gap-2 bg-slate-800/80 p-1.5 rounded-xl border border-white/10 text-xs font-medium">
-                <button onclick="previewStep('start')" class="py-1.5 px-2 rounded-lg bg-white/10 hover:bg-sky-500/30 transition text-center">1. Start Screen</button>
-                <button onclick="previewStep('envelope')" class="py-1.5 px-2 rounded-lg bg-white/10 hover:bg-sky-500/30 transition text-center">2. Envelope</button>
-                <button onclick="previewStep('letter')" class="py-1.5 px-2 rounded-lg bg-sky-600 hover:bg-sky-500 text-white transition text-center">3. Open Letter</button>
+            <!-- Postmark / Letter Header Tag -->
+            <div class="text-center mt-2 mb-3">
+                <span class="inline-block px-3 py-0.5 rounded-full bg-purple-100/80 border border-purple-200 text-[10px] font-bold tracking-[0.2em] text-purple-600 uppercase">
+                    Special Love Letter
+                </span>
             </div>
 
-            <!-- Theme Selector -->
-            <div class="space-y-1.5">
-                <label class="text-xs font-semibold text-sky-300">🎨 Color Theme (အရောင်ရွေးရန်)</label>
-                <div class="grid grid-cols-4 gap-2">
-                    <button type="button" onclick="applyTheme('skyblue')" class="py-2 rounded-lg border border-sky-400/50 bg-sky-900/60 text-sky-200 text-xs font-semibold hover:scale-105 transition">Sky Blue</button>
-                    <button type="button" onclick="applyTheme('pink')" class="py-2 rounded-lg border border-pink-400/50 bg-pink-900/60 text-pink-200 text-xs font-semibold hover:scale-105 transition">Soft Pink</button>
-                    <button type="button" onclick="applyTheme('purple')" class="py-2 rounded-lg border border-purple-400/50 bg-purple-900/60 text-purple-200 text-xs font-semibold hover:scale-105 transition">Lavender</button>
-                    <button type="button" onclick="applyTheme('vintage')" class="py-2 rounded-lg border border-amber-400/50 bg-amber-900/60 text-amber-200 text-xs font-semibold hover:scale-105 transition">Warm Gold</button>
-                </div>
-            </div>
-
-            <!-- Letter Text Inputs -->
-            <div class="space-y-3 bg-slate-800/50 p-3.5 rounded-xl border border-white/10">
-                <h3 class="text-xs font-bold text-sky-300 uppercase tracking-wider">💌 Letter Content (စာသားများ)</h3>
-                
-                <div>
-                    <label class="block text-[11px] text-slate-300 mb-1">Card Title (ခေါင်းစဉ်ကြီး)</label>
-                    <input id="inpTitle" type="text" oninput="syncLive()" class="w-full px-3 py-1.5 rounded-lg bg-slate-950 border border-white/15 text-sm text-white focus:border-sky-400 focus:outline-none">
-                </div>
-
-                <div>
-                    <label class="block text-[11px] text-slate-300 mb-1">Greeting Heading (နှုတ်ခွန်းဆက်စာ)</label>
-                    <input id="inpHeading" type="text" oninput="syncLive()" class="w-full px-3 py-1.5 rounded-lg bg-slate-950 border border-white/15 text-sm text-white font-padauk focus:border-sky-400 focus:outline-none">
-                </div>
-
-                <div>
-                    <label class="block text-[11px] text-slate-300 mb-1">Main Message (အဓိကပေးစာ)</label>
-                    <textarea id="inpBody" rows="4" oninput="syncLive()" class="w-full px-3 py-1.5 rounded-lg bg-slate-950 border border-white/15 text-sm text-white font-padauk focus:border-sky-400 focus:outline-none"></textarea>
-                </div>
-
-                <div>
-                    <label class="block text-[11px] text-slate-300 mb-1">Sub-quote / Wish (အောက်ခြေစာတန်း)</label>
-                    <input id="inpSub" type="text" oninput="syncLive()" class="w-full px-3 py-1.5 rounded-lg bg-slate-950 border border-white/15 text-sm text-white font-padauk focus:border-sky-400 focus:outline-none">
-                </div>
-
-                <div class="grid grid-cols-2 gap-2">
-                    <div>
-                        <label class="block text-[11px] text-slate-300 mb-1">Footer Left</label>
-                        <input id="inpFooterLeft" type="text" oninput="syncLive()" class="w-full px-3 py-1.5 rounded-lg bg-slate-950 border border-white/15 text-xs text-white focus:border-sky-400 focus:outline-none">
-                    </div>
-                    <div>
-                        <label class="block text-[11px] text-slate-300 mb-1">Footer Right</label>
-                        <input id="inpFooterRight" type="text" oninput="syncLive()" class="w-full px-3 py-1.5 rounded-lg bg-slate-950 border border-white/15 text-xs text-white focus:border-sky-400 focus:outline-none">
-                    </div>
+            <div class="text-center mb-4">
+                <span id="titleText" class="text-3xl sm:text-4xl title-text block font-bold italic min-h-[46px]"></span>
+                <div class="flex items-center justify-center gap-2 mt-1">
+                    <span class="w-12 h-[1px] bg-purple-300"></span>
+                    <span class="text-purple-400 text-xs">💜</span>
+                    <span class="w-12 h-[1px] bg-purple-300"></span>
                 </div>
             </div>
 
-            <!-- Images & Music -->
-            <div class="space-y-3 bg-slate-800/50 p-3.5 rounded-xl border border-white/10">
-                <h3 class="text-xs font-bold text-sky-300 uppercase tracking-wider">🖼️ Photos & Music (ပုံနှင့် သီချင်း)</h3>
-
-                <div>
-                    <label class="block text-[11px] text-slate-300 mb-1">Memory Stamp Photo (ထောင့်ကပုံ - Link သို့မဟုတ် ဖုန်းထဲမှပုံရွေးပါ)</label>
-                    <div class="flex gap-1.5">
-                        <input id="inpStampUrl" type="text" oninput="syncLive()" placeholder="Image URL..." class="flex-1 px-2.5 py-1.5 rounded-lg bg-slate-950 border border-white/15 text-xs text-white focus:border-sky-400 focus:outline-none">
-                        <label class="px-2.5 py-1.5 rounded-lg bg-sky-600 hover:bg-sky-500 text-white text-xs font-semibold cursor-pointer shrink-0">
-                            Upload
-                            <input type="file" accept="image/*" class="hidden" onchange="handleImageUpload(event, 'inpStampUrl')">
-                        </label>
-                    </div>
+            <div class="space-y-3 text-center my-4">
+                <p id="headingText" class="text-lg sm:text-xl font-bold heading-text min-h-[28px]"></p>
+                <div class="ruled-paper-area px-3 py-1 rounded-lg">
+                    <p id="bodyText" class="text-sm sm:text-base font-normal text-purple-950/90 min-h-[96px]"></p>
                 </div>
+                <p id="subText" class="text-xs sm:text-sm italic pt-1 text-purple-700/85 min-h-[24px]"></p>
+            </div>
 
-                <div>
-                    <label class="block text-[11px] text-slate-300 mb-1">Stamp Caption (ပုံအောက်စာသား)</label>
-                    <input id="inpStampCaption" type="text" oninput="syncLive()" class="w-full px-2.5 py-1.5 rounded-lg bg-slate-950 border border-white/15 text-xs text-white focus:border-sky-400 focus:outline-none">
-                </div>
+            <div class="mt-6 pt-3 border-t border-dashed border-purple-300 flex items-center justify-between text-xs pr-14">
+                <span id="footerLeft" class="italic font-bold text-base text-purple-800"></span>
+                <span id="footerRight" class="text-purple-600 font-semibold"></span>
+            </div>
 
-                <div>
-                    <label class="block text-[11px] text-slate-300 mb-1">Start Screen Bouquet Image (ပန်းစည်းပုံ)</label>
-                    <div class="flex gap-1.5">
-                        <input id="inpBouquetUrl" type="text" oninput="syncLive()" class="flex-1 px-2.5 py-1.5 rounded-lg bg-slate-950 border border-white/15 text-xs text-white focus:border-sky-400 focus:outline-none">
-                        <label class="px-2.5 py-1.5 rounded-lg bg-sky-600 hover:bg-sky-500 text-white text-xs font-semibold cursor-pointer shrink-0">
-                            Upload
-                            <input type="file" accept="image/*" class="hidden" onchange="handleImageUpload(event, 'inpBouquetUrl')">
-                        </label>
-                    </div>
-                </div>
-
-                <div>
-                    <label class="block text-[11px] text-slate-300 mb-1">Envelope Image (စာအိတ်ပုံ)</label>
-                    <div class="flex gap-1.5">
-                        <input id="inpEnvelopeUrl" type="text" oninput="syncLive()" class="flex-1 px-2.5 py-1.5 rounded-lg bg-slate-950 border border-white/15 text-xs text-white focus:border-sky-400 focus:outline-none">
-                        <label class="px-2.5 py-1.5 rounded-lg bg-sky-600 hover:bg-sky-500 text-white text-xs font-semibold cursor-pointer shrink-0">
-                            Upload
-                            <input type="file" accept="image/*" class="hidden" onchange="handleImageUpload(event, 'inpEnvelopeUrl')">
-                        </label>
-                    </div>
-                </div>
-
-                <div>
-                    <label class="block text-[11px] text-slate-300 mb-1">Background Music URL (.mp3 / .m4a)</label>
-                    <input id="inpMusicUrl" type="text" oninput="syncLive()" class="w-full px-2.5 py-1.5 rounded-lg bg-slate-950 border border-white/15 text-xs text-white focus:border-sky-400 focus:outline-none">
+            <!-- Polaroid / Stamp Corner Memory Photo -->
+            <div onclick="openCornerFullModal(event)" class="absolute bottom-3.5 right-4 cursor-pointer group z-30" title="Tap to view photo">
+                <div class="relative w-12 h-14 p-1 pb-2.5 bg-white shadow-md rounded-sm border border-purple-200 transform rotate-6 group-hover:rotate-0 group-hover:scale-105 transition duration-200">
+                    <div class="w-5 h-1.5 bg-purple-200/90 absolute -top-1 left-1/2 -translate-x-1/2 -rotate-3 rounded-[1px]"></div>
+                    <img src="https://i.ibb.co/cp6WytW/download-55.jpg" class="w-full h-full object-cover rounded-[1px]">
                 </div>
             </div>
 
-            <!-- Screen Prompts -->
-            <div class="space-y-3 bg-slate-800/50 p-3.5 rounded-xl border border-white/10">
-                <h3 class="text-xs font-bold text-sky-300 uppercase tracking-wider">✨ Screen Hints (အပြင်စာသားများ)</h3>
-                <div class="grid grid-cols-2 gap-2">
-                    <div>
-                        <label class="block text-[11px] text-slate-300 mb-1">Start Hint</label>
-                        <input id="inpStartHint" type="text" oninput="syncLive()" class="w-full px-2.5 py-1.5 rounded-lg bg-slate-950 border border-white/15 text-xs text-white">
-                    </div>
-                    <div>
-                        <label class="block text-[11px] text-slate-300 mb-1">Button Label</label>
-                        <input id="inpBtnText" type="text" oninput="syncLive()" class="w-full px-2.5 py-1.5 rounded-lg bg-slate-950 border border-white/15 text-xs text-white">
-                    </div>
-                </div>
-                <div class="grid grid-cols-2 gap-2">
-                    <div>
-                        <label class="block text-[11px] text-slate-300 mb-1">Envelope Header</label>
-                        <input id="inpMainTitle" type="text" oninput="syncLive()" class="w-full px-2.5 py-1.5 rounded-lg bg-slate-950 border border-white/15 text-xs text-white">
-                    </div>
-                    <div>
-                        <label class="block text-[11px] text-slate-300 mb-1">Envelope Sub</label>
-                        <input id="inpMainSub" type="text" oninput="syncLive()" class="w-full px-2.5 py-1.5 rounded-lg bg-slate-950 border border-white/15 text-xs text-white">
-                    </div>
-                </div>
-            </div>
-
-            <!-- Action Buttons -->
-            <div class="sticky bottom-0 bg-slate-900/95 pt-3 pb-2 border-t border-white/15 flex flex-col gap-2">
-                <button onclick="downloadCleanHtml()" class="w-full py-2.5 px-4 rounded-xl bg-gradient-to-r from-sky-500 to-blue-600 hover:from-sky-400 hover:to-blue-500 text-white font-bold text-sm shadow-lg flex items-center justify-center gap-2 transition cursor-pointer">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
-                    <span>Download Final Card (.html)</span>
-                </button>
-                <div class="flex gap-2">
-                    <button onclick="saveToBrowser()" class="flex-1 py-2 px-3 rounded-lg bg-emerald-600/80 hover:bg-emerald-600 text-white text-xs font-semibold transition cursor-pointer">
-                        💾 Save Draft
-                    </button>
-                    <button onclick="resetToDefault()" class="py-2 px-3 rounded-lg bg-rose-600/70 hover:bg-rose-600 text-white text-xs font-semibold transition cursor-pointer">
-                        Reset
-                    </button>
-                </div>
-            </div>
-
+            <button onclick="closeWishCard()" class="absolute top-3.5 right-3.5 z-30 bg-purple-600 text-white rounded-full p-1.5 shadow-md hover:bg-purple-700 transition-colors focus:outline-none">
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
         </div>
     </div>
 
-    <script id="cardConfigScript">
-        const defaultConfig = {
-            theme: "skyblue",
-            startHint: "✨ Click the bouquet ✨",
-            bouquetImg: "https://i.ibb.co/zHSrxp8G/blue-Sticker-bouquet-removebg-preview.png",
-            mainTitle: "✨ Tap The Envelope ✨",
-            mainSub: "Tap the floating envelope to open wish",
-            envelopeImg: "https://i.ibb.co/xK7Lfv0H/Untitled-Design-1-removebg-preview.png",
-            btnText: "Click Me ✨",
-            stampImg: "https://i.ibb.co/cp6WytW/download-55.jpg",
-            stampCaption: "✨ Corner Memory Stamp ✨",
-            musicUrl: "https://www.image2url.com/r2/default/audio/1789288232634-9a89e91e-e43f-4d68-b101-bf9b607f0f76.m4a",
+    <div id="exportCornerModal" class="hidden fixed inset-0 z-[100] bg-purple-950/80 backdrop-blur-md flex items-center justify-center p-4 cursor-pointer" onclick="closeExportCornerModal()">
+        <div class="bg-white p-3.5 rounded-2xl shadow-2xl max-w-xs w-full text-center relative border-2 border-purple-200" onclick="event.stopPropagation()">
+            <img src="https://i.ibb.co/cp6WytW/download-55.jpg" class="w-full h-auto max-h-80 object-contain rounded-xl">
+            <p class="text-xs text-purple-800 font-bold mt-2.5">💜 Corner Memory Stamp 💜</p>
+            <button onclick="closeExportCornerModal()" class="absolute -top-3 -right-3 bg-purple-600 text-white rounded-full p-1.5 shadow-lg hover:bg-purple-700 transition">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // ==========================================
+        const SECRET_PASSCODE = "0000"; 
+        // ==========================================
+
+        let currentInput = "";
+        let isButterflyFlying = false;
+
+        const textData = {
             title: "Happy Anniversary",
-            heading: "💎 Happy Anniversary, My Love! 💙",
+            heading: "💜 Happy Anniversary, My Love! ✨",
             body: "ငါတို့နှစ်ယောက် အတူတူဖြတ်သန်းလာခဲ့တဲ့ အချိန်တွေအတွက် ကျေးဇူးအများကြီးတင်ပါတယ်။ အမြဲတမ်းနားလည်ပေးပြီး ချစ်ပေးလို့လည်း ကျေးဇူးပါ။ 💖\nရှေ့လျောက်လည်း အနားမှာ အမြဲရှိပေးပါရစေနော်\nအများကြီးဆက်ချစ်ပေးမယ်လို့ ကတိပေးပါတယ်နော်",
             sub: "May our love continue to grow stronger with each passing day! ✨",
-            footerLeft: "With All My Love 💙",
+            footerLeft: "With All My Love 💜",
             footerRight: "✨ Forever & Always ✨"
         };
 
-        let cardConfig = JSON.parse(localStorage.getItem('envelope4_custom_config')) || { ...defaultConfig };
+        /* Slow Butterfly Flight Burst & Open Passcode */
+        function triggerButterflyFlight(e) {
+            if (isButterflyFlying) return;
+            isButterflyFlying = true;
 
-        const themes = {
-            skyblue: {
-                bg: "radial-gradient(circle at center, #f0f9ff, #0284c7, #0c4a6e)",
-                paperClass: "paper-skyblue"
-            },
-            pink: {
-                bg: "radial-gradient(circle at center, #fdf2f8, #db2777, #831843)",
-                paperClass: "paper-pink"
-            },
-            purple: {
-                bg: "radial-gradient(circle at center, #faf5ff, #7e22ce, #3b0764)",
-                paperClass: "paper-purple"
-            },
-            vintage: {
-                bg: "radial-gradient(circle at center, #fffbeb, #d97706, #78350f)",
-                paperClass: "paper-vintage"
+            const mainButterfly = document.getElementById('mainButterflyImg');
+            const hintBadge = document.getElementById('butterflyHintBadge');
+            const rect = mainButterfly.getBoundingClientRect();
+            const originX = rect.left + rect.width / 2;
+            const originY = rect.top + rect.height / 2;
+
+            // Animate main butterfly flying away slowly
+            mainButterfly.classList.remove('butterfly-idle');
+            mainButterfly.classList.add('butterfly-fly-away');
+            hintBadge.classList.add('opacity-0');
+
+            // Spawn 18 slow-fluttering mini butterflies scattering outward
+            const butterflyCount = 18;
+            for (let i = 0; i < butterflyCount; i++) {
+                const bWrapper = document.createElement('div');
+                bWrapper.className = 'flying-butterfly';
+
+                // Spread around the butterfly image center
+                const offsetX = (Math.random() - 0.5) * 90;
+                const offsetY = (Math.random() - 0.5) * 70;
+                bWrapper.style.left = `${originX + offsetX}px`;
+                bWrapper.style.top = `${originY + offsetY}px`;
+
+                // Upward & outward slow flight trajectories
+                const angle = (-Math.PI / 2) + (Math.random() - 0.5) * 2.4;
+                const distance = 220 + Math.random() * 260;
+                const tx = Math.cos(angle) * distance;
+                const ty = Math.sin(angle) * distance - 70;
+                const rot = (Math.random() - 0.5) * 65;
+                const duration = 2.6 + Math.random() * 1.4; // Slowed down (2.6s - 4.0s)
+                const size = 24 + Math.random() * 22;
+
+                bWrapper.style.setProperty('--tx', `${tx}px`);
+                bWrapper.style.setProperty('--ty', `${ty}px`);
+                bWrapper.style.setProperty('--rot', `${rot}deg`);
+                bWrapper.style.setProperty('--fly-dur', `${duration}s`);
+                bWrapper.style.animationDelay = `${Math.random() * 0.35}s`;
+
+                const bInner = document.createElement('img');
+                bInner.src = "https://i.ibb.co/r2RHJNg3/68ggg.png";
+                bInner.className = 'flying-butterfly-inner';
+                bInner.style.width = `${size}px`;
+                bInner.style.height = 'auto';
+                bInner.style.animationDuration = `${0.20 + Math.random() * 0.12}s`;
+
+                bWrapper.appendChild(bInner);
+                document.body.appendChild(bWrapper);
+
+                setTimeout(() => {
+                    bWrapper.remove();
+                }, (duration + 0.5) * 1000);
             }
-        };
 
+            // Open password modal smoothly after letting butterflies float upward
+            setTimeout(() => {
+                openPasswordModal();
+            }, 1500);
+        }
+
+        function resetButterflyState() {
+            isButterflyFlying = false;
+            const mainButterfly = document.getElementById('mainButterflyImg');
+            const hintBadge = document.getElementById('butterflyHintBadge');
+            if (mainButterfly) {
+                mainButterfly.classList.remove('butterfly-fly-away');
+                mainButterfly.classList.add('butterfly-idle');
+            }
+            if (hintBadge) {
+                hintBadge.classList.remove('opacity-0');
+            }
+        }
+
+        /* Passcode Logic */
+        function openPasswordModal() {
+            const modal = document.getElementById('passwordModal');
+            const box = document.getElementById('passwordBox');
+            modal.classList.remove('opacity-0', 'pointer-events-none');
+            modal.classList.add('opacity-100', 'pointer-events-auto');
+            box.classList.remove('scale-95');
+            box.classList.add('scale-100');
+            clearDigits();
+        }
+
+        function closePasswordModal() {
+            const modal = document.getElementById('passwordModal');
+            const box = document.getElementById('passwordBox');
+            modal.classList.remove('opacity-100', 'pointer-events-auto');
+            modal.classList.add('opacity-0', 'pointer-events-none');
+            box.classList.remove('scale-100');
+            box.classList.add('scale-95');
+            resetButterflyState();
+        }
+
+        function closePasswordModalOnBg(e) {
+            if (e.target.id === 'passwordModal') closePasswordModal();
+        }
+
+        function updatePinDots() {
+            const dots = document.querySelectorAll('.pin-dot');
+            dots.forEach((dot, idx) => {
+                if (idx < currentInput.length) {
+                    dot.classList.remove('bg-white', 'border-purple-400');
+                    dot.classList.add('bg-purple-600', 'border-purple-600', 'scale-110');
+                } else {
+                    dot.classList.remove('bg-purple-600', 'border-purple-600', 'scale-110');
+                    dot.classList.add('bg-white', 'border-purple-400');
+                }
+            });
+        }
+
+        function enterDigit(digit) {
+            if (currentInput.length >= 4) return;
+            document.getElementById('passErrorMsg').classList.add('opacity-0');
+            currentInput += digit;
+            updatePinDots();
+
+            if (currentInput.length === 4) {
+                setTimeout(verifyPasscode, 180);
+            }
+        }
+
+        function deleteDigit() {
+            currentInput = currentInput.slice(0, -1);
+            document.getElementById('passErrorMsg').classList.add('opacity-0');
+            updatePinDots();
+        }
+
+        function clearDigits() {
+            currentInput = "";
+            document.getElementById('passErrorMsg').classList.add('opacity-0');
+            updatePinDots();
+        }
+
+        function verifyPasscode() {
+            if (currentInput === SECRET_PASSCODE) {
+                const modal = document.getElementById('passwordModal');
+                const box = document.getElementById('passwordBox');
+                modal.classList.remove('opacity-100', 'pointer-events-auto');
+                modal.classList.add('opacity-0', 'pointer-events-none');
+                box.classList.remove('scale-100');
+                box.classList.add('scale-95');
+                startExperience();
+            } else {
+                const box = document.getElementById('passwordBox');
+                const err = document.getElementById('passErrorMsg');
+                err.classList.remove('opacity-0');
+                box.classList.remove('shake-box');
+                void box.offsetWidth; // trigger reflow
+                box.classList.add('shake-box');
+                setTimeout(() => {
+                    currentInput = "";
+                    updatePinDots();
+                }, 450);
+            }
+        }
+
+        // Keyboard number support on PC
+        document.addEventListener('keydown', (e) => {
+            const passModal = document.getElementById('passwordModal');
+            if (passModal.classList.contains('opacity-100')) {
+                if (e.key >= '0' && e.key <= '9') enterDigit(e.key);
+                if (e.key === 'Backspace') deleteDigit();
+                if (e.key === 'Escape') closePasswordModal();
+            }
+        });
+
+        /* Typing & Experience Logic */
         let typingTimeouts = [];
 
         function clearAllTyping() {
@@ -466,11 +705,13 @@
                     if (callback) callback();
                 }
             }
+
             typeNextChar();
         }
 
         function startTypingSequence() {
             clearAllTyping();
+            
             document.getElementById('titleText').innerHTML = "";
             document.getElementById('headingText').innerHTML = "";
             document.getElementById('bodyText').innerHTML = "";
@@ -478,291 +719,6 @@
             document.getElementById('footerLeft').innerHTML = "";
             document.getElementById('footerRight').innerHTML = "";
 
-            typeWriter('titleText', cardConfig.title, 60, () => {
-                typeWriter('headingText', cardConfig.heading, 40, () => {
-                    typeWriter('bodyText', cardConfig.body, 35, () => {
-                        typeWriter('subText', cardConfig.sub, 30, () => {
-                            document.getElementById('footerLeft').innerHTML = cardConfig.footerLeft;
-                            document.getElementById('footerRight').innerHTML = cardConfig.footerRight;
-                        });
-                    });
-                });
-            });
-        }
-
-        function renderCardInstant() {
-            // Theme
-            const t = themes[cardConfig.theme] || themes.skyblue;
-            document.body.style.background = t.bg;
-            const modalCard = document.getElementById('modalCard');
-            modalCard.classList.remove('paper-skyblue', 'paper-pink', 'paper-purple', 'paper-vintage');
-            modalCard.classList.add(t.paperClass);
-
-            // Texts & Images
-            document.getElementById('startHintDisplay').textContent = cardConfig.startHint;
-            document.getElementById('bouquetImgDisplay').src = cardConfig.bouquetImg;
-            document.getElementById('mainTitleDisplay').textContent = cardConfig.mainTitle;
-            document.getElementById('mainSubDisplay').textContent = cardConfig.mainSub;
-            document.getElementById('envelopeImgDisplay').src = cardConfig.envelopeImg;
-            document.getElementById('envelopeBtnText').textContent = cardConfig.btnText;
-            document.getElementById('stampThumbDisplay').src = cardConfig.stampImg;
-            document.getElementById('stampFullDisplay').src = cardConfig.stampImg;
-            document.getElementById('stampCaptionDisplay').textContent = cardConfig.stampCaption;
-
-            const audio = document.getElementById('bgMusic');
-            if (audio.src !== cardConfig.musicUrl) {
-                audio.src = cardConfig.musicUrl;
-            }
-
-            // Instant text update if modal is open while editing
-            clearAllTyping();
-            document.getElementById('titleText').textContent = cardConfig.title;
-            document.getElementById('headingText').textContent = cardConfig.heading;
-            document.getElementById('bodyText').innerHTML = cardConfig.body.replace(/\n/g, '<br>');
-            document.getElementById('subText').textContent = cardConfig.sub;
-            document.getElementById('footerLeft').textContent = cardConfig.footerLeft;
-            document.getElementById('footerRight').textContent = cardConfig.footerRight;
-        }
-
-        function populateEditorFields() {
-            document.getElementById('inpTitle').value = cardConfig.title;
-            document.getElementById('inpHeading').value = cardConfig.heading;
-            document.getElementById('inpBody').value = cardConfig.body;
-            document.getElementById('inpSub').value = cardConfig.sub;
-            document.getElementById('inpFooterLeft').value = cardConfig.footerLeft;
-            document.getElementById('inpFooterRight').value = cardConfig.footerRight;
-            document.getElementById('inpStampUrl').value = cardConfig.stampImg;
-            document.getElementById('inpStampCaption').value = cardConfig.stampCaption;
-            document.getElementById('inpBouquetUrl').value = cardConfig.bouquetImg;
-            document.getElementById('inpEnvelopeUrl').value = cardConfig.envelopeImg;
-            document.getElementById('inpMusicUrl').value = cardConfig.musicUrl;
-            document.getElementById('inpStartHint').value = cardConfig.startHint;
-            document.getElementById('inpBtnText').value = cardConfig.btnText;
-            document.getElementById('inpMainTitle').value = cardConfig.mainTitle;
-            document.getElementById('inpMainSub').value = cardConfig.mainSub;
-        }
-
-        function syncLive() {
-            cardConfig.title = document.getElementById('inpTitle').value;
-            cardConfig.heading = document.getElementById('inpHeading').value;
-            cardConfig.body = document.getElementById('inpBody').value;
-            cardConfig.sub = document.getElementById('inpSub').value;
-            cardConfig.footerLeft = document.getElementById('inpFooterLeft').value;
-            cardConfig.footerRight = document.getElementById('inpFooterRight').value;
-            cardConfig.stampImg = document.getElementById('inpStampUrl').value;
-            cardConfig.stampCaption = document.getElementById('inpStampCaption').value;
-            cardConfig.bouquetImg = document.getElementById('inpBouquetUrl').value;
-            cardConfig.envelopeImg = document.getElementById('inpEnvelopeUrl').value;
-            cardConfig.musicUrl = document.getElementById('inpMusicUrl').value;
-            cardConfig.startHint = document.getElementById('inpStartHint').value;
-            cardConfig.btnText = document.getElementById('inpBtnText').value;
-            cardConfig.mainTitle = document.getElementById('inpMainTitle').value;
-            cardConfig.mainSub = document.getElementById('inpMainSub').value;
-            renderCardInstant();
-        }
-
-        function applyTheme(themeKey) {
-            cardConfig.theme = themeKey;
-            renderCardInstant();
-        }
-
-        function handleImageUpload(event, targetInputId) {
-            const file = event.target.files[0];
-            if (!file) return;
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                document.getElementById(targetInputId).value = e.target.result;
-                syncLive();
-            };
-            reader.readAsDataURL(file);
-        }
-
-        function toggleEditor() {
-            const drawer = document.getElementById('editorDrawer');
-            drawer.classList.toggle('hidden');
-            if (!drawer.classList.contains('hidden')) {
-                populateEditorFields();
-            }
-        }
-
-        function previewStep(step) {
-            const startScreen = document.getElementById('startScreen');
-            const mainContent = document.getElementById('mainContent');
-            if (step === 'start') {
-                closeWishCard();
-                mainContent.classList.add('hidden');
-                startScreen.style.display = 'flex';
-                startScreen.classList.remove('opacity-0');
-            } else if (step === 'envelope') {
-                closeWishCard();
-                startScreen.style.display = 'none';
-                mainContent.classList.remove('hidden');
-            } else if (step === 'letter') {
-                startScreen.style.display = 'none';
-                mainContent.classList.remove('hidden');
-                openWishCard();
-            }
-        }
-
-        function saveToBrowser() {
-            localStorage.setItem('envelope4_custom_config', JSON.stringify(cardConfig));
-            alert('✅ ပြင်ဆင်ထားသည်များကို ယခု Browser ထဲတွင် သိမ်းဆည်းပြီးပါပြီ!');
-        }
-
-        function resetToDefault() {
-            if (!confirm('မူလ Default စာသားနှင့် ပုံများအတိုင်း ပြန်ထားမလား?')) return;
-            localStorage.removeItem('envelope4_custom_config');
-            cardConfig = { ...defaultConfig };
-            populateEditorFields();
-            renderCardInstant();
-        }
-
-        function downloadCleanHtml() {
-            const t = themes[cardConfig.theme] || themes.skyblue;
-            const cleanHtml = `<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>${cardConfig.title || 'Happy Anniversary'}</title>
-    <script src="https://cdn.tailwindcss.com"><\/script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Padauk:wght@400;700&family=Great+Vibes&family=Playfair+Display:ital,wght@0,600;1,400&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        body {
-            font-family: 'Poppins', sans-serif;
-            background: ${t.bg};
-            overflow: hidden;
-            height: 100vh;
-            touch-action: manipulation;
-        }
-        .font-cursive { font-family: 'Great Vibes', cursive; }
-        .font-serif-custom { font-family: 'Playfair Display', serif; }
-        .font-padauk { font-family: 'Padauk', sans-serif; }
-        @keyframes floatDownToCenter {
-            0% { transform: translate(-50%, -100vh) rotate(-12deg); opacity: 0; }
-            20% { opacity: 1; }
-            35% { transform: translate(-35%, -15vh) rotate(8deg); }
-            65% { transform: translate(-60%, 10vh) rotate(-6deg); }
-            85% { transform: translate(-45%, 22vh) rotate(4deg); }
-            100% { transform: translate(-50%, 25vh) rotate(-2deg); }
-        }
-        @keyframes centerSwaying {
-            0%, 100% { transform: translate(-50%, 25vh) rotate(-2deg) scale(1); }
-            50% { transform: translate(-50%, 21vh) rotate(2deg) scale(1.03); }
-        }
-        @keyframes bouquetGentleSway {
-            0%, 100% { transform: translateY(0) rotate(0deg) scale(1); }
-            50% { transform: translateY(-4px) rotate(1.5deg) scale(1.02); }
-        }
-        .bouquet-sway { animation: bouquetGentleSway 3.5s ease-in-out infinite; }
-        .free-floating-image {
-            position: absolute; top: 25%; left: 50%;
-            animation: floatDownToCenter 6s cubic-bezier(0.25, 1, 0.5, 1) forwards, centerSwaying 4s ease-in-out infinite 6s;
-            cursor: pointer; transition: filter 0.3s ease, transform 0.5s ease;
-            user-select: none; -webkit-user-drag: none;
-        }
-        .free-floating-image img { border: none !important; outline: none !important; box-shadow: none !important; background: transparent !important; width: 160px !important; }
-        @keyframes pulseGlow { 0%, 100% { opacity: 0.8; transform: scale(0.95); } 50% { opacity: 1; transform: scale(1.05); } }
-        .click-hint { animation: pulseGlow 1.8s infinite; }
-        .paper-skyblue { background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%); color: #0c4a6e; border: 2px solid #7dd3fc; box-shadow: 0 15px 35px rgba(14, 165, 233, 0.25); }
-        .paper-skyblue .title-text { color: #0284c7; } .paper-skyblue .heading-text { color: #0369a1; }
-        .paper-pink { background: linear-gradient(135deg, #fdf2f8 0%, #fce7f3 100%); color: #831843; border: 2px solid #f9a8d4; box-shadow: 0 15px 35px rgba(236, 72, 153, 0.25); }
-        .paper-pink .title-text { color: #db2777; } .paper-pink .heading-text { color: #be185d; }
-        .paper-purple { background: linear-gradient(135deg, #faf5ff 0%, #f3e8ff 100%); color: #4c1d95; border: 2px solid #d8b4fe; box-shadow: 0 15px 35px rgba(147, 51, 234, 0.25); }
-        .paper-purple .title-text { color: #7e22ce; } .paper-purple .heading-text { color: #6b21a8; }
-        .paper-vintage { background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%); color: #78350f; border: 2px solid #fcd34d; box-shadow: 0 15px 35px rgba(217, 119, 6, 0.25); }
-        .paper-vintage .title-text { color: #b45309; } .paper-vintage .heading-text { color: #92400e; }
-        .paperclip { position: absolute; top: 10px; right: 24px; width: 14px; height: 42px; border: 2px solid currentColor; opacity: 0.55; border-radius: 10px; z-index: 30; pointer-events: none; }
-        .paperclip::after { content: ''; position: absolute; top: 6px; left: 2px; width: 6px; height: 26px; border: 2px solid currentColor; border-radius: 6px; }
-        .sparkle { position: absolute; background: radial-gradient(circle, #ffffff 10%, rgba(255, 255, 255, 0.8) 60%, transparent 100%); border-radius: 50%; pointer-events: none; animation: floatUp var(--duration) linear infinite; }
-        @keyframes floatUp { 0% { transform: translateY(105vh) scale(0) rotate(0deg); opacity: 0; } 20% { opacity: 0.85; } 80% { opacity: 0.85; } 100% { transform: translateY(-10vh) scale(1.2) rotate(360deg); opacity: 0; } }
-        .blurred-content { filter: blur(6px); pointer-events: none; transition: filter 0.5s ease; }
-        .typing-cursor::after { content: '|'; animation: blink 0.7s infinite; font-weight: bold; margin-left: 2px; }
-        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
-    </style>
-</head>
-<body class="relative flex items-center justify-center min-h-screen select-none overflow-hidden font-serif-custom">
-    <audio id="bgMusic" loop src="${cardConfig.musicUrl}"></audio>
-    <div id="startScreen" class="absolute inset-0 z-40 flex flex-col items-center justify-center cursor-pointer transition-opacity duration-700" onclick="startExperience()">
-        <h1 class="text-white text-lg md:text-xl font-bold tracking-wide drop-shadow-md mb-6 click-hint text-center px-4">${cardConfig.startHint}</h1>
-        <img src="${cardConfig.bouquetImg}" alt="Bouquet" class="h-auto object-contain hover:scale-105 transition-transform duration-300 bouquet-sway" style="width: 180px;">
-    </div>
-    <div id="mainContent" class="hidden w-full h-full transition-all duration-500">
-        <div id="sparkle-container" class="absolute inset-0 pointer-events-none overflow-hidden"></div>
-        <div class="absolute top-8 text-center z-10 px-4 w-full">
-            <h1 class="text-white text-base md:text-lg font-bold tracking-wide drop-shadow-md">${cardConfig.mainTitle}</h1>
-            <p class="text-xs text-white/80 mt-1">${cardConfig.mainSub}</p>
-        </div>
-        <div id="fallingCard" class="free-floating-image z-20 flex flex-col items-center justify-center" onclick="openWishCard()">
-            <img src="${cardConfig.envelopeImg}" alt="Special" class="h-auto object-contain pointer-events-auto bg-transparent border-0 outline-0 shadow-none bouquet-sway" style="width: 160px;">
-            <span class="click-hint mt-3 inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white text-slate-900 font-bold text-xs tracking-wider shadow-lg border border-white/60">
-                <svg class="w-3.5 h-3.5 animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5M7.188 2.239l.777 2.897M5.136 7.965l-2.898-.777M13.95 4.05l-2.122 2.122m-5.657 5.656l-2.12 2.122"></path></svg>
-                ${cardConfig.btnText}
-            </span>
-        </div>
-    </div>
-    <div id="wishModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/60 backdrop-blur-[2px] opacity-0 pointer-events-none transition-opacity duration-500 overflow-y-auto" onclick="closeWishCardOnBg(event)">
-        <div class="${t.paperClass} relative w-full max-w-md p-6 sm:p-8 rounded-xl z-10 shadow-2xl transform scale-90 transition-transform duration-500 my-auto" id="modalCard">
-            <div class="paperclip"></div>
-            <div class="text-center mb-4 pt-3">
-                <span id="titleText" class="text-3xl sm:text-4xl title-text block font-cursive min-h-[48px]"></span>
-                <div class="w-20 h-0.5 bg-current opacity-25 mx-auto mt-2"></div>
-            </div>
-            <div class="space-y-3 text-center leading-relaxed my-4 font-padauk">
-                <p id="headingText" class="text-lg sm:text-xl font-bold heading-text drop-shadow-sm min-h-[28px]"></p>
-                <p id="bodyText" class="text-sm sm:text-base font-medium px-2 opacity-95 min-h-[80px]"></p>
-                <p id="subText" class="text-xs sm:text-sm italic pt-1 opacity-80 min-h-[24px]"></p>
-            </div>
-            <div class="mt-6 pt-3 border-t border-current/20 flex items-center justify-between text-xs">
-                <span id="footerLeft" class="font-cursive text-base opacity-90"></span>
-                <span id="footerRight" class="opacity-80"></span>
-            </div>
-            <div onclick="openCornerFullModal(event)" class="absolute bottom-3 right-3 cursor-pointer group z-30">
-                <div class="w-11 h-11 p-0.5 bg-white shadow-md rounded border border-slate-300 transform rotate-3 group-hover:rotate-0 transition duration-200">
-                    <img src="${cardConfig.stampImg}" class="w-full h-full object-cover rounded-sm">
-                </div>
-            </div>
-            <button onclick="closeWishCard()" class="absolute top-3 right-3 z-30 bg-slate-800/80 text-white rounded-full p-1.5 shadow-md hover:bg-slate-900 transition-colors focus:outline-none">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"></path></svg>
-            </button>
-        </div>
-    </div>
-    <div id="exportCornerModal" class="hidden fixed inset-0 z-[100] bg-slate-950/85 backdrop-blur-md flex items-center justify-center p-4 cursor-pointer" onclick="closeExportCornerModal()">
-        <div class="bg-white p-3.5 rounded-2xl shadow-2xl max-w-xs w-full text-center relative border border-slate-200" onclick="event.stopPropagation()">
-            <img src="${cardConfig.stampImg}" class="w-full h-auto max-h-80 object-contain rounded-xl">
-            <p class="text-xs text-slate-700 font-semibold mt-2.5 font-sans">${cardConfig.stampCaption}</p>
-            <button onclick="closeExportCornerModal()" class="absolute -top-3 -right-3 bg-slate-800 text-white rounded-full p-1.5 shadow-lg hover:bg-slate-900 transition">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"></path></svg>
-            </button>
-        </div>
-    </div>
-    <script>
-        const textData = ${JSON.stringify({
-            title: cardConfig.title,
-            heading: cardConfig.heading,
-            body: cardConfig.body,
-            sub: cardConfig.sub,
-            footerLeft: cardConfig.footerLeft,
-            footerRight: cardConfig.footerRight
-        })};
-        let typingTimeouts = [];
-        function clearAllTyping() { typingTimeouts.forEach(t => clearTimeout(t)); typingTimeouts = []; }
-        function typeWriter(elementId, text, speed, callback) {
-            const el = document.getElementById(elementId);
-            el.innerHTML = ""; el.classList.add('typing-cursor'); let i = 0;
-            function typeNextChar() {
-                if (i < text.length) {
-                    el.innerHTML += text.charAt(i) === '\n' ? '<br>' : text.charAt(i);
-                    i++; typingTimeouts.push(setTimeout(typeNextChar, speed));
-                } else { el.classList.remove('typing-cursor'); if (callback) callback(); }
-            }
-            typeNextChar();
-        }
-        function startTypingSequence() {
-            clearAllTyping();
-            ['titleText','headingText','bodyText','subText','footerLeft','footerRight'].forEach(id => document.getElementById(id).innerHTML = "");
             typeWriter('titleText', textData.title, 60, () => {
                 typeWriter('headingText', textData.heading, 40, () => {
                     typeWriter('bodyText', textData.body, 35, () => {
@@ -773,57 +729,6 @@
                     });
                 });
             });
-        }
-        function startExperience() {
-            const audio = document.getElementById('bgMusic');
-            if (audio.src && audio.src !== window.location.href) audio.play().catch(err => console.log(err));
-            const startScreen = document.getElementById('startScreen');
-            startScreen.classList.add('opacity-0');
-            setTimeout(() => { startScreen.style.display = 'none'; document.getElementById('mainContent').classList.remove('hidden'); createSparkles(); }, 700);
-        }
-        function createSparkles() {
-            const container = document.getElementById('sparkle-container');
-            if (!container) return;
-            for (let i = 0; i < 35; i++) {
-                const sparkle = document.createElement('div'); sparkle.classList.add('sparkle');
-                const size = Math.random() * 6 + 3;
-                sparkle.style.width = size + 'px'; sparkle.style.height = size + 'px';
-                sparkle.style.left = Math.random() * 100 + '%';
-                sparkle.style.setProperty('--duration', (Math.random() * 6 + 6) + 's');
-                sparkle.style.animationDelay = (Math.random() * 5) + 's';
-                container.appendChild(sparkle);
-            }
-        }
-        function openWishCard() {
-            const modal = document.getElementById('wishModal');
-            modal.classList.remove('opacity-0', 'pointer-events-none'); modal.classList.add('opacity-100', 'pointer-events-auto');
-            document.getElementById('modalCard').classList.remove('scale-90'); document.getElementById('modalCard').classList.add('scale-100');
-            document.getElementById('mainContent').classList.add('blurred-content');
-            startTypingSequence();
-        }
-        function closeWishCard() {
-            const modal = document.getElementById('wishModal');
-            modal.classList.remove('opacity-100', 'pointer-events-auto'); modal.classList.add('opacity-0', 'pointer-events-none');
-            document.getElementById('modalCard').classList.remove('scale-100'); document.getElementById('modalCard').classList.add('scale-90');
-            document.getElementById('mainContent').classList.remove('blurred-content');
-            closeExportCornerModal(); clearAllTyping();
-        }
-        function closeWishCardOnBg(e) { if (e.target.id === 'wishModal') closeWishCard(); }
-        function openCornerFullModal(e) { if(e) e.stopPropagation(); document.getElementById('exportCornerModal').classList.remove('hidden'); }
-        function closeExportCornerModal() { document.getElementById('exportCornerModal').classList.add('hidden'); }
-    <\/script>
-</body>
-</html>`;
-
-            const blob = new Blob([cleanHtml], { type: 'text/html' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = 'custom-envelope-card.html';
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
         }
 
         function startExperience() {
@@ -838,12 +743,12 @@
                 startScreen.style.display = 'none';
                 mainContent.classList.remove('hidden');
                 createSparkles();
-            }, 700);
+            }, 500);
         }
 
         function createSparkles() {
             const container = document.getElementById('sparkle-container');
-            if (!container || container.children.length > 0) return;
+            if (!container) return;
             for (let i = 0; i < 35; i++) {
                 const sparkle = document.createElement('div');
                 sparkle.classList.add('sparkle');
@@ -866,6 +771,7 @@
             modalCard.classList.remove('scale-90');
             modalCard.classList.add('scale-100');
             mainContent.classList.add('blurred-content');
+
             startTypingSequence();
         }
 
@@ -894,8 +800,6 @@
         function closeExportCornerModal() {
             document.getElementById('exportCornerModal').classList.add('hidden');
         }
-
-        renderCardInstant();
     </script>
 </body>
 </html>
