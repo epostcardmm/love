@@ -1,770 +1,901 @@
 <!DOCTYPE html>
-<html lang="my">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Interactive Love Surprise</title>
-    <!-- Google Fonts for Burmese Typography & Handwritten Aesthetics -->
+    <title>Happy Anniversary</title>
+    <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Padauk:wght@400;700&family=Pyidaungsu:wght@400;700&display=swap" rel="stylesheet">
-    <script src="https://cdn.tailwindcss.com"></script>
-    
-    <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Pyidaungsu', 'Padauk', sans-serif;
-        }
-
-        /* Spaced & Clear Purple Grid Background */
+    <link href="https://fonts.googleapis.com/css2?family=Padauk:wght@400;700&family=Great+Vibes&family=Playfair+Display:ital,wght@0,600;1,400&family=Poppins:wght@400;500;600;700&family=Dancing+Script:wght@600&family=Cinzel:wght@600&family=Caveat:wght@600&display=swap" rel="stylesheet">
+    <style id="dynamicThemeStyle">
         body {
-            background-color: #f3e8ff;
-            background-image: 
-                linear-gradient(to right, rgba(126, 34, 206, 0.28) 1px, transparent 1px),
-                linear-gradient(to bottom, rgba(126, 34, 206, 0.28) 1px, transparent 1px),
-                radial-gradient(circle at top left, #ede9fe, #e9d5ff, #ddd6fe);
-            background-size: 48px 48px, 48px 48px, 100% 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            overflow-x: hidden;
-            padding: 15px;
-        }
-
-        .card-container {
-            width: 100%;
-            max-width: 440px;
-            min-height: 520px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            position: relative;
-        }
-
-        /* Translucent Soft Purple Glassmorphism Card Style */
-        .interactive-card {
-            background: rgba(250, 245, 255, 0.88);
-            padding: 35px 25px;
-            border-radius: 30px;
-            box-shadow: 0 20px 50px rgba(107, 33, 168, 0.16), inset 0 0 25px rgba(255, 255, 255, 0.9);
-            text-align: center;
-            width: 100%;
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 2px solid rgba(255, 255, 255, 0.95);
-            transition: all 0.4s ease;
-        }
-
-        .step {
-            display: none;
-            flex-direction: column;
-            align-items: center;
-            gap: 20px;
-            animation: fadeIn 0.4s ease-in-out forwards;
-        }
-
-        .step.active {
-            display: flex;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: scale(0.95); }
-            to { opacity: 1; transform: scale(1); }
-        }
-
-        img.gif-box {
-            width: 170px;
-            height: 170px;
-            object-fit: cover;
-            border-radius: 22px;
-            box-shadow: 0 10px 25px rgba(126, 34, 206, 0.18);
-            border: 4px solid rgba(255, 255, 255, 0.95);
-        }
-
-        /* Step 1, 2, 3 Question Text */
-        h2,
-        h2 b {
-            color: #4c1d95 !important;
-            font-size: 1.65rem !important;
-            line-height: 1.55 !important;
-            font-weight: 700 !important;
-            text-shadow: 0 1px 4px rgba(255, 255, 255, 0.95) !important;
-            padding: 0 6px !important;
-        }
-
-        @media (max-width: 420px) {
-            h2,
-            h2 b {
-                font-size: 1.45rem !important;
-            }
-        }
-
-        .btn-group {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 20px;
-            width: 100%;
-            min-height: 110px;
-            position: relative;
-            padding: 10px;
-        }
-
-        /* Modern Soft Rounded & Floating Shadow Buttons with Border */
-        button {
-            padding: 16px 32px;
-            min-height: 58px;
-            font-size: 1.2rem;
-            font-weight: 800;
-            border-radius: 25px;
-            cursor: pointer;
-            transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            letter-spacing: 0.8px;
-            user-select: none;
+            font-family: 'Poppins', sans-serif;
+            background: radial-gradient(circle at center, #f0f9ff, #0284c7, #0c4a6e);
+            overflow: hidden;
+            height: 100vh;
             touch-action: manipulation;
-            min-width: 130px;
-            display: inline-flex;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-        }
-
-        /* Vibrant Purple-Violet Yes Button */
-        .btn-yes {
-            background: linear-gradient(135deg, #9333ea, #6d28d9);
-            color: white;
-            border: 2px solid #e9d5ff;
-            box-shadow: 0 10px 25px rgba(109, 40, 217, 0.35);
-        }
-
-        .btn-yes:hover {
-            transform: translateY(-4px) scale(1.06);
-            border-color: #ffffff;
-            box-shadow: 0 14px 32px rgba(109, 40, 217, 0.5);
-        }
-
-        .btn-yes:active {
-            transform: translateY(1px) scale(0.98);
-        }
-
-        /* Soft Lavender-Indigo No Button */
-        .btn-no {
-            background: linear-gradient(135deg, #c084fc, #a855f7);
-            color: #ffffff;
-            border: 2px solid #f3e8ff;
-            box-shadow: 0 10px 25px rgba(168, 85, 247, 0.32);
-        }
-
-        .btn-no:hover {
-            transform: translateY(-4px) scale(1.05);
-            border-color: #ffffff;
-            box-shadow: 0 14px 32px rgba(168, 85, 247, 0.48);
-        }
-
-        /* Popup Container Wrapper */
-        .btn-no-wrapper {
-            position: relative;
-            display: inline-flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        /* Glowing Warning Text */
-        .popup-warning {
-            position: absolute;
-            bottom: 120%;
-            left: 50%;
-            transform: translateX(-50%);
-            background: transparent;
-            color: #7e22ce;
-            border: none;
-            padding: 4px 10px;
-            border-radius: 0;
-            font-size: 1.05rem;
-            font-weight: 800;
-            white-space: nowrap;
-            box-shadow: none;
-            z-index: 10000;
-            pointer-events: none;
-            text-shadow: 0 2px 10px rgba(255, 255, 255, 0.98), 0 0 14px rgba(168, 85, 247, 0.55);
-            animation: popupFloat 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-
-        @keyframes popupFloat {
-            0% { opacity: 0; transform: translate(-50%, 15px) scale(0.7); }
-            100% { opacity: 1; transform: translate(-50%, 0) scale(1); }
-        }
-
-        /* Running No Button Wrapper (For Step 2) */
-        .escaping-wrapper {
-            position: relative;
-            transition: top 0.2s ease-out, left 0.2s ease-out;
-            z-index: 9999;
-        }
-
-        .escaping-wrapper.escaped {
-            position: fixed !important;
-            margin: 0 !important;
-        }
-
-        /* Gravity Fall Physics Animation for Step 3 No Button */
-        .gravity-fall {
-            animation: gravityFallAnim 0.8s cubic-bezier(0.55, 0.085, 0.68, 0.53) forwards !important;
-            pointer-events: none;
-        }
-
-        @keyframes gravityFallAnim {
-            0% {
-                transform: translateY(0) rotate(0deg);
-                opacity: 1;
-            }
-            30% {
-                transform: translateY(-20px) rotate(-15deg);
-            }
-            100% {
-                transform: translateY(600px) rotate(120deg);
-                opacity: 0;
-            }
-        }
-
-        /* Falling Swaying GIF Container (Between Step 3 & Step 4) */
-        .falling-envelope-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            padding: 20px;
-            user-select: none;
-            animation: fallAndSway 3.2s cubic-bezier(0.25, 1, 0.5, 1) forwards, floatGentle 2.6s ease-in-out infinite 3.2s;
-        }
-
-        @keyframes fallAndSway {
-            0% {
-                transform: translateY(-280px) rotate(-18deg);
-                opacity: 0;
-            }
-            30% {
-                transform: translateY(-120px) rotate(14deg);
-                opacity: 1;
-            }
-            60% {
-                transform: translateY(20px) rotate(-10deg);
-            }
-            85% {
-                transform: translateY(-8px) rotate(6deg);
-            }
-            100% {
-                transform: translateY(0px) rotate(0deg);
-                opacity: 1;
-            }
-        }
-
-        @keyframes floatGentle {
-            0%, 100% {
-                transform: translateY(0px) rotate(-4deg);
-            }
-            50% {
-                transform: translateY(-14px) rotate(4deg);
-            }
-        }
-
-        /* Frame-less Transparent GIF */
-        .no-frame-gif {
-            width: 210px;
-            height: auto;
-            background: transparent !important;
-            border: none !important;
-            box-shadow: none !important;
-            border-radius: 0 !important;
-            filter: drop-shadow(0 12px 20px rgba(88, 28, 135, 0.25));
-            transition: transform 0.3s ease;
-        }
-
-        .falling-envelope-container:hover .no-frame-gif {
-            transform: scale(1.08);
-        }
-
-        .tap-hint-badge {
-            margin-top: 18px;
-            background: rgba(250, 245, 255, 0.94);
-            color: #6b21a8;
-            font-weight: 700;
-            font-size: 1.05rem;
-            padding: 8px 20px;
-            border-radius: 30px;
-            box-shadow: 0 8px 20px rgba(107, 33, 168, 0.16);
-            backdrop-filter: blur(6px);
-            border: 1.5px solid rgba(255, 255, 255, 0.95);
-            animation: pulseHint 1.6s infinite ease-in-out;
-        }
-
-        @keyframes pulseHint {
-            0%, 100% { transform: scale(1); opacity: 0.92; }
-            50% { transform: scale(1.06); opacity: 1; }
-        }
-
-        /* ==========================================================
-           REALISTIC STATIONERY LOVE LETTER DESIGN (STEP 4)
-           ========================================================== */
-        .paper-letter-wrapper {
-            position: relative;
-            width: 100%;
-            max-width: 390px;
-            margin: 0 auto;
-            padding: 14px 8px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 10;
-        }
-
-        .paper-letter-pop {
-            animation: popInLetter 0.75s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
-        }
-
-        @keyframes popInLetter {
-            0% {
-                opacity: 0;
-                transform: scale(0.35) rotate(-8deg) translateY(25px);
-            }
-            70% {
-                transform: scale(1.02) rotate(0.8deg) translateY(-2px);
-            }
-            100% {
-                opacity: 1;
-                transform: scale(1) rotate(0deg) translateY(0);
-            }
-        }
-
-        /* Layered back paper sheet for realistic depth */
-        .paper-letter-wrapper::before {
-            content: "";
-            position: absolute;
-            inset: 18px 12px 10px 12px;
-            background: linear-gradient(145deg, #ede9fe, #e9d5ff);
-            border-radius: 8px 14px 10px 6px;
-            transform: rotate(-2.2deg);
-            box-shadow: 0 12px 26px rgba(59, 7, 100, 0.16);
-            z-index: -1;
-            border: 1px solid rgba(168, 85, 247, 0.25);
-        }
-
-        .romantic-paper-sheet {
-            position: relative;
-            width: 100%;
-            padding: 44px 28px 34px 32px;
-            border-radius: 6px 14px 12px 6px;
-            text-align: left;
-
-            /* Realistic textured stationery paper + subtle ruled lines */
-            background-color: #fcfaff;
-            background-image:
-                /* Soft vignette & warm/purple paper lighting */
-                radial-gradient(circle at 18% 12%, rgba(255, 255, 255, 0.92), transparent 52%),
-                radial-gradient(circle at 88% 90%, rgba(216, 180, 254, 0.32), transparent 55%),
-                /* Subtle fine paper grain dots */
-                radial-gradient(rgba(107, 33, 168, 0.045) 0.65px, transparent 0.65px),
-                /* Delicate stationery horizontal writing lines */
-                repeating-linear-gradient(
-                    to bottom,
-                    transparent 0px,
-                    transparent 31px,
-                    rgba(147, 51, 234, 0.11) 31px,
-                    rgba(147, 51, 234, 0.11) 32px
-                );
-            background-size:
-                100% 100%,
-                100% 100%,
-                12px 12px,
-                100% 32px;
-            background-position:
-                0 0,
-                0 0,
-                0 0,
-                0 68px;
-
-            /* Realistic paper edge highlight & multi-layer drop shadow */
-            border: 1px solid rgba(216, 180, 254, 0.75);
-            border-left: 4px solid rgba(168, 85, 247, 0.35);
-            box-shadow:
-                inset 0 1px 0 rgba(255, 255, 255, 0.95),
-                inset -8px -8px 18px rgba(126, 34, 206, 0.06),
-                0 18px 35px rgba(59, 7, 100, 0.18),
-                0 4px 10px rgba(59, 7, 100, 0.08);
-        }
-
-        /* Subtle curled bottom-right paper corner effect */
-        .romantic-paper-sheet::after {
-            content: "";
-            position: absolute;
-            right: 0;
-            bottom: 0;
-            width: 28px;
-            height: 28px;
-            border-bottom-right-radius: 12px;
-            background: linear-gradient(135deg, transparent 52%, rgba(147, 51, 234, 0.16) 53%, rgba(233, 213, 255, 0.85) 100%);
-            box-shadow: -2px -2px 5px rgba(88, 28, 135, 0.08);
-            pointer-events: none;
-        }
-
-        /* Realistic Wax Seal / Ribbon Stamp at Top */
-        .letter-badge {
-            position: absolute;
-            top: -17px;
-            left: 50%;
-            transform: translateX(-50%) rotate(-1.5deg);
-            background: radial-gradient(circle at 30% 25%, #a855f7, #7e22ce 65%, #581c87 100%);
-            color: #faf5ff;
-            font-size: 0.88rem;
-            font-weight: 700;
-            padding: 6px 20px;
-            border-radius: 999px;
-            letter-spacing: 1px;
-            border: 1.5px solid rgba(243, 232, 255, 0.75);
-            box-shadow:
-                inset 0 1px 2px rgba(255, 255, 255, 0.5),
-                inset 0 -2px 4px rgba(30, 0, 56, 0.45),
-                0 6px 14px rgba(88, 28, 135, 0.35);
-            white-space: nowrap;
-        }
-
-        .romantic-content {
-            font-family: 'Pyidaungsu', sans-serif;
-            color: #2e1065;
-            line-height: 2;
-            font-size: 0.98rem;
-            margin-top: 6px;
-        }
-
-        .romantic-content p {
-            text-shadow: 0 0.5px 0.5px rgba(46, 16, 101, 0.18);
-        }
-
-        .romantic-title {
-            text-align: center;
-            font-size: 1.38rem;
-            color: #6b21a8;
-            font-weight: 700;
-            margin-bottom: 18px;
-            padding-bottom: 10px;
-            border-bottom: 1px solid rgba(147, 51, 234, 0.25);
-            position: relative;
-        }
-
-        .romantic-title::after {
-            content: "✦";
-            position: absolute;
-            bottom: -11px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: #faf5ff;
-            padding: 0 8px;
-            font-size: 0.85rem;
-            color: #9333ea;
-        }
-
-        .romantic-signature {
-            text-align: right;
-            margin-top: 24px;
-            font-weight: 700;
-            color: #581c87;
-            font-size: 1.08rem;
-            font-family: 'Caveat', cursive, 'Pyidaungsu', sans-serif;
-            letter-spacing: 0.5px;
         }
     </style>
+    <style>
+        .font-cursive { font-family: 'Great Vibes', cursive; }
+        .font-serif-custom { font-family: 'Playfair Display', serif; }
+        .font-padauk { font-family: 'Padauk', sans-serif; }
+
+        @keyframes floatDownToCenter {
+            0% { transform: translate(-50%, -100vh) rotate(-12deg); opacity: 0; }
+            20% { opacity: 1; }
+            35% { transform: translate(-35%, -15vh) rotate(8deg); }
+            65% { transform: translate(-60%, 10vh) rotate(-6deg); }
+            85% { transform: translate(-45%, 22vh) rotate(4deg); }
+            100% { transform: translate(-50%, 25vh) rotate(-2deg); }
+        }
+
+        @keyframes centerSwaying {
+            0%, 100% { transform: translate(-50%, 25vh) rotate(-2deg) scale(1); }
+            50% { transform: translate(-50%, 21vh) rotate(2deg) scale(1.03); }
+        }
+
+        @keyframes bouquetGentleSway {
+            0%, 100% { transform: translateY(0) rotate(0deg) scale(1); }
+            50% { transform: translateY(-4px) rotate(1.5deg) scale(1.02); }
+        }
+
+        .bouquet-sway {
+            animation: bouquetGentleSway 3.5s ease-in-out infinite;
+        }
+
+        .free-floating-image {
+            position: absolute;
+            top: 25%;
+            left: 50%;
+            animation: floatDownToCenter 6s cubic-bezier(0.25, 1, 0.5, 1) forwards,
+                       centerSwaying 4s ease-in-out infinite 6s;
+            cursor: pointer;
+            transition: filter 0.3s ease, transform 0.5s ease;
+            user-select: none;
+            -webkit-user-drag: none;
+        }
+
+        .free-floating-image img {
+            border: none !important;
+            outline: none !important;
+            box-shadow: none !important;
+            background: transparent !important;
+            width: 160px !important;
+        }
+
+        .free-floating-image:hover img {
+            filter: drop-shadow(0 0 18px rgba(125, 211, 252, 0.9));
+        }
+
+        @keyframes pulseGlow {
+            0%, 100% { opacity: 0.8; transform: scale(0.95); }
+            50% { opacity: 1; transform: scale(1.05); }
+        }
+
+        .click-hint { animation: pulseGlow 1.8s infinite; }
+
+        /* Theme Paper Styles */
+        .paper-skyblue {
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+            color: #0c4a6e;
+            border: 2px solid #7dd3fc;
+            box-shadow: 0 15px 35px rgba(14, 165, 233, 0.25);
+        }
+        .paper-skyblue .title-text { color: #0284c7; }
+        .paper-skyblue .heading-text { color: #0369a1; }
+
+        .paper-pink {
+            background: linear-gradient(135deg, #fdf2f8 0%, #fce7f3 100%);
+            color: #831843;
+            border: 2px solid #f9a8d4;
+            box-shadow: 0 15px 35px rgba(236, 72, 153, 0.25);
+        }
+        .paper-pink .title-text { color: #db2777; }
+        .paper-pink .heading-text { color: #be185d; }
+
+        .paper-purple {
+            background: linear-gradient(135deg, #faf5ff 0%, #f3e8ff 100%);
+            color: #4c1d95;
+            border: 2px solid #d8b4fe;
+            box-shadow: 0 15px 35px rgba(147, 51, 234, 0.25);
+        }
+        .paper-purple .title-text { color: #7e22ce; }
+        .paper-purple .heading-text { color: #6b21a8; }
+
+        .paper-vintage {
+            background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
+            color: #78350f;
+            border: 2px solid #fcd34d;
+            box-shadow: 0 15px 35px rgba(217, 119, 6, 0.25);
+        }
+        .paper-vintage .title-text { color: #b45309; }
+        .paper-vintage .heading-text { color: #92400e; }
+
+        .paperclip {
+            position: absolute; top: 10px; right: 24px;
+            width: 14px; height: 42px; border: 2px solid currentColor;
+            opacity: 0.55;
+            border-radius: 10px; box-shadow: 2px 2px 4px rgba(0,0,0,0.15);
+            z-index: 30; pointer-events: none;
+        }
+        .paperclip::after {
+            content: ''; position: absolute; top: 6px; left: 2px;
+            width: 6px; height: 26px; border: 2px solid currentColor; border-radius: 6px;
+        }
+
+        .sparkle {
+            position: absolute;
+            background: radial-gradient(circle, #ffffff 10%, rgba(186, 230, 253, 0.9) 60%, transparent 100%);
+            border-radius: 50%; pointer-events: none;
+            animation: floatUp var(--duration) linear infinite;
+        }
+
+        @keyframes floatUp {
+            0% { transform: translateY(105vh) scale(0) rotate(0deg); opacity: 0; }
+            20% { opacity: 0.85; }
+            80% { opacity: 0.85; }
+            100% { transform: translateY(-10vh) scale(1.2) rotate(360deg); opacity: 0; }
+        }
+
+        .blurred-content { filter: blur(6px); pointer-events: none; transition: filter 0.5s ease; }
+
+        /* Typing cursor effect */
+        .typing-cursor::after {
+            content: '|';
+            animation: blink 0.7s infinite;
+            font-weight: bold;
+            margin-left: 2px;
+        }
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        /* Custom Scrollbar for Editor Drawer */
+        #editorPanel::-webkit-scrollbar { width: 5px; }
+        #editorPanel::-webkit-scrollbar-track { background: rgba(15, 23, 42, 0.5); }
+        #editorPanel::-webkit-scrollbar-thumb { background: rgba(56, 189, 248, 0.5); border-radius: 10px; }
+    </style>
 </head>
-<body>
+<body class="relative flex items-center justify-center min-h-screen select-none overflow-hidden font-serif-custom">
 
-    <div class="card-container">
-        
-        <!-- STEP 1 -->
-        <div class="interactive-card step active" id="step-1">
-            <img class="gif-box" src="https://media.tenor.com/DXs3gd7Ce0kAAAAi/bubu-dudu-sseeyall.gif" alt="Cute Gif 1">
-            <h2><b>ကိုယ်တို့ သငယ်ချင်းအဆင့်ထပ်ပိုကြည့်ရအောင်လေ</b></h2>
-            <div class="btn-group">
-                <button class="btn-yes" onclick="playClickSound(); nextStep(2)">Yes</button>
-                <div class="btn-no-wrapper" id="btn-no-1-wrapper">
-                    <button class="btn-no" id="btn-no-1" onclick="handleGuiltTripNo1()">No</button>
+    <audio id="bgMusic" loop src="https://www.image2url.com/r2/default/audio/1789288232634-9a89e91e-e43f-4d68-b101-bf9b607f0f76.m4a"></audio>
+
+    <!-- Floating Edit Button (Hidden automatically when exported as clean HTML) -->
+    <button id="editToggleBtn" onclick="toggleEditor()" class="fixed top-4 right-4 z-[60] flex items-center gap-1.5 px-3.5 py-2 rounded-full bg-slate-900/70 hover:bg-slate-900/90 text-white backdrop-blur-md border border-white/25 shadow-lg text-xs font-sans font-semibold transition-all cursor-pointer">
+        <svg class="w-4 h-4 text-sky-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
+        <span>Edit Card</span>
+    </button>
+
+    <!-- Start Screen -->
+    <div id="startScreen" class="absolute inset-0 z-40 flex flex-col items-center justify-center cursor-pointer transition-opacity duration-700" onclick="startExperience()">
+        <h1 id="startHintDisplay" class="text-white text-lg md:text-xl font-bold tracking-wide drop-shadow-md mb-6 click-hint text-center px-4">
+            ✨ Click the bouquet ✨
+        </h1>
+        <img id="bouquetImgDisplay" src="https://i.ibb.co/zHSrxp8G/blue-Sticker-bouquet-removebg-preview.png" alt="Bouquet" class="h-auto object-contain hover:scale-105 transition-transform duration-300 bouquet-sway" style="width: 180px;">
+    </div>
+
+    <!-- Main Screen -->
+    <div id="mainContent" class="hidden w-full h-full transition-all duration-500">
+        <div id="sparkle-container" class="absolute inset-0 pointer-events-none overflow-hidden"></div>
+        <div class="absolute w-80 h-80 bg-white/10 rounded-full blur-3xl pointer-events-none"></div>
+        <div class="absolute w-72 h-72 bg-white/10 rounded-full blur-3xl pointer-events-none -top-10 -left-10"></div>
+
+        <div class="absolute top-8 text-center z-10 px-4 w-full">
+            <h1 id="mainTitleDisplay" class="text-white text-base md:text-lg font-bold tracking-wide drop-shadow-md">✨ Tap The Envelope ✨</h1>
+            <p id="mainSubDisplay" class="text-xs text-white/80 mt-1">Tap the floating envelope to open wish</p>
+        </div>
+
+        <div id="fallingCard" class="free-floating-image z-20 flex flex-col items-center justify-center" onclick="openWishCard()">
+            <img id="envelopeImgDisplay" src="https://i.ibb.co/xK7Lfv0H/Untitled-Design-1-removebg-preview.png" alt="Special" class="h-auto object-contain pointer-events-auto bg-transparent border-0 outline-0 shadow-none bouquet-sway" style="width: 160px;">
+            <span id="envelopeBtnDisplay" class="click-hint mt-3 inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white text-slate-900 font-bold text-xs tracking-wider shadow-lg border border-white/60">
+                <svg class="w-3.5 h-3.5 animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5M7.188 2.239l.777 2.897M5.136 7.965l-2.898-.777M13.95 4.05l-2.122 2.122m-5.657 5.656l-2.12 2.122"></path></svg>
+                <span id="envelopeBtnText">Click Me ✨</span>
+            </span>
+        </div>
+    </div>
+
+    <!-- Wish Modal -->
+    <div id="wishModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/60 backdrop-blur-[2px] opacity-0 pointer-events-none transition-opacity duration-500 overflow-y-auto" onclick="closeWishCardOnBg(event)">
+        <div class="paper-skyblue relative w-full max-w-md p-6 sm:p-8 rounded-xl z-10 shadow-2xl transform scale-90 transition-transform duration-500 my-auto" id="modalCard">
+            <div class="paperclip"></div>
+            <div class="text-center mb-4 pt-3">
+                <span id="titleText" class="text-3xl sm:text-4xl title-text block font-cursive min-h-[48px]"></span>
+                <div class="w-20 h-0.5 bg-current opacity-25 mx-auto mt-2"></div>
+            </div>
+            <div class="space-y-3 text-center leading-relaxed my-4 font-padauk">
+                <p id="headingText" class="text-lg sm:text-xl font-bold heading-text drop-shadow-sm min-h-[28px]"></p>
+                <p id="bodyText" class="text-sm sm:text-base font-medium px-2 opacity-95 min-h-[80px]"></p>
+                <p id="subText" class="text-xs sm:text-sm italic pt-1 opacity-80 min-h-[24px]"></p>
+            </div>
+            <div class="mt-6 pt-3 border-t border-current/20 flex items-center justify-between text-xs">
+                <span id="footerLeft" class="font-cursive text-base opacity-90"></span>
+                <span id="footerRight" class="opacity-80"></span>
+            </div>
+            <div onclick="openCornerFullModal(event)" class="absolute bottom-3 right-3 cursor-pointer group z-30">
+                <div class="w-11 h-11 p-0.5 bg-white shadow-md rounded border border-slate-300 transform rotate-3 group-hover:rotate-0 transition duration-200">
+                    <img id="stampThumbDisplay" src="https://i.ibb.co/cp6WytW/download-55.jpg" class="w-full h-full object-cover rounded-sm">
                 </div>
             </div>
+            <button onclick="closeWishCard()" class="absolute top-3 right-3 z-30 bg-slate-800/80 text-white rounded-full p-1.5 shadow-md hover:bg-slate-900 transition-colors focus:outline-none">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
         </div>
+    </div>
 
-        <!-- STEP 2 -->
-        <div class="interactive-card step" id="step-2">
-            <img class="gif-box" src="https://media.tenor.com/jGhCgiy4v24AAAAi/bubu-dudu-sseeyall.gif" alt="Cute Gif 2">
-            <h2><b>ကိုယ့်အချစ်ကိုလက်ခံပေးနိုင်မလား?</b></h2>
-            <div class="btn-group" id="btn-container-2">
-                <button class="btn-yes" onclick="playClickSound(); nextStep(3)">Yes</button>
-                <div class="btn-no-wrapper escaping-wrapper" id="btn-no-2-wrapper" onmouseover="moveNoButton(event, 'btn-no-2-wrapper')" onclick="moveNoButton(event, 'btn-no-2-wrapper')" ontouchstart="moveNoButton(event, 'btn-no-2-wrapper')">
-                    <button class="btn-no" id="btn-no-2">No</button>
+    <!-- Corner Memory Stamp Full Modal -->
+    <div id="exportCornerModal" class="hidden fixed inset-0 z-[100] bg-slate-950/85 backdrop-blur-md flex items-center justify-center p-4 cursor-pointer" onclick="closeExportCornerModal()">
+        <div class="bg-white p-3.5 rounded-2xl shadow-2xl max-w-xs w-full text-center relative border border-slate-200" onclick="event.stopPropagation()">
+            <img id="stampFullDisplay" src="https://i.ibb.co/cp6WytW/download-55.jpg" class="w-full h-auto max-h-80 object-contain rounded-xl">
+            <p id="stampCaptionDisplay" class="text-xs text-slate-700 font-semibold mt-2.5 font-sans">✨ Corner Memory Stamp ✨</p>
+            <button onclick="closeExportCornerModal()" class="absolute -top-3 -right-3 bg-slate-800 text-white rounded-full p-1.5 shadow-lg hover:bg-slate-900 transition">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+        </div>
+    </div>
+
+    <!-- Self-Edit Studio Drawer -->
+    <div id="editorDrawer" class="fixed inset-0 z-[120] hidden font-sans">
+        <div class="absolute inset-0 bg-slate-950/60 backdrop-blur-xs" onclick="toggleEditor()"></div>
+        <div id="editorPanel" class="absolute right-0 top-0 h-full w-full max-w-md bg-slate-900/95 text-slate-100 border-l border-white/15 shadow-2xl overflow-y-auto p-5 flex flex-col gap-4 select-text">
+            
+            <div class="flex items-center justify-between border-b border-white/15 pb-3 sticky top-0 bg-slate-900/95 z-10">
+                <div>
+                    <h2 class="text-base font-bold text-sky-400 flex items-center gap-1.5">✨ Card Customizer</h2>
+                    <p class="text-[11px] text-slate-400">စာသား၊ ပုံ၊ သီချင်းနှင့် Theme များကို စိတ်ကြိုက်ပြင်ဆင်ပါ</p>
+                </div>
+                <button onclick="toggleEditor()" class="p-1.5 rounded-lg bg-white/10 hover:bg-white/20 text-slate-300">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+            </div>
+
+            <!-- Quick Preview Switcher -->
+            <div class="grid grid-cols-3 gap-2 bg-slate-800/80 p-1.5 rounded-xl border border-white/10 text-xs font-medium">
+                <button onclick="previewStep('start')" class="py-1.5 px-2 rounded-lg bg-white/10 hover:bg-sky-500/30 transition text-center">1. Start Screen</button>
+                <button onclick="previewStep('envelope')" class="py-1.5 px-2 rounded-lg bg-white/10 hover:bg-sky-500/30 transition text-center">2. Envelope</button>
+                <button onclick="previewStep('letter')" class="py-1.5 px-2 rounded-lg bg-sky-600 hover:bg-sky-500 text-white transition text-center">3. Open Letter</button>
+            </div>
+
+            <!-- Theme Selector -->
+            <div class="space-y-1.5">
+                <label class="text-xs font-semibold text-sky-300">🎨 Color Theme (အရောင်ရွေးရန်)</label>
+                <div class="grid grid-cols-4 gap-2">
+                    <button type="button" onclick="applyTheme('skyblue')" class="py-2 rounded-lg border border-sky-400/50 bg-sky-900/60 text-sky-200 text-xs font-semibold hover:scale-105 transition">Sky Blue</button>
+                    <button type="button" onclick="applyTheme('pink')" class="py-2 rounded-lg border border-pink-400/50 bg-pink-900/60 text-pink-200 text-xs font-semibold hover:scale-105 transition">Soft Pink</button>
+                    <button type="button" onclick="applyTheme('purple')" class="py-2 rounded-lg border border-purple-400/50 bg-purple-900/60 text-purple-200 text-xs font-semibold hover:scale-105 transition">Lavender</button>
+                    <button type="button" onclick="applyTheme('vintage')" class="py-2 rounded-lg border border-amber-400/50 bg-amber-900/60 text-amber-200 text-xs font-semibold hover:scale-105 transition">Warm Gold</button>
                 </div>
             </div>
-        </div>
 
-        <!-- STEP 3 -->
-        <div class="interactive-card step" id="step-3">
-            <img class="gif-box" src="https://media.tenor.com/CA5EAS56NsoAAAAi/sseeyall-bubu-dudu.gif" alt="Cute Gif 3">
-            <h2><b>ကိုယ်တို့အတည်တွဲရအောင်လေနော် ဟိဟိ</b></h2>
-            <div class="btn-group" id="btn-container-3">
-                <button class="btn-yes" id="btn-yes-3" onclick="playSuccessSound(); nextStep('falling')">Yes</button>
-                <div class="btn-no-wrapper" id="btn-no-3-wrapper">
-                    <button class="btn-no" id="btn-no-3" onmouseover="handleGravityFall(event)" onclick="handleGravityFall(event)" ontouchstart="handleGravityFall(event)">No</button>
+            <!-- Letter Text Inputs -->
+            <div class="space-y-3 bg-slate-800/50 p-3.5 rounded-xl border border-white/10">
+                <h3 class="text-xs font-bold text-sky-300 uppercase tracking-wider">💌 Letter Content (စာသားများ)</h3>
+                
+                <div>
+                    <label class="block text-[11px] text-slate-300 mb-1">Card Title (ခေါင်းစဉ်ကြီး)</label>
+                    <input id="inpTitle" type="text" oninput="syncLive()" class="w-full px-3 py-1.5 rounded-lg bg-slate-950 border border-white/15 text-sm text-white focus:border-sky-400 focus:outline-none">
                 </div>
-            </div>
-        </div>
 
-        <!-- STEP 3.5: FALLING GIF STEP -->
-        <div class="step" id="step-falling" style="width: 100%;">
-            <div class="falling-envelope-container" onclick="openLetter()">
-                <!-- Frame-less Transparent Envelope GIF -->
-                <img class="no-frame-gif" src="https://media.tenor.com/GwpOU67eGI0AAAAi/tkthao219-bubududu.gif" alt="Falling Envelope GIF">
-                <div class="tap-hint-badge">✉️ ePostcard For You ✨</div>
-            </div>
-        </div>
+                <div>
+                    <label class="block text-[11px] text-slate-300 mb-1">Greeting Heading (နှုတ်ခွန်းဆက်စာ)</label>
+                    <input id="inpHeading" type="text" oninput="syncLive()" class="w-full px-3 py-1.5 rounded-lg bg-slate-950 border border-white/15 text-sm text-white font-padauk focus:border-sky-400 focus:outline-none">
+                </div>
 
-        <!-- STEP 4 (Realistic Romantic Love Letter Paper Card) -->
-        <div class="step" id="step-4" style="width: 100%;">
-            <div class="paper-letter-wrapper paper-letter-pop">
-                <div class="romantic-paper-sheet">
-                    <div class="letter-badge">I Love You</div>
+                <div>
+                    <label class="block text-[11px] text-slate-300 mb-1">Main Message (အဓိကပေးစာ)</label>
+                    <textarea id="inpBody" rows="4" oninput="syncLive()" class="w-full px-3 py-1.5 rounded-lg bg-slate-950 border border-white/15 text-sm text-white font-padauk focus:border-sky-400 focus:outline-none"></textarea>
+                </div>
 
-                    <div class="romantic-content">
-                        <div class="romantic-title">Lysm ..My Dear</div>
-                        <p>ငါ မင်းအပေါ်မှာ ဒီအဆင့်ထပ်ပိုမိနေပြီ</p>
-                        <br>
-                        <p>ငါတို့ဒီအဆင့်ထပ်ပိုကြည့်ရအောင်နော် ငါတကယ်မင်းကိုချစ်မိနေပြီ</p>
-                        <br>
-                        <p>ပြန်ချစ်ပါတော့နော်</p>
-                        
-                        <div class="romantic-signature">
-                           Please love me back .. 💜
-                        </div>
+                <div>
+                    <label class="block text-[11px] text-slate-300 mb-1">Sub-quote / Wish (အောက်ခြေစာတန်း)</label>
+                    <input id="inpSub" type="text" oninput="syncLive()" class="w-full px-3 py-1.5 rounded-lg bg-slate-950 border border-white/15 text-sm text-white font-padauk focus:border-sky-400 focus:outline-none">
+                </div>
+
+                <div class="grid grid-cols-2 gap-2">
+                    <div>
+                        <label class="block text-[11px] text-slate-300 mb-1">Footer Left</label>
+                        <input id="inpFooterLeft" type="text" oninput="syncLive()" class="w-full px-3 py-1.5 rounded-lg bg-slate-950 border border-white/15 text-xs text-white focus:border-sky-400 focus:outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-[11px] text-slate-300 mb-1">Footer Right</label>
+                        <input id="inpFooterRight" type="text" oninput="syncLive()" class="w-full px-3 py-1.5 rounded-lg bg-slate-950 border border-white/15 text-xs text-white focus:border-sky-400 focus:outline-none">
                     </div>
                 </div>
             </div>
-        </div>
 
+            <!-- Images & Music -->
+            <div class="space-y-3 bg-slate-800/50 p-3.5 rounded-xl border border-white/10">
+                <h3 class="text-xs font-bold text-sky-300 uppercase tracking-wider">🖼️ Photos & Music (ပုံနှင့် သီချင်း)</h3>
+
+                <div>
+                    <label class="block text-[11px] text-slate-300 mb-1">Memory Stamp Photo (ထောင့်ကပုံ - Link သို့မဟုတ် ဖုန်းထဲမှပုံရွေးပါ)</label>
+                    <div class="flex gap-1.5">
+                        <input id="inpStampUrl" type="text" oninput="syncLive()" placeholder="Image URL..." class="flex-1 px-2.5 py-1.5 rounded-lg bg-slate-950 border border-white/15 text-xs text-white focus:border-sky-400 focus:outline-none">
+                        <label class="px-2.5 py-1.5 rounded-lg bg-sky-600 hover:bg-sky-500 text-white text-xs font-semibold cursor-pointer shrink-0">
+                            Upload
+                            <input type="file" accept="image/*" class="hidden" onchange="handleImageUpload(event, 'inpStampUrl')">
+                        </label>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-[11px] text-slate-300 mb-1">Stamp Caption (ပုံအောက်စာသား)</label>
+                    <input id="inpStampCaption" type="text" oninput="syncLive()" class="w-full px-2.5 py-1.5 rounded-lg bg-slate-950 border border-white/15 text-xs text-white focus:border-sky-400 focus:outline-none">
+                </div>
+
+                <div>
+                    <label class="block text-[11px] text-slate-300 mb-1">Start Screen Bouquet Image (ပန်းစည်းပုံ)</label>
+                    <div class="flex gap-1.5">
+                        <input id="inpBouquetUrl" type="text" oninput="syncLive()" class="flex-1 px-2.5 py-1.5 rounded-lg bg-slate-950 border border-white/15 text-xs text-white focus:border-sky-400 focus:outline-none">
+                        <label class="px-2.5 py-1.5 rounded-lg bg-sky-600 hover:bg-sky-500 text-white text-xs font-semibold cursor-pointer shrink-0">
+                            Upload
+                            <input type="file" accept="image/*" class="hidden" onchange="handleImageUpload(event, 'inpBouquetUrl')">
+                        </label>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-[11px] text-slate-300 mb-1">Envelope Image (စာအိတ်ပုံ)</label>
+                    <div class="flex gap-1.5">
+                        <input id="inpEnvelopeUrl" type="text" oninput="syncLive()" class="flex-1 px-2.5 py-1.5 rounded-lg bg-slate-950 border border-white/15 text-xs text-white focus:border-sky-400 focus:outline-none">
+                        <label class="px-2.5 py-1.5 rounded-lg bg-sky-600 hover:bg-sky-500 text-white text-xs font-semibold cursor-pointer shrink-0">
+                            Upload
+                            <input type="file" accept="image/*" class="hidden" onchange="handleImageUpload(event, 'inpEnvelopeUrl')">
+                        </label>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-[11px] text-slate-300 mb-1">Background Music URL (.mp3 / .m4a)</label>
+                    <input id="inpMusicUrl" type="text" oninput="syncLive()" class="w-full px-2.5 py-1.5 rounded-lg bg-slate-950 border border-white/15 text-xs text-white focus:border-sky-400 focus:outline-none">
+                </div>
+            </div>
+
+            <!-- Screen Prompts -->
+            <div class="space-y-3 bg-slate-800/50 p-3.5 rounded-xl border border-white/10">
+                <h3 class="text-xs font-bold text-sky-300 uppercase tracking-wider">✨ Screen Hints (အပြင်စာသားများ)</h3>
+                <div class="grid grid-cols-2 gap-2">
+                    <div>
+                        <label class="block text-[11px] text-slate-300 mb-1">Start Hint</label>
+                        <input id="inpStartHint" type="text" oninput="syncLive()" class="w-full px-2.5 py-1.5 rounded-lg bg-slate-950 border border-white/15 text-xs text-white">
+                    </div>
+                    <div>
+                        <label class="block text-[11px] text-slate-300 mb-1">Button Label</label>
+                        <input id="inpBtnText" type="text" oninput="syncLive()" class="w-full px-2.5 py-1.5 rounded-lg bg-slate-950 border border-white/15 text-xs text-white">
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 gap-2">
+                    <div>
+                        <label class="block text-[11px] text-slate-300 mb-1">Envelope Header</label>
+                        <input id="inpMainTitle" type="text" oninput="syncLive()" class="w-full px-2.5 py-1.5 rounded-lg bg-slate-950 border border-white/15 text-xs text-white">
+                    </div>
+                    <div>
+                        <label class="block text-[11px] text-slate-300 mb-1">Envelope Sub</label>
+                        <input id="inpMainSub" type="text" oninput="syncLive()" class="w-full px-2.5 py-1.5 rounded-lg bg-slate-950 border border-white/15 text-xs text-white">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="sticky bottom-0 bg-slate-900/95 pt-3 pb-2 border-t border-white/15 flex flex-col gap-2">
+                <button onclick="downloadCleanHtml()" class="w-full py-2.5 px-4 rounded-xl bg-gradient-to-r from-sky-500 to-blue-600 hover:from-sky-400 hover:to-blue-500 text-white font-bold text-sm shadow-lg flex items-center justify-center gap-2 transition cursor-pointer">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                    <span>Download Final Card (.html)</span>
+                </button>
+                <div class="flex gap-2">
+                    <button onclick="saveToBrowser()" class="flex-1 py-2 px-3 rounded-lg bg-emerald-600/80 hover:bg-emerald-600 text-white text-xs font-semibold transition cursor-pointer">
+                        💾 Save Draft
+                    </button>
+                    <button onclick="resetToDefault()" class="py-2 px-3 rounded-lg bg-rose-600/70 hover:bg-rose-600 text-white text-xs font-semibold transition cursor-pointer">
+                        Reset
+                    </button>
+                </div>
+            </div>
+
+        </div>
     </div>
 
+    <script id="cardConfigScript">
+        const defaultConfig = {
+            theme: "skyblue",
+            startHint: "✨ Click the bouquet ✨",
+            bouquetImg: "https://i.ibb.co/zHSrxp8G/blue-Sticker-bouquet-removebg-preview.png",
+            mainTitle: "✨ Tap The Envelope ✨",
+            mainSub: "Tap the floating envelope to open wish",
+            envelopeImg: "https://i.ibb.co/xK7Lfv0H/Untitled-Design-1-removebg-preview.png",
+            btnText: "Click Me ✨",
+            stampImg: "https://i.ibb.co/cp6WytW/download-55.jpg",
+            stampCaption: "✨ Corner Memory Stamp ✨",
+            musicUrl: "https://www.image2url.com/r2/default/audio/1789288232634-9a89e91e-e43f-4d68-b101-bf9b607f0f76.m4a",
+            title: "Happy Anniversary",
+            heading: "💎 Happy Anniversary, My Love! 💙",
+            body: "ငါတို့နှစ်ယောက် အတူတူဖြတ်သန်းလာခဲ့တဲ့ အချိန်တွေအတွက် ကျေးဇူးအများကြီးတင်ပါတယ်။ အမြဲတမ်းနားလည်ပေးပြီး ချစ်ပေးလို့လည်း ကျေးဇူးပါ။ 💖\nရှေ့လျောက်လည်း အနားမှာ အမြဲရှိပေးပါရစေနော်\nအများကြီးဆက်ချစ်ပေးမယ်လို့ ကတိပေးပါတယ်နော်",
+            sub: "May our love continue to grow stronger with each passing day! ✨",
+            footerLeft: "With All My Love 💙",
+            footerRight: "✨ Forever & Always ✨"
+        };
+
+        let cardConfig = JSON.parse(localStorage.getItem('envelope4_custom_config')) || { ...defaultConfig };
+
+        const themes = {
+            skyblue: {
+                bg: "radial-gradient(circle at center, #f0f9ff, #0284c7, #0c4a6e)",
+                paperClass: "paper-skyblue"
+            },
+            pink: {
+                bg: "radial-gradient(circle at center, #fdf2f8, #db2777, #831843)",
+                paperClass: "paper-pink"
+            },
+            purple: {
+                bg: "radial-gradient(circle at center, #faf5ff, #7e22ce, #3b0764)",
+                paperClass: "paper-purple"
+            },
+            vintage: {
+                bg: "radial-gradient(circle at center, #fffbeb, #d97706, #78350f)",
+                paperClass: "paper-vintage"
+            }
+        };
+
+        let typingTimeouts = [];
+
+        function clearAllTyping() {
+            typingTimeouts.forEach(t => clearTimeout(t));
+            typingTimeouts = [];
+        }
+
+        function typeWriter(elementId, text, speed, callback) {
+            const el = document.getElementById(elementId);
+            el.innerHTML = "";
+            el.classList.add('typing-cursor');
+            let i = 0;
+
+            function typeNextChar() {
+                if (i < text.length) {
+                    if (text.charAt(i) === '\n') {
+                        el.innerHTML += '<br>';
+                    } else {
+                        el.innerHTML += text.charAt(i);
+                    }
+                    i++;
+                    const timeout = setTimeout(typeNextChar, speed);
+                    typingTimeouts.push(timeout);
+                } else {
+                    el.classList.remove('typing-cursor');
+                    if (callback) callback();
+                }
+            }
+            typeNextChar();
+        }
+
+        function startTypingSequence() {
+            clearAllTyping();
+            document.getElementById('titleText').innerHTML = "";
+            document.getElementById('headingText').innerHTML = "";
+            document.getElementById('bodyText').innerHTML = "";
+            document.getElementById('subText').innerHTML = "";
+            document.getElementById('footerLeft').innerHTML = "";
+            document.getElementById('footerRight').innerHTML = "";
+
+            typeWriter('titleText', cardConfig.title, 60, () => {
+                typeWriter('headingText', cardConfig.heading, 40, () => {
+                    typeWriter('bodyText', cardConfig.body, 35, () => {
+                        typeWriter('subText', cardConfig.sub, 30, () => {
+                            document.getElementById('footerLeft').innerHTML = cardConfig.footerLeft;
+                            document.getElementById('footerRight').innerHTML = cardConfig.footerRight;
+                        });
+                    });
+                });
+            });
+        }
+
+        function renderCardInstant() {
+            // Theme
+            const t = themes[cardConfig.theme] || themes.skyblue;
+            document.body.style.background = t.bg;
+            const modalCard = document.getElementById('modalCard');
+            modalCard.classList.remove('paper-skyblue', 'paper-pink', 'paper-purple', 'paper-vintage');
+            modalCard.classList.add(t.paperClass);
+
+            // Texts & Images
+            document.getElementById('startHintDisplay').textContent = cardConfig.startHint;
+            document.getElementById('bouquetImgDisplay').src = cardConfig.bouquetImg;
+            document.getElementById('mainTitleDisplay').textContent = cardConfig.mainTitle;
+            document.getElementById('mainSubDisplay').textContent = cardConfig.mainSub;
+            document.getElementById('envelopeImgDisplay').src = cardConfig.envelopeImg;
+            document.getElementById('envelopeBtnText').textContent = cardConfig.btnText;
+            document.getElementById('stampThumbDisplay').src = cardConfig.stampImg;
+            document.getElementById('stampFullDisplay').src = cardConfig.stampImg;
+            document.getElementById('stampCaptionDisplay').textContent = cardConfig.stampCaption;
+
+            const audio = document.getElementById('bgMusic');
+            if (audio.src !== cardConfig.musicUrl) {
+                audio.src = cardConfig.musicUrl;
+            }
+
+            // Instant text update if modal is open while editing
+            clearAllTyping();
+            document.getElementById('titleText').textContent = cardConfig.title;
+            document.getElementById('headingText').textContent = cardConfig.heading;
+            document.getElementById('bodyText').innerHTML = cardConfig.body.replace(/\n/g, '<br>');
+            document.getElementById('subText').textContent = cardConfig.sub;
+            document.getElementById('footerLeft').textContent = cardConfig.footerLeft;
+            document.getElementById('footerRight').textContent = cardConfig.footerRight;
+        }
+
+        function populateEditorFields() {
+            document.getElementById('inpTitle').value = cardConfig.title;
+            document.getElementById('inpHeading').value = cardConfig.heading;
+            document.getElementById('inpBody').value = cardConfig.body;
+            document.getElementById('inpSub').value = cardConfig.sub;
+            document.getElementById('inpFooterLeft').value = cardConfig.footerLeft;
+            document.getElementById('inpFooterRight').value = cardConfig.footerRight;
+            document.getElementById('inpStampUrl').value = cardConfig.stampImg;
+            document.getElementById('inpStampCaption').value = cardConfig.stampCaption;
+            document.getElementById('inpBouquetUrl').value = cardConfig.bouquetImg;
+            document.getElementById('inpEnvelopeUrl').value = cardConfig.envelopeImg;
+            document.getElementById('inpMusicUrl').value = cardConfig.musicUrl;
+            document.getElementById('inpStartHint').value = cardConfig.startHint;
+            document.getElementById('inpBtnText').value = cardConfig.btnText;
+            document.getElementById('inpMainTitle').value = cardConfig.mainTitle;
+            document.getElementById('inpMainSub').value = cardConfig.mainSub;
+        }
+
+        function syncLive() {
+            cardConfig.title = document.getElementById('inpTitle').value;
+            cardConfig.heading = document.getElementById('inpHeading').value;
+            cardConfig.body = document.getElementById('inpBody').value;
+            cardConfig.sub = document.getElementById('inpSub').value;
+            cardConfig.footerLeft = document.getElementById('inpFooterLeft').value;
+            cardConfig.footerRight = document.getElementById('inpFooterRight').value;
+            cardConfig.stampImg = document.getElementById('inpStampUrl').value;
+            cardConfig.stampCaption = document.getElementById('inpStampCaption').value;
+            cardConfig.bouquetImg = document.getElementById('inpBouquetUrl').value;
+            cardConfig.envelopeImg = document.getElementById('inpEnvelopeUrl').value;
+            cardConfig.musicUrl = document.getElementById('inpMusicUrl').value;
+            cardConfig.startHint = document.getElementById('inpStartHint').value;
+            cardConfig.btnText = document.getElementById('inpBtnText').value;
+            cardConfig.mainTitle = document.getElementById('inpMainTitle').value;
+            cardConfig.mainSub = document.getElementById('inpMainSub').value;
+            renderCardInstant();
+        }
+
+        function applyTheme(themeKey) {
+            cardConfig.theme = themeKey;
+            renderCardInstant();
+        }
+
+        function handleImageUpload(event, targetInputId) {
+            const file = event.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                document.getElementById(targetInputId).value = e.target.result;
+                syncLive();
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function toggleEditor() {
+            const drawer = document.getElementById('editorDrawer');
+            drawer.classList.toggle('hidden');
+            if (!drawer.classList.contains('hidden')) {
+                populateEditorFields();
+            }
+        }
+
+        function previewStep(step) {
+            const startScreen = document.getElementById('startScreen');
+            const mainContent = document.getElementById('mainContent');
+            if (step === 'start') {
+                closeWishCard();
+                mainContent.classList.add('hidden');
+                startScreen.style.display = 'flex';
+                startScreen.classList.remove('opacity-0');
+            } else if (step === 'envelope') {
+                closeWishCard();
+                startScreen.style.display = 'none';
+                mainContent.classList.remove('hidden');
+            } else if (step === 'letter') {
+                startScreen.style.display = 'none';
+                mainContent.classList.remove('hidden');
+                openWishCard();
+            }
+        }
+
+        function saveToBrowser() {
+            localStorage.setItem('envelope4_custom_config', JSON.stringify(cardConfig));
+            alert('✅ ပြင်ဆင်ထားသည်များကို ယခု Browser ထဲတွင် သိမ်းဆည်းပြီးပါပြီ!');
+        }
+
+        function resetToDefault() {
+            if (!confirm('မူလ Default စာသားနှင့် ပုံများအတိုင်း ပြန်ထားမလား?')) return;
+            localStorage.removeItem('envelope4_custom_config');
+            cardConfig = { ...defaultConfig };
+            populateEditorFields();
+            renderCardInstant();
+        }
+
+        function downloadCleanHtml() {
+            const t = themes[cardConfig.theme] || themes.skyblue;
+            const cleanHtml = `<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>${cardConfig.title || 'Happy Anniversary'}</title>
+    <script src="https://cdn.tailwindcss.com"><\/script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Padauk:wght@400;700&family=Great+Vibes&family=Playfair+Display:ital,wght@0,600;1,400&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: ${t.bg};
+            overflow: hidden;
+            height: 100vh;
+            touch-action: manipulation;
+        }
+        .font-cursive { font-family: 'Great Vibes', cursive; }
+        .font-serif-custom { font-family: 'Playfair Display', serif; }
+        .font-padauk { font-family: 'Padauk', sans-serif; }
+        @keyframes floatDownToCenter {
+            0% { transform: translate(-50%, -100vh) rotate(-12deg); opacity: 0; }
+            20% { opacity: 1; }
+            35% { transform: translate(-35%, -15vh) rotate(8deg); }
+            65% { transform: translate(-60%, 10vh) rotate(-6deg); }
+            85% { transform: translate(-45%, 22vh) rotate(4deg); }
+            100% { transform: translate(-50%, 25vh) rotate(-2deg); }
+        }
+        @keyframes centerSwaying {
+            0%, 100% { transform: translate(-50%, 25vh) rotate(-2deg) scale(1); }
+            50% { transform: translate(-50%, 21vh) rotate(2deg) scale(1.03); }
+        }
+        @keyframes bouquetGentleSway {
+            0%, 100% { transform: translateY(0) rotate(0deg) scale(1); }
+            50% { transform: translateY(-4px) rotate(1.5deg) scale(1.02); }
+        }
+        .bouquet-sway { animation: bouquetGentleSway 3.5s ease-in-out infinite; }
+        .free-floating-image {
+            position: absolute; top: 25%; left: 50%;
+            animation: floatDownToCenter 6s cubic-bezier(0.25, 1, 0.5, 1) forwards, centerSwaying 4s ease-in-out infinite 6s;
+            cursor: pointer; transition: filter 0.3s ease, transform 0.5s ease;
+            user-select: none; -webkit-user-drag: none;
+        }
+        .free-floating-image img { border: none !important; outline: none !important; box-shadow: none !important; background: transparent !important; width: 160px !important; }
+        @keyframes pulseGlow { 0%, 100% { opacity: 0.8; transform: scale(0.95); } 50% { opacity: 1; transform: scale(1.05); } }
+        .click-hint { animation: pulseGlow 1.8s infinite; }
+        .paper-skyblue { background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%); color: #0c4a6e; border: 2px solid #7dd3fc; box-shadow: 0 15px 35px rgba(14, 165, 233, 0.25); }
+        .paper-skyblue .title-text { color: #0284c7; } .paper-skyblue .heading-text { color: #0369a1; }
+        .paper-pink { background: linear-gradient(135deg, #fdf2f8 0%, #fce7f3 100%); color: #831843; border: 2px solid #f9a8d4; box-shadow: 0 15px 35px rgba(236, 72, 153, 0.25); }
+        .paper-pink .title-text { color: #db2777; } .paper-pink .heading-text { color: #be185d; }
+        .paper-purple { background: linear-gradient(135deg, #faf5ff 0%, #f3e8ff 100%); color: #4c1d95; border: 2px solid #d8b4fe; box-shadow: 0 15px 35px rgba(147, 51, 234, 0.25); }
+        .paper-purple .title-text { color: #7e22ce; } .paper-purple .heading-text { color: #6b21a8; }
+        .paper-vintage { background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%); color: #78350f; border: 2px solid #fcd34d; box-shadow: 0 15px 35px rgba(217, 119, 6, 0.25); }
+        .paper-vintage .title-text { color: #b45309; } .paper-vintage .heading-text { color: #92400e; }
+        .paperclip { position: absolute; top: 10px; right: 24px; width: 14px; height: 42px; border: 2px solid currentColor; opacity: 0.55; border-radius: 10px; z-index: 30; pointer-events: none; }
+        .paperclip::after { content: ''; position: absolute; top: 6px; left: 2px; width: 6px; height: 26px; border: 2px solid currentColor; border-radius: 6px; }
+        .sparkle { position: absolute; background: radial-gradient(circle, #ffffff 10%, rgba(255, 255, 255, 0.8) 60%, transparent 100%); border-radius: 50%; pointer-events: none; animation: floatUp var(--duration) linear infinite; }
+        @keyframes floatUp { 0% { transform: translateY(105vh) scale(0) rotate(0deg); opacity: 0; } 20% { opacity: 0.85; } 80% { opacity: 0.85; } 100% { transform: translateY(-10vh) scale(1.2) rotate(360deg); opacity: 0; } }
+        .blurred-content { filter: blur(6px); pointer-events: none; transition: filter 0.5s ease; }
+        .typing-cursor::after { content: '|'; animation: blink 0.7s infinite; font-weight: bold; margin-left: 2px; }
+        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+    </style>
+</head>
+<body class="relative flex items-center justify-center min-h-screen select-none overflow-hidden font-serif-custom">
+    <audio id="bgMusic" loop src="${cardConfig.musicUrl}"></audio>
+    <div id="startScreen" class="absolute inset-0 z-40 flex flex-col items-center justify-center cursor-pointer transition-opacity duration-700" onclick="startExperience()">
+        <h1 class="text-white text-lg md:text-xl font-bold tracking-wide drop-shadow-md mb-6 click-hint text-center px-4">${cardConfig.startHint}</h1>
+        <img src="${cardConfig.bouquetImg}" alt="Bouquet" class="h-auto object-contain hover:scale-105 transition-transform duration-300 bouquet-sway" style="width: 180px;">
+    </div>
+    <div id="mainContent" class="hidden w-full h-full transition-all duration-500">
+        <div id="sparkle-container" class="absolute inset-0 pointer-events-none overflow-hidden"></div>
+        <div class="absolute top-8 text-center z-10 px-4 w-full">
+            <h1 class="text-white text-base md:text-lg font-bold tracking-wide drop-shadow-md">${cardConfig.mainTitle}</h1>
+            <p class="text-xs text-white/80 mt-1">${cardConfig.mainSub}</p>
+        </div>
+        <div id="fallingCard" class="free-floating-image z-20 flex flex-col items-center justify-center" onclick="openWishCard()">
+            <img src="${cardConfig.envelopeImg}" alt="Special" class="h-auto object-contain pointer-events-auto bg-transparent border-0 outline-0 shadow-none bouquet-sway" style="width: 160px;">
+            <span class="click-hint mt-3 inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white text-slate-900 font-bold text-xs tracking-wider shadow-lg border border-white/60">
+                <svg class="w-3.5 h-3.5 animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5M7.188 2.239l.777 2.897M5.136 7.965l-2.898-.777M13.95 4.05l-2.122 2.122m-5.657 5.656l-2.12 2.122"></path></svg>
+                ${cardConfig.btnText}
+            </span>
+        </div>
+    </div>
+    <div id="wishModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/60 backdrop-blur-[2px] opacity-0 pointer-events-none transition-opacity duration-500 overflow-y-auto" onclick="closeWishCardOnBg(event)">
+        <div class="${t.paperClass} relative w-full max-w-md p-6 sm:p-8 rounded-xl z-10 shadow-2xl transform scale-90 transition-transform duration-500 my-auto" id="modalCard">
+            <div class="paperclip"></div>
+            <div class="text-center mb-4 pt-3">
+                <span id="titleText" class="text-3xl sm:text-4xl title-text block font-cursive min-h-[48px]"></span>
+                <div class="w-20 h-0.5 bg-current opacity-25 mx-auto mt-2"></div>
+            </div>
+            <div class="space-y-3 text-center leading-relaxed my-4 font-padauk">
+                <p id="headingText" class="text-lg sm:text-xl font-bold heading-text drop-shadow-sm min-h-[28px]"></p>
+                <p id="bodyText" class="text-sm sm:text-base font-medium px-2 opacity-95 min-h-[80px]"></p>
+                <p id="subText" class="text-xs sm:text-sm italic pt-1 opacity-80 min-h-[24px]"></p>
+            </div>
+            <div class="mt-6 pt-3 border-t border-current/20 flex items-center justify-between text-xs">
+                <span id="footerLeft" class="font-cursive text-base opacity-90"></span>
+                <span id="footerRight" class="opacity-80"></span>
+            </div>
+            <div onclick="openCornerFullModal(event)" class="absolute bottom-3 right-3 cursor-pointer group z-30">
+                <div class="w-11 h-11 p-0.5 bg-white shadow-md rounded border border-slate-300 transform rotate-3 group-hover:rotate-0 transition duration-200">
+                    <img src="${cardConfig.stampImg}" class="w-full h-full object-cover rounded-sm">
+                </div>
+            </div>
+            <button onclick="closeWishCard()" class="absolute top-3 right-3 z-30 bg-slate-800/80 text-white rounded-full p-1.5 shadow-md hover:bg-slate-900 transition-colors focus:outline-none">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+        </div>
+    </div>
+    <div id="exportCornerModal" class="hidden fixed inset-0 z-[100] bg-slate-950/85 backdrop-blur-md flex items-center justify-center p-4 cursor-pointer" onclick="closeExportCornerModal()">
+        <div class="bg-white p-3.5 rounded-2xl shadow-2xl max-w-xs w-full text-center relative border border-slate-200" onclick="event.stopPropagation()">
+            <img src="${cardConfig.stampImg}" class="w-full h-auto max-h-80 object-contain rounded-xl">
+            <p class="text-xs text-slate-700 font-semibold mt-2.5 font-sans">${cardConfig.stampCaption}</p>
+            <button onclick="closeExportCornerModal()" class="absolute -top-3 -right-3 bg-slate-800 text-white rounded-full p-1.5 shadow-lg hover:bg-slate-900 transition">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+        </div>
+    </div>
     <script>
-        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-
-        // 1. Click Sound Effect (Soft Pop)
-        function playClickSound() {
-            if (audioCtx.state === 'suspended') { audioCtx.resume(); }
-            const osc = audioCtx.createOscillator();
-            const gain = audioCtx.createGain();
-            osc.type = 'sine';
-            osc.frequency.setValueAtTime(450, audioCtx.currentTime);
-            osc.frequency.exponentialRampToValueAtTime(150, audioCtx.currentTime + 0.08);
-            gain.gain.setValueAtTime(0.15, audioCtx.currentTime);
-            gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.08);
-            osc.connect(gain);
-            gain.connect(audioCtx.destination);
-            osc.start();
-            osc.stop(audioCtx.currentTime + 0.08);
+        const textData = ${JSON.stringify({
+            title: cardConfig.title,
+            heading: cardConfig.heading,
+            body: cardConfig.body,
+            sub: cardConfig.sub,
+            footerLeft: cardConfig.footerLeft,
+            footerRight: cardConfig.footerRight
+        })};
+        let typingTimeouts = [];
+        function clearAllTyping() { typingTimeouts.forEach(t => clearTimeout(t)); typingTimeouts = []; }
+        function typeWriter(elementId, text, speed, callback) {
+            const el = document.getElementById(elementId);
+            el.innerHTML = ""; el.classList.add('typing-cursor'); let i = 0;
+            function typeNextChar() {
+                if (i < text.length) {
+                    el.innerHTML += text.charAt(i) === '\n' ? '<br>' : text.charAt(i);
+                    i++; typingTimeouts.push(setTimeout(typeNextChar, speed));
+                } else { el.classList.remove('typing-cursor'); if (callback) callback(); }
+            }
+            typeNextChar();
         }
-
-        // 2. Success Chime Sound Effect (Magical Happy Chime)
-        function playSuccessSound() {
-            if (audioCtx.state === 'suspended') { audioCtx.resume(); }
-            const notes = [523.25, 659.25, 783.99, 1046.50]; // C5, E5, G5, C6
-            notes.forEach((freq, index) => {
-                const osc = audioCtx.createOscillator();
-                const gain = audioCtx.createGain();
-                osc.type = 'triangle';
-                osc.frequency.setValueAtTime(freq, audioCtx.currentTime + index * 0.08);
-                gain.gain.setValueAtTime(0.12, audioCtx.currentTime + index * 0.08);
-                gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + index * 0.08 + 0.25);
-                osc.connect(gain);
-                gain.connect(audioCtx.destination);
-                osc.start(audioCtx.currentTime + index * 0.08);
-                osc.stop(audioCtx.currentTime + index * 0.08 + 0.25);
+        function startTypingSequence() {
+            clearAllTyping();
+            ['titleText','headingText','bodyText','subText','footerLeft','footerRight'].forEach(id => document.getElementById(id).innerHTML = "");
+            typeWriter('titleText', textData.title, 60, () => {
+                typeWriter('headingText', textData.heading, 40, () => {
+                    typeWriter('bodyText', textData.body, 35, () => {
+                        typeWriter('subText', textData.sub, 30, () => {
+                            document.getElementById('footerLeft').innerHTML = textData.footerLeft;
+                            document.getElementById('footerRight').innerHTML = textData.footerRight;
+                        });
+                    });
+                });
             });
         }
-
-        // 3. Warning / Tonal Sound Effect
-        function playWarningSound() {
-            if (audioCtx.state === 'suspended') { audioCtx.resume(); }
-            const osc = audioCtx.createOscillator();
-            const gain = audioCtx.createGain();
-            osc.type = 'sawtooth';
-            osc.frequency.setValueAtTime(220, audioCtx.currentTime);
-            osc.frequency.exponentialRampToValueAtTime(110, audioCtx.currentTime + 0.15);
-            gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
-            gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.15);
-            osc.connect(gain);
-            gain.connect(audioCtx.destination);
-            osc.start();
-            osc.stop(audioCtx.currentTime + 0.15);
+        function startExperience() {
+            const audio = document.getElementById('bgMusic');
+            if (audio.src && audio.src !== window.location.href) audio.play().catch(err => console.log(err));
+            const startScreen = document.getElementById('startScreen');
+            startScreen.classList.add('opacity-0');
+            setTimeout(() => { startScreen.style.display = 'none'; document.getElementById('mainContent').classList.remove('hidden'); createSparkles(); }, 700);
         }
-
-        const warnings = [
-            "SURE?",
-            "PLEASE!",
-            "TRY AGAIN!!",
-            "DON'T!"
-        ];
-
-        function getRandomWarning() {
-            return warnings[Math.floor(Math.random() * warnings.length)];
-        }
-
-        // Formspree သို့ Data ပို့ပေးမည့် API Function
-        function sendToFormspree(userResponse, stepName) {
-            fetch("", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Accept": "application/json"
-                },
-                body: JSON.stringify({
-                    Step: stepName,
-                    Answer: userResponse,
-                    Timestamp: new Date().toLocaleString()
-                })
-            }).catch(error => console.log("Error sending data to Formspree:", error));
-        }
-
-        // Display Borderless Glowing Popup above wrapper & play sound
-        let popupTimer;
-        function showPopupWarning(wrapperId) {
-            playWarningSound();
-            const wrapper = document.getElementById(wrapperId);
-            if (!wrapper) return;
-            
-            const oldPopup = wrapper.querySelector('.popup-warning');
-            if (oldPopup) oldPopup.remove();
-
-            const popup = document.createElement('div');
-            popup.className = 'popup-warning';
-            popup.innerText = getRandomWarning();
-            wrapper.appendChild(popup);
-
-            clearTimeout(popupTimer);
-            popupTimer = setTimeout(() => {
-                popup.remove();
-            }, 1200);
-        }
-
-        let step1ClickCount = 0;
-        const guiltTripTexts = [
-            "Are you sure?",
-            "Really?",
-            "Think of us!",
-            "Click Yes instead"
-        ];
-
-        function handleGuiltTripNo1() {
-            showPopupWarning('btn-no-1-wrapper');
-            const noBtn = document.getElementById('btn-no-1');
-
-            if (step1ClickCount < guiltTripTexts.length) {
-                noBtn.innerText = guiltTripTexts[step1ClickCount];
-                step1ClickCount++;
-            } else {
-                noBtn.innerText = 'Yes';
-                noBtn.className = 'btn-yes';
-                noBtn.onclick = function() {
-                    playClickSound();
-                    nextStep(2);
-                };
+        function createSparkles() {
+            const container = document.getElementById('sparkle-container');
+            if (!container) return;
+            for (let i = 0; i < 35; i++) {
+                const sparkle = document.createElement('div'); sparkle.classList.add('sparkle');
+                const size = Math.random() * 6 + 3;
+                sparkle.style.width = size + 'px'; sparkle.style.height = size + 'px';
+                sparkle.style.left = Math.random() * 100 + '%';
+                sparkle.style.setProperty('--duration', (Math.random() * 6 + 6) + 's');
+                sparkle.style.animationDelay = (Math.random() * 5) + 's';
+                container.appendChild(sparkle);
             }
         }
+        function openWishCard() {
+            const modal = document.getElementById('wishModal');
+            modal.classList.remove('opacity-0', 'pointer-events-none'); modal.classList.add('opacity-100', 'pointer-events-auto');
+            document.getElementById('modalCard').classList.remove('scale-90'); document.getElementById('modalCard').classList.add('scale-100');
+            document.getElementById('mainContent').classList.add('blurred-content');
+            startTypingSequence();
+        }
+        function closeWishCard() {
+            const modal = document.getElementById('wishModal');
+            modal.classList.remove('opacity-100', 'pointer-events-auto'); modal.classList.add('opacity-0', 'pointer-events-none');
+            document.getElementById('modalCard').classList.remove('scale-100'); document.getElementById('modalCard').classList.add('scale-90');
+            document.getElementById('mainContent').classList.remove('blurred-content');
+            closeExportCornerModal(); clearAllTyping();
+        }
+        function closeWishCardOnBg(e) { if (e.target.id === 'wishModal') closeWishCard(); }
+        function openCornerFullModal(e) { if(e) e.stopPropagation(); document.getElementById('exportCornerModal').classList.remove('hidden'); }
+        function closeExportCornerModal() { document.getElementById('exportCornerModal').classList.add('hidden'); }
+    <\/script>
+</body>
+</html>`;
 
-        function nextStep(stepTarget) {
-            document.querySelectorAll('.step').forEach(step => {
-                step.classList.remove('active');
-            });
-            
-            const targetElement = document.getElementById(`step-${stepTarget}`);
-            if (targetElement) {
-                targetElement.classList.add('active');
-            }
-
-            if (stepTarget === 2) {
-                sendToFormspree("Yes", "Step 1 ");
-                const no2Wrapper = document.getElementById('btn-no-2-wrapper');
-                if (no2Wrapper) no2Wrapper.style.display = 'inline-flex';
-            } else if (stepTarget === 3) {
-                sendToFormspree("Yes", "Step 2 ");
-                const no2Wrapper = document.getElementById('btn-no-2-wrapper');
-                if (no2Wrapper) {
-                    no2Wrapper.style.display = 'none';
-                }
-            } else if (stepTarget === 'falling') {
-                sendToFormspree("Yes", "Step 3 ");
-                const no3Wrapper = document.getElementById('btn-no-3-wrapper');
-                if (no3Wrapper) {
-                    no3Wrapper.style.display = 'none';
-                }
-            }
+            const blob = new Blob([cleanHtml], { type: 'text/html' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'custom-envelope-card.html';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
         }
 
-        // Step 3.5 -> Step 4 Transition (Opens Letter with Pop-in animation)
-        function openLetter() {
-            playSuccessSound();
-            sendToFormspree("Opened Letter", "Step 4 (စာလွှာဖွင့်ကြည့်လိုက်သည်)");
-            nextStep(4);
-        }
-
-        // Step 2 Escape Function (Running No Button)
-        let isMoving = false;
-        function moveNoButton(e, wrapperId) {
-            if (e && e.type === 'touchstart') {
-                e.preventDefault();
+        function startExperience() {
+            const audio = document.getElementById('bgMusic');
+            if (audio.src && audio.src !== window.location.href) {
+                audio.play().catch(err => console.log("Audio play error", err));
             }
-
-            showPopupWarning(wrapperId);
-            
-            if (isMoving) return;
-            isMoving = true;
-
-            const wrapper = document.getElementById(wrapperId);
-            
-            if (!wrapper.classList.contains('escaped')) {
-                document.body.appendChild(wrapper);
-                wrapper.classList.add('escaped');
-            }
-
-            const rect = wrapper.getBoundingClientRect();
-            const padding = 20;
-            const maxX = Math.max(padding, window.innerWidth - rect.width - padding);
-            const maxY = Math.max(padding, window.innerHeight - rect.height - padding);
-
-            const randomX = Math.min(Math.max(padding, Math.floor(Math.random() * maxX)), maxX);
-            const randomY = Math.min(Math.max(padding, Math.floor(Math.random() * maxY)), maxY);
-
-            wrapper.style.left = `${randomX}px`;
-            wrapper.style.top = `${randomY}px`;
-
-            setTimeout(() => { isMoving = false; }, 150);
-        }
-
-        // Step 3: Gravity Fall Physics Effect on Hover / Click
-        let isFallingTriggered = false;
-        function handleGravityFall(e) {
-            if (e && e.type === 'touchstart') {
-                e.preventDefault();
-            }
-
-            if (isFallingTriggered) return;
-            isFallingTriggered = true;
-
-            showPopupWarning('btn-no-3-wrapper');
-
-            const noBtn = document.getElementById('btn-no-3');
-            noBtn.classList.add('gravity-fall');
-
+            const startScreen = document.getElementById('startScreen');
+            const mainContent = document.getElementById('mainContent');
+            startScreen.classList.add('opacity-0');
             setTimeout(() => {
-                noBtn.style.display = 'none';
-            }, 800);
+                startScreen.style.display = 'none';
+                mainContent.classList.remove('hidden');
+                createSparkles();
+            }, 700);
         }
+
+        function createSparkles() {
+            const container = document.getElementById('sparkle-container');
+            if (!container || container.children.length > 0) return;
+            for (let i = 0; i < 35; i++) {
+                const sparkle = document.createElement('div');
+                sparkle.classList.add('sparkle');
+                const size = Math.random() * 6 + 3;
+                sparkle.style.width = `${size}px`;
+                sparkle.style.height = `${size}px`;
+                sparkle.style.left = `${Math.random() * 100}%`;
+                sparkle.style.setProperty('--duration', `${Math.random() * 6 + 6}s`);
+                sparkle.style.animationDelay = `${Math.random() * 5}s`;
+                container.appendChild(sparkle);
+            }
+        }
+
+        function openWishCard() {
+            const modal = document.getElementById('wishModal');
+            const modalCard = document.getElementById('modalCard');
+            const mainContent = document.getElementById('mainContent');
+            modal.classList.remove('opacity-0', 'pointer-events-none');
+            modal.classList.add('opacity-100', 'pointer-events-auto');
+            modalCard.classList.remove('scale-90');
+            modalCard.classList.add('scale-100');
+            mainContent.classList.add('blurred-content');
+            startTypingSequence();
+        }
+
+        function closeWishCard() {
+            const modal = document.getElementById('wishModal');
+            const modalCard = document.getElementById('modalCard');
+            const mainContent = document.getElementById('mainContent');
+            modal.classList.remove('opacity-100', 'pointer-events-auto');
+            modal.classList.add('opacity-0', 'pointer-events-none');
+            modalCard.classList.remove('scale-100');
+            modalCard.classList.add('scale-90');
+            mainContent.classList.remove('blurred-content');
+            closeExportCornerModal();
+            clearAllTyping();
+        }
+
+        function closeWishCardOnBg(e) {
+            if (e.target.id === 'wishModal') closeWishCard();
+        }
+
+        function openCornerFullModal(e) {
+            if(e) e.stopPropagation();
+            document.getElementById('exportCornerModal').classList.remove('hidden');
+        }
+
+        function closeExportCornerModal() {
+            document.getElementById('exportCornerModal').classList.add('hidden');
+        }
+
+        renderCardInstant();
     </script>
 </body>
 </html>
