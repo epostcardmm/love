@@ -1,416 +1,972 @@
 <!DOCTYPE html>
 <html lang="my">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ချစ်တယ်</title>
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Google Fonts: Padauk and Noto Sans Myanmar for crisp, romantic Burmese typography -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Myanmar:wght@600;700;800&family=Padauk:wght@700&display=swap" rel="stylesheet">
-    <style>
-        /* Base styles for clean pastel aesthetic and smooth typography */
-        body {
-            font-family: 'Padauk', 'Noto Sans Myanmar', sans-serif;
-            background: radial-gradient(circle at 50% 45%, #fff8fa 0%, #fff0f4 55%, #ffe6ee 100%);
-            overflow: hidden;
-            user-select: none;
-            -webkit-tap-highlight-color: transparent;
-        }
-
-        /* Seamless, frameless floating and heartbeat animation */
-        @keyframes cuteFloat {
-            0%, 100% {
-                transform: translateY(0px) rotate(0deg);
-            }
-            25% {
-                transform: translateY(-8px) rotate(-1.5deg);
-            }
-            75% {
-                transform: translateY(-5px) rotate(1.5deg);
-            }
-        }
-
-        @keyframes heartBeat {
-            0%, 100% {
-                transform: scale(1);
-            }
-            15% {
-                transform: scale(1.08);
-            }
-            30% {
-                transform: scale(0.98);
-            }
-            45% {
-                transform: scale(1.05);
-            }
-            60% {
-                transform: scale(1);
-            }
-        }
-
-        @keyframes happySquish {
-            0% { transform: scale(1, 1); }
-            30% { transform: scale(1.22, 0.82); }
-            55% { transform: scale(0.88, 1.16); }
-            75% { transform: scale(1.08, 0.94); }
-            100% { transform: scale(1, 1); }
-        }
-
-        @keyframes twinkle {
-            0%, 100% { opacity: 0.25; transform: scale(0.8) rotate(0deg); }
-            50% { opacity: 1; transform: scale(1.25) rotate(18deg); }
-        }
-
-        @keyframes textRevealPop {
-            0% {
-                opacity: 0;
-                transform: translateY(25px) scale(0.65);
-                filter: blur(6px);
-            }
-            60% {
-                opacity: 1;
-                transform: translateY(-6px) scale(1.06);
-                filter: blur(0px);
-            }
-            80% {
-                transform: translateY(2px) scale(0.98);
-            }
-            100% {
-                opacity: 1;
-                transform: translateY(0) scale(1);
-            }
-        }
-
-        @keyframes romanticGlow {
-            0%, 100% {
-                text-shadow: 0 6px 24px rgba(244, 63, 94, 0.25), 0 0 40px rgba(251, 113, 133, 0.18);
-                transform: translateY(0px);
-            }
-            50% {
-                text-shadow: 0 10px 32px rgba(244, 63, 94, 0.42), 0 0 55px rgba(251, 113, 133, 0.35);
-                transform: translateY(-4px);
-            }
-        }
-
-        @keyframes gentlePulseHint {
-            0%, 100% { opacity: 0.65; transform: translateY(0); }
-            50% { opacity: 1; transform: translateY(-3px); }
-        }
-
-        .frameless-character {
-            animation: cuteFloat 4.2s ease-in-out infinite;
-            cursor: pointer;
-            transition: filter 0.3s ease;
-        }
-
-        .frameless-character:hover {
-            filter: drop-shadow(0 14px 26px rgba(244, 63, 94, 0.22));
-        }
-
-        .heart-body-pulse {
-            transform-origin: 120px 125px;
-            animation: heartBeat 2.2s ease-in-out infinite;
-        }
-
-        .squish-active {
-            transform-origin: 120px 125px;
-            animation: happySquish 0.55s cubic-bezier(0.34, 1.56, 0.64, 1) forwards !important;
-        }
-
-        .sparkle-1 { transform-origin: 42px 58px; animation: twinkle 2.4s ease-in-out infinite; }
-        .sparkle-2 { transform-origin: 202px 66px; animation: twinkle 2.9s ease-in-out 0.8s infinite; }
-        .sparkle-3 { transform-origin: 194px 176px; animation: twinkle 2.6s ease-in-out 1.4s infinite; }
-        .sparkle-4 { transform-origin: 46px 172px; animation: twinkle 3.1s ease-in-out 0.4s infinite; }
-
-        .love-text-gradient {
-            background: linear-gradient(135deg, #ff3366 0%, #f43f5e 45%, #e11d48 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            line-height: 1.55;
-        }
-
-        .love-text-revealed {
-            animation: textRevealPop 0.75s cubic-bezier(0.22, 1, 0.36, 1) forwards,
-                       romanticGlow 3s ease-in-out 0.75s infinite;
-        }
-
-        .hint-pulse {
-            animation: gentlePulseHint 2.2s ease-in-out infinite;
-        }
-
-        /* Floating particle styles */
-        .burst-particle {
-            position: fixed;
-            pointer-events: none;
-            z-index: 50;
-            will-change: transform, opacity;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TemplateStudio — Visual Template Builder & Hosted Links</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+Myanmar:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', 'Noto Sans Myanmar', sans-serif; }
+    .code-area { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; }
+    .hidden { display: none !important; }
+  </style>
 </head>
-<body class="min-h-screen w-full flex flex-col items-center justify-center relative px-4">
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col">
 
-    <!-- Main Centered Frameless Stage -->
-    <main class="flex flex-col items-center justify-center text-center z-10 w-full max-w-lg">
-        
-        <!-- Frameless Animated Cute Heart Character (No border, no card, no background frame) -->
-        <div id="cuteTrigger" role="button" tabindex="0" aria-label="ချစ်စရာ အသည်းပုံလေးကို နှိပ်ပါ"
-             class="frameless-character relative flex items-center justify-center p-2 focus:outline-none">
-            
-            <!-- Seamless Custom Animated SVG Character (GIF-like smooth loop) -->
-            <svg id="cuteSvg" class="w-52 h-52 sm:w-64 sm:h-64 md:w-72 md:h-72 overflow-visible" viewBox="0 0 240 240" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <defs>
-                    <!-- Soft romantic pastel gradients -->
-                    <linearGradient id="heartGrad" x1="50" y1="40" x2="190" y2="200" gradientUnits="userSpaceOnUse">
-                        <stop offset="0%" stop-color="#FF8FA3"/>
-                        <stop offset="50%" stop-color="#FF5C8A"/>
-                        <stop offset="100%" stop-color="#F43F5E"/>
-                    </linearGradient>
-                    <linearGradient id="heartHighlight" x1="75" y1="60" x2="120" y2="115" gradientUnits="userSpaceOnUse">
-                        <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.65"/>
-                        <stop offset="100%" stop-color="#FFFFFF" stop-opacity="0"/>
-                    </linearGradient>
-                    <radialGradient id="cheekBlush" cx="50%" cy="50%" r="50%">
-                        <stop offset="0%" stop-color="#FF2A5F" stop-opacity="0.55"/>
-                        <stop offset="100%" stop-color="#FF2A5F" stop-opacity="0"/>
-                    </radialGradient>
-                </defs>
+  <!-- Top Navbar -->
+  <header class="bg-white border-b border-slate-200 sticky top-0 z-30">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="w-9 h-9 rounded-lg bg-indigo-600 text-white flex items-center justify-center font-bold text-lg">T</div>
+        <div>
+          <h1 class="font-bold text-slate-900 leading-tight">TemplateStudio</h1>
+          <p class="text-xs text-slate-500">Visual Template Customizer & Hosted Links</p>
+        </div>
+      </div>
 
-                <!-- Ambient Floating Sparkles around the frameless character -->
-                <g class="sparkle-1">
-                    <path d="M42 48L44.5 55.5L52 58L44.5 60.5L42 68L39.5 60.5L32 58L39.5 55.5L42 48Z" fill="#FFB3C6"/>
-                </g>
-                <g class="sparkle-2">
-                    <path d="M202 56L204.2 62.8L211 65L204.2 67.2L202 74L199.8 67.2L193 65L199.8 62.8L202 56Z" fill="#FF8FA3"/>
-                </g>
-                <g class="sparkle-3">
-                    <path d="M194 168L196 174L202 176L196 178L194 184L192 178L186 176L192 174L194 168Z" fill="#FFC2D1"/>
-                </g>
-                <g class="sparkle-4">
-                    <circle cx="46" cy="172" r="3.5" fill="#FF8FA3"/>
-                </g>
+      <nav class="hidden md:flex items-center gap-2">
+        <button type="button" onclick="switchTab('gallery')" id="nav-gallery" class="px-3.5 py-2 rounded-lg text-sm font-medium bg-indigo-50 text-indigo-700">
+          Templates များ
+        </button>
+        <button type="button" onclick="switchTab('editor')" id="nav-editor" class="px-3.5 py-2 rounded-lg text-sm font-medium text-slate-600 hover:bg-slate-100">
+          Customize (ပြင်ဆင်ရန်)
+        </button>
+        <button type="button" onclick="switchTab('mylinks')" id="nav-mylinks" class="px-3.5 py-2 rounded-lg text-sm font-medium text-slate-600 hover:bg-slate-100">
+          ကျွန်ုပ်၏ Link များ <span id="my-links-badge" class="ml-1 px-1.5 py-0.5 text-xs rounded-full bg-slate-200 text-slate-700">0</span>
+        </button>
+        <button type="button" onclick="switchTab('owner')" id="nav-owner" class="px-3.5 py-2 rounded-lg text-sm font-medium text-slate-600 hover:bg-slate-100">
+          Owner Panel
+        </button>
+      </nav>
 
-                <!-- Pulsing & Squishable Heart Character Group -->
-                <g id="heartCharacterGroup" class="heart-body-pulse">
-                    <!-- Main Plump Cute Heart Body -->
-                    <path d="M120 198C120 198 36 146 36 88C36 60.5 57.8 40 84.5 40C100.8 40 114.2 48.2 120 60.2C125.8 48.2 139.2 40 155.5 40C182.2 40 204 60.5 204 88C204 146 120 198 120 198Z" 
-                          fill="url(#heartGrad)"/>
-                    
-                    <!-- Glossy Highlight on Top Left Curve -->
-                    <path d="M56 85C56 66 70 53 86 53C92 53 96 56 95 61C94 65 89 66 84 67C73 69 67 78 66 88C65.5 93 61 95 58 92C56.5 90.5 56 88 56 85Z" 
-                          fill="url(#heartHighlight)"/>
+      <div class="flex items-center gap-3">
+        <span id="mode-pill" class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-amber-100 text-amber-800">
+          Connecting...
+        </span>
 
-                    <!-- Cute Little Arms -->
-                    <path d="M43 114C31 111 25 119 29 127C33 134 45 132 52 126" stroke="#FF5C8A" stroke-width="8" stroke-linecap="round"/>
-                    <path d="M197 114C209 111 215 119 211 127C207 134 195 132 188 126" stroke="#FF5C8A" stroke-width="8" stroke-linecap="round"/>
-
-                    <!-- Kawaii Face: Rosy Cheeks -->
-                    <ellipse cx="83" cy="118" rx="13" ry="8" fill="url(#cheekBlush)"/>
-                    <ellipse cx="157" cy="118" rx="13" ry="8" fill="url(#cheekBlush)"/>
-
-                    <!-- Kawaii Face: Eyes (Default cute eyes) -->
-                    <g id="eyesDefault">
-                        <circle cx="94" cy="105" r="7.5" fill="#4A1525"/>
-                        <circle cx="91.5" cy="102.5" r="2.6" fill="#FFFFFF"/>
-                        <circle cx="96" cy="107" r="1.2" fill="#FFFFFF"/>
-
-                        <circle cx="146" cy="105" r="7.5" fill="#4A1525"/>
-                        <circle cx="143.5" cy="102.5" r="2.6" fill="#FFFFFF"/>
-                        <circle cx="148" cy="107" r="1.2" fill="#FFFFFF"/>
-                    </g>
-
-                    <!-- Kawaii Face: Happy Closed Arcs (Shown when clicked!) -->
-                    <g id="eyesHappy" class="hidden">
-                        <path d="M85 106C88 99 99 99 102 106" stroke="#4A1525" stroke-width="4.5" stroke-linecap="round"/>
-                        <path d="M138 106C141 99 152 99 155 106" stroke="#4A1525" stroke-width="4.5" stroke-linecap="round"/>
-                    </g>
-
-                    <!-- Kawaii Face: Cute Little Smile -->
-                    <path id="mouthDefault" d="M111 116C114 121 126 121 129 116" stroke="#4A1525" stroke-width="4" stroke-linecap="round"/>
-                    <path id="mouthHappy" class="hidden" d="M109 114C112 126 128 126 131 114Z" fill="#FF2A5F" stroke="#4A1525" stroke-width="3" stroke-linejoin="round"/>
-                </g>
-            </svg>
+        <div id="auth-logged-out">
+          <button type="button" onclick="loginWithGoogle()" class="inline-flex items-center gap-2 bg-white border border-slate-300 hover:bg-slate-50 text-slate-700 font-medium text-sm px-4 py-2 rounded-lg shadow-sm transition">
+            <svg class="w-4 h-4" viewBox="0 0 24 24"><path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.665-5.17 3.665-9.17Z"/><path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.11-6.72-4.96H1.29v3.14C3.26 21.3 7.31 24 12 24Z"/><path fill="#FBBC05" d="M5.28 14.24c-.24-.72-.38-1.49-.38-2.24s.14-1.52.38-2.24V6.62H1.29C.47 8.24 0 10.06 0 12s.47 3.76 1.29 5.38l3.99-3.14Z"/><path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.31 0 3.26 2.7 1.29 6.62l3.99 3.14c.95-2.85 3.6-4.96 6.72-4.96Z"/></svg>
+            Gmail ဖြင့်ဝင်မည်
+          </button>
         </div>
 
-        <!-- Subtle Tap Hint (Visible before first tap) -->
-        <p id="tapHint" class="hint-pulse mt-2 text-rose-400/90 text-base sm:text-lg font-semibold tracking-wide transition-opacity duration-500">
-            (နှိပ်ကြည့်ပါ)
+        <div id="auth-logged-in" class="hidden flex items-center gap-2.5">
+          <img id="user-avatar" src="" alt="User" class="w-8 h-8 rounded-full border border-slate-200" />
+          <div class="hidden sm:block text-left">
+            <div id="user-name" class="text-xs font-semibold text-slate-800"></div>
+            <div id="user-email" class="text-[11px] text-slate-500"></div>
+          </div>
+          <button type="button" onclick="logoutUser()" class="text-xs text-slate-500 hover:text-red-600 px-2 py-1">ထွက်မည်</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mobile Nav -->
+    <div class="md:hidden flex border-t border-slate-100 bg-white px-2 py-1.5 gap-1">
+      <button type="button" onclick="switchTab('gallery')" class="flex-1 text-xs py-1.5 px-2 rounded bg-slate-100 font-medium">Templates</button>
+      <button type="button" onclick="switchTab('editor')" class="flex-1 text-xs py-1.5 px-2 rounded font-medium">Customize</button>
+      <button type="button" onclick="switchTab('mylinks')" class="flex-1 text-xs py-1.5 px-2 rounded font-medium">My Links</button>
+      <button type="button" onclick="switchTab('owner')" class="flex-1 text-xs py-1.5 px-2 rounded font-medium">Owner</button>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6">
+
+    <!-- TAB 1: TEMPLATE GALLERY -->
+    <section id="tab-gallery" class="space-y-6">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white p-5 rounded-xl border border-slate-200 shadow-sm">
+        <div>
+          <h2 class="text-lg font-bold text-slate-900">အသင့်သုံး Template များ</h2>
+          <p class="text-sm text-slate-500 mt-0.5">Code ရေးစရာမလိုဘဲ စာသားနှင့် Link များကို အလွယ်တကူ ပြင်ဆင်ပြီး ကိုယ်ပိုင် Link ထုတ်ယူနိုင်ပါသည်။</p>
+        </div>
+        <button type="button" id="btn-gallery-owner" onclick="switchTab('owner')" class="hidden self-start sm:self-auto bg-slate-900 hover:bg-slate-800 text-white text-sm font-medium px-4 py-2 rounded-lg transition">
+          + Owner Template တင်ရန်
+        </button>
+      </div>
+
+      <div id="templates-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+    </section>
+
+    <!-- TAB 2: NO-CODE VISUAL CUSTOMIZER -->
+    <section id="tab-editor" class="hidden space-y-4">
+      <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+        <div class="flex flex-wrap items-center gap-3 flex-1">
+          <input id="project-title" type="text" placeholder="သင့် Page အမည် (ဥပမာ - My Shop Bio Link)"
+            class="w-full sm:w-72 px-3.5 py-2 text-sm border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500" />
+          <span id="editing-template-label" class="text-xs font-medium text-indigo-600 bg-indigo-50 px-2.5 py-1 rounded-md">Template: Default</span>
+        </div>
+
+        <div class="flex flex-wrap items-center gap-2">
+          <button type="button" onclick="resetToOriginal()" class="px-3.5 py-2 text-sm font-medium text-slate-600 bg-slate-100 hover:bg-slate-200 rounded-lg transition">
+            မူလအတိုင်း ပြန်ထားမည်
+          </button>
+          <button type="button" id="btn-request-link" onclick="requestPublicLink()" class="px-4 py-2 text-sm font-semibold text-white bg-indigo-600 hover:bg-indigo-700 rounded-lg shadow-sm transition">
+            🔗 Link ထုတ်မည်
+          </button>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 min-h-[70vh]">
+        <!-- Visual Form Editor (No Code Shown to User) -->
+        <div class="lg:col-span-5 bg-white rounded-xl overflow-hidden flex flex-col border border-slate-200 shadow-sm">
+          <div class="px-4 py-3 bg-slate-50 border-b border-slate-200 flex items-center justify-between">
+            <div>
+              <h3 class="text-sm font-bold text-slate-800">အချက်အလက်များ ပြင်ဆင်ရန်</h3>
+              <p class="text-[11px] text-slate-500">စာသား၊ ပုံနှင့် Link များကို အောက်တွင် ပြောင်းလဲပါ</p>
+            </div>
+            <span class="px-2 py-0.5 text-[11px] font-medium bg-emerald-100 text-emerald-700 rounded-full">Easy Edit</span>
+          </div>
+
+          <div id="visual-fields-container" class="p-4 space-y-4 overflow-y-auto max-h-[65vh]">
+            <!-- Dynamic Form Fields injected here -->
+          </div>
+        </div>
+
+        <!-- Live Preview -->
+        <div class="lg:col-span-7 bg-white rounded-xl overflow-hidden flex flex-col border border-slate-200 shadow-sm min-h-[500px]">
+          <div class="px-4 py-3 bg-slate-100 text-slate-600 text-xs font-medium flex items-center justify-between border-b border-slate-200">
+            <span>Live Preview (တိုက်ရိုက် အစမ်းကြည့်ရှုရန်)</span>
+            <button type="button" onclick="openPreviewNewTab()" class="text-indigo-600 hover:underline font-medium">မျက်နှာပြင်အပြည့် ကြည့်မည် ↗</button>
+          </div>
+          <iframe id="live-preview" class="flex-1 w-full bg-white"></iframe>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 3: USER SAVED LINKS -->
+    <section id="tab-mylinks" class="hidden space-y-6">
+      <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm">
+        <h2 class="text-lg font-bold text-slate-900">ကျွန်ုပ်၏ Link များ (My Saved Links)</h2>
+        <p class="text-sm text-slate-500 mt-1">
+          Owner မှ <span class="font-semibold text-emerald-600">Approved</span> ပေးလိုက်သည်နှင့် သင့် Gmail အကောင့်ထဲတွင် Link ကို အမြဲတမ်း သိမ်းဆည်းပေးထားမည်ဖြစ်ပါသည်။
         </p>
+      </div>
 
-        <!-- Large Romantic Burmese Text Reveal Container -->
-        <div id="loveMessageContainer" class="min-h-[110px] sm:min-h-[130px] flex flex-col items-center justify-center mt-1">
-            <h1 id="loveText" 
-                class="hidden love-text-gradient text-6xl sm:text-7xl md:text-8xl font-extrabold tracking-wide select-none px-4 py-2">
-                LOL ဘာတွေမျှော်လင့်နေတာလည်း (File ကဝယ်မှရပါမယ်)
-            </h1>
+      <div id="mylinks-requires-login" class="hidden bg-white p-10 rounded-xl border border-slate-200 text-center space-y-4">
+        <div class="text-3xl">🔐</div>
+        <h3 class="text-base font-bold text-slate-800">Gmail အကောင့်ဖြင့် အရင်ဝင်ရောက်ပါ</h3>
+        <p class="text-sm text-slate-500 max-w-md mx-auto">ကိုယ်တိုင် Edit ထားသော Link များကို သိမ်းဆည်းရန်နှင့် ပြန်လည်ရယူရန် Gmail Account ဖြင့် Login ဝင်ရန် လိုအပ်ပါသည်။</p>
+        <button type="button" onclick="loginWithGoogle()" class="bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-medium px-5 py-2.5 rounded-lg">
+          Gmail ဖြင့် Login ဝင်မည်
+        </button>
+      </div>
+
+      <div id="mylinks-list" class="space-y-4"></div>
+    </section>
+
+    <!-- TAB 4: OWNER UPLOAD & APPROVAL CONTROL -->
+    <section id="tab-owner" class="hidden space-y-6">
+      <div id="owner-warning" class="hidden bg-red-50 border border-red-200 text-red-700 p-4 rounded-xl text-sm">
+        ⚠️ ဤနေရာသည် Owner အကောင့် (<strong id="owner-email-display"></strong>) အတွက်သာ ဖြစ်ပါသည်။ ကျေးဇူးပြု၍ Owner Gmail ဖြင့် Login ဝင်ပါ။
+      </div>
+
+      <div id="owner-workspace" class="space-y-6">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <!-- Upload New Editable HTML Template -->
+          <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm space-y-4">
+            <div class="border-b border-slate-100 pb-3">
+              <h2 class="text-lg font-bold text-slate-900">Owner: Editable Template အသစ်တင်ရန်</h2>
+              <p class="text-xs text-slate-500 mt-0.5">HTML File Upload တင်လိုက်ရုံဖြင့် User များ Code မမြင်ရဘဲ Form ဖြင့် Edit နိုင်ပါမည်။</p>
+            </div>
+
+            <div>
+              <label class="block text-xs font-semibold text-slate-700 mb-1">Template အမည်</label>
+              <input id="tpl-title" type="text" placeholder="ဥပမာ - Modern Business Bio Card"
+                class="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg" />
+            </div>
+
+            <div>
+              <label class="block text-xs font-semibold text-slate-700 mb-1">အကြောင်းအရာ အကျဉ်း (Description)</label>
+              <input id="tpl-desc" type="text" placeholder="လုပ်ငန်းသုံး Website / Bio Card Template..."
+                class="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg" />
+            </div>
+
+            <div>
+              <label class="block text-xs font-semibold text-slate-700 mb-1">Owner ထည့်ပေးထားမည့် Demo Link (URL)</label>
+              <input id="tpl-demo-url" type="url" placeholder="မထည့်ပါက Auto Demo Link ထွက်ပါမည်"
+                class="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg" />
+            </div>
+
+            <div>
+              <label class="block text-xs font-semibold text-slate-700 mb-1">HTML File Upload လုပ်ရန် (.html)</label>
+              <input id="tpl-file-input" type="file" accept=".html,.htm" onchange="handleOwnerFileUpload(event)"
+                class="block w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100" />
+            </div>
+
+            <div class="bg-slate-50 p-3 rounded-lg border border-slate-200 text-xs text-slate-600 space-y-1">
+              <div class="font-semibold text-slate-700">💡 Owner အတွက် အကြံပြုချက်:</div>
+              <p>မည်သည့် HTML File ကိုမဆို Upload တင်လိုက်ရုံဖြင့် စာသား၊ ခလုတ် Link နှင့် ပုံများကို User အတွက် Form အဖြစ် အလိုအလျောက် ပြောင်းပေးပါမည်။ (HTML tag တွင် <code class="bg-slate-200 px-1 rounded">data-editable="ခေါင်းစဉ်"</code> ထည့်ထားပါက ထိုခေါင်းစဉ်အတိုင်း Form တွင် ပေါ်ပါမည်။)</p>
+            </div>
+
+            <div>
+              <label class="block text-xs font-semibold text-slate-700 mb-1">HTML Source (Owner သာ မြင်ရပါမည်)</label>
+              <textarea id="tpl-code" rows="5" placeholder="<!DOCTYPE html><html>...</html>"
+                class="code-area w-full p-3 text-xs border border-slate-300 rounded-lg"></textarea>
+            </div>
+
+            <button type="button" onclick="uploadOwnerTemplate()" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-sm py-2.5 rounded-lg transition">
+              Template ကို Upload တင်မည်
+            </button>
+          </div>
+
+          <!-- Approval Queue -->
+          <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm space-y-4">
+            <div class="border-b border-slate-100 pb-3 flex items-center justify-between">
+              <div>
+                <h2 class="text-lg font-bold text-slate-900">Approval Queue (Telegram Bot Sync)</h2>
+                <p class="text-xs text-slate-500 mt-0.5">User များ Link ထုတ်ရန် တောင်းဆိုထားသည်များကို စစ်ဆေးပြီး Approve ပေးပါ။</p>
+              </div>
+              <span class="px-2.5 py-1 text-xs font-medium bg-sky-100 text-sky-800 rounded-full">Live Sync</span>
+            </div>
+
+            <div id="approval-queue-list" class="space-y-3 max-h-[520px] overflow-y-auto"></div>
+          </div>
         </div>
 
-    </main>
+        <!-- Manage Uploaded Templates -->
+        <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm space-y-4">
+          <h3 class="text-base font-bold text-slate-900">တင်ထားပြီးသော Template များ စီမံရန်</h3>
+          <div id="owner-templates-list" class="divide-y divide-slate-100"></div>
+        </div>
+      </div>
+    </section>
 
-    <script>
-        (function () {
-            const trigger = document.getElementById('cuteTrigger');
-            const heartGroup = document.getElementById('heartCharacterGroup');
-            const eyesDefault = document.getElementById('eyesDefault');
-            const eyesHappy = document.getElementById('eyesHappy');
-            const mouthDefault = document.getElementById('mouthDefault');
-            const mouthHappy = document.getElementById('mouthHappy');
-            const tapHint = document.getElementById('tapHint');
-            const loveText = document.getElementById('loveText');
+  </main>
 
-            let isRevealed = false;
-            let expressionTimeout = null;
+  <!-- Toast Notification -->
+  <div id="toast" class="fixed bottom-5 right-5 hidden bg-slate-900 text-white text-sm px-4 py-3 rounded-xl shadow-lg z-50 max-w-sm"></div>
 
-            // Romantic pastel & vibrant heart colors for particle bursts
-            const heartColors = [
-                '#FF2A5F',
-                '#FF5C8A',
-                '#FF8FA3',
-                '#F43F5E',
-                '#FB7185',
-                '#FDA4AF',
-                '#FFB3C6'
-            ];
+  <script>
+    const OWNER_EMAIL = "kyikhantkyaw167298@gmail.com";
+    const FIREBASE_CONFIG = {
+      apiKey: "AIzaSyDiy3nHnCs75cxvyvS9Edf-CyWWC7nYxgE",
+      authDomain: "epostcards-f6ee2.firebaseapp.com",
+      projectId: "epostcards-f6ee2",
+      storageBucket: "epostcards-f6ee2.firebasestorage.app",
+      messagingSenderId: "433574571676",
+      appId: "1:433574571676:web:3cf6d13d774e3110ee4759"
+    };
 
-            /**
-             * Spawns a burst of floating mini hearts and sparkles around the click/center point
-             */
-            function createHeartBurst(originX, originY, count = 24) {
-                for (let i = 0; i < count; i++) {
-                    const particle = document.createElement('div');
-                    particle.className = 'burst-particle';
+    const DEFAULT_TEMPLATES = [
+      {
+        id: "tpl-bio-link",
+        title: "Personal Bio & Social Links Card",
+        description: "Creator များနှင့် Online Shop များအတွက် Link-in-Bio Template",
+        demoUrl: "",
+        html: `<!DOCTYPE html>
+<html lang="my">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Bio Link</title>
+  <style>
+    body { font-family: sans-serif; background: linear-gradient(135deg, #1e1b4b, #312e81); color: white; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; }
+    .card { background: rgba(255,255,255,0.1); backdrop-filter: blur(10px); padding: 32px; border-radius: 20px; width: 90%; max-width: 380px; text-align: center; border: 1px solid rgba(255,255,255,0.2); }
+    .avatar { width: 84px; height: 84px; border-radius: 50%; background: #818cf8; margin: 0 auto 14px; display: flex; align-items: center; justify-content: center; font-size: 32px; font-weight: bold; }
+    h1 { margin: 0 0 6px; font-size: 22px; }
+    p { margin: 0 0 22px; color: #c7d2fe; font-size: 14px; }
+    .btn { display: block; background: white; color: #1e1b4b; text-decoration: none; padding: 13px; border-radius: 12px; font-weight: bold; margin-bottom: 12px; transition: 0.2s; }
+    .btn:hover { transform: translateY(-2px); background: #e0e7ff; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="avatar" data-editable="Logo စာလုံး (၁ လုံး)">A</div>
+    <h1 data-editable="အမည် / ဆိုင်အမည်">Aung Kyaw Moe</h1>
+    <p data-editable="မိတ်ဆက်စာသား">Digital Creator & Online Shop Owner</p>
+    <a class="btn" data-editable="ခလုတ် (၁)" href="https://t.me/username" target="_blank">Telegram မှ ဆက်သွယ်ရန်</a>
+    <a class="btn" data-editable="ခလုတ် (၂)" href="https://facebook.com" target="_blank">Facebook Page ကြည့်ရန်</a>
+    <a class="btn" data-editable="ခလုတ် (၃)" href="tel:+95900000000">ဖုန်းဆက်ရန်</a>
+  </div>
+</body>
+</html>`
+      }
+    ];
 
-                    const isSparkle = i % 4 === 0;
-                    const color = heartColors[Math.floor(Math.random() * heartColors.length)];
-                    const size = isSparkle ? (Math.random() * 12 + 10) : (Math.random() * 18 + 14);
+    const isHttpHosted = window.location.protocol.startsWith("http");
+    let auth = null;
+    let db = null;
+    let fs = {};
+    let firebaseReady = false;
 
-                    if (isSparkle) {
-                        particle.innerHTML = `
-                            <svg width="${size}" height="${size}" viewBox="0 0 24 24" fill="none">
-                                <path d="M12 2L14.2 9.8L22 12L14.2 14.2L12 22L9.8 14.2L2 12L9.8 9.8L12 2Z" fill="${color}"/>
-                            </svg>
-                        `;
-                    } else {
-                        particle.innerHTML = `
-                            <svg width="${size}" height="${size}" viewBox="0 0 24 24" fill="none">
-                                <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" fill="${color}"/>
-                            </svg>
-                        `;
-                    }
+    let currentUser = JSON.parse(localStorage.getItem("ts_user") || "null");
+    let templates = JSON.parse(localStorage.getItem("ts_templates") || "null") || DEFAULT_TEMPLATES;
+    let userRequests = JSON.parse(localStorage.getItem("ts_requests") || "[]");
+    let activeTemplate = templates[0];
+    let workingDoc = null; // Parsed DOM for visual editing (hidden from user as code)
+    let unsubscribeProjects = null;
 
-                    // Position particle near the character center or tap location
-                    const startX = originX + (Math.random() - 0.5) * 40;
-                    const startY = originY + (Math.random() - 0.5) * 40;
-                    particle.style.left = `${startX}px`;
-                    particle.style.top = `${startY}px`;
+    function isOwnerUser() {
+      if (!currentUser || !currentUser.email) return false;
+      return currentUser.email.toLowerCase() === OWNER_EMAIL.toLowerCase();
+    }
 
-                    document.body.appendChild(particle);
+    function saveLocal() {
+      localStorage.setItem("ts_templates", JSON.stringify(templates));
+      localStorage.setItem("ts_requests", JSON.stringify(userRequests));
+      if (currentUser) localStorage.setItem("ts_user", JSON.stringify(currentUser));
+      else localStorage.removeItem("ts_user");
+    }
 
-                    // Radial burst trajectory with gentle upward float
-                    const angle = (Math.PI * 2 * i) / count + (Math.random() - 0.5) * 0.45;
-                    const velocity = Math.random() * 140 + 75;
-                    const destX = Math.cos(angle) * velocity;
-                    const destY = Math.sin(angle) * velocity - (Math.random() * 90 + 40);
-                    const rotation = (Math.random() - 0.5) * 90;
-                    const duration = Math.random() * 600 + 850;
+    function showToast(msg) {
+      const t = document.getElementById("toast");
+      t.textContent = msg;
+      t.classList.remove("hidden");
+      setTimeout(() => t.classList.add("hidden"), 4000);
+    }
 
-                    const animation = particle.animate([
-                        {
-                            transform: 'translate(-50%, -50%) scale(0.2) rotate(0deg)',
-                            opacity: 1
-                        },
-                        {
-                            transform: `translate(calc(-50% + ${destX * 0.65}px), calc(-50% + ${destY * 0.65}px)) scale(1.15) rotate(${rotation * 0.6}deg)`,
-                            opacity: 1,
-                            offset: 0.55
-                        },
-                        {
-                            transform: `translate(calc(-50% + ${destX}px), calc(-50% + ${destY}px)) scale(0.75) rotate(${rotation}deg)`,
-                            opacity: 0
-                        }
-                    ], {
-                        duration: duration,
-                        easing: 'cubic-bezier(0.16, 1, 0.3, 1)',
-                        fill: 'forwards'
-                    });
+    function switchTab(tabName) {
+      ["gallery", "editor", "mylinks", "owner"].forEach(id => {
+        const section = document.getElementById("tab-" + id);
+        if (section) section.classList.add("hidden");
+        const nav = document.getElementById("nav-" + id);
+        if (nav) {
+          nav.classList.remove("bg-indigo-50", "text-indigo-700");
+          nav.classList.add("text-slate-600");
+        }
+      });
+      const target = document.getElementById("tab-" + tabName);
+      if (target) target.classList.remove("hidden");
+      const activeNav = document.getElementById("nav-" + tabName);
+      if (activeNav) {
+        activeNav.classList.add("bg-indigo-50", "text-indigo-700");
+        activeNav.classList.remove("text-slate-600");
+      }
+      renderAll();
+    }
 
-                    animation.onfinish = () => {
-                        particle.remove();
-                    };
-                }
-            }
+    async function loginWithGoogle() {
+      if (firebaseReady) {
+        try {
+          const provider = new fs.GoogleAuthProvider();
+          await fs.signInWithPopup(auth, provider);
+          showToast("Gmail အကောင့်ဖြင့် ဝင်ရောက်ပြီးပါပြီ!");
+        } catch (err) {
+          alert("Gmail Login Error: " + err.message);
+        }
+        return;
+      }
 
-            /**
-             * Triggers cute squish bounce and happy facial expression on the character
-             */
-            function animateCharacterReaction() {
-                // Restart squish animation cleanly
-                heartGroup.classList.remove('squish-active');
-                void heartGroup.offsetWidth; // Force reflow
-                heartGroup.classList.add('squish-active');
+      const demoEmail = prompt("Local Test Mode ဖြင့် စမ်းသုံးရန် Gmail ရိုက်ထည့်ပါ:", OWNER_EMAIL);
+      if (!demoEmail || !demoEmail.includes("@")) return;
+      currentUser = {
+        uid: "local-" + btoa(demoEmail).slice(0, 10),
+        name: demoEmail.split("@")[0],
+        email: demoEmail,
+        photo: "https://ui-avatars.com/api/?background=4f46e5&color=fff&name=" + encodeURIComponent(demoEmail[0])
+      };
+      saveLocal();
+      renderAll();
+      showToast("ဝင်ရောက်ပြီးပါပြီ (" + demoEmail + ")");
+    }
 
-                // Switch to joyful expression
-                eyesDefault.classList.add('hidden');
-                mouthDefault.classList.add('hidden');
-                eyesHappy.classList.remove('hidden');
-                mouthHappy.classList.remove('hidden');
+    async function logoutUser() {
+      if (firebaseReady) {
+        await fs.signOut(auth);
+      }
+      currentUser = null;
+      saveLocal();
+      renderAll();
+      showToast("အကောင့်မှ ထွက်လိုက်ပါပြီ");
+    }
 
-                clearTimeout(expressionTimeout);
-                expressionTimeout = setTimeout(() => {
-                    heartGroup.classList.remove('squish-active');
-                    eyesHappy.classList.add('hidden');
-                    mouthHappy.classList.add('hidden');
-                    eyesDefault.classList.remove('hidden');
-                    mouthDefault.classList.remove('hidden');
-                }, 1100);
-            }
+    function openOriginalDemo(e, tplId) {
+      const tpl = templates.find(t => t.id === tplId);
+      if (!tpl) return;
+      if (!tpl.demoUrl) {
+        e.preventDefault();
+        const win = window.open("", "_blank");
+        win.document.write(tpl.html);
+        win.document.close();
+      }
+    }
 
-            /**
-             * Handles click/tap interaction
-             */
-            function handleInteraction(event) {
-                const rect = trigger.getBoundingClientRect();
-                const centerX = rect.left + rect.width / 2;
-                const centerY = rect.top + rect.height / 2;
+    // Parse HTML into Visual Form Fields (User sees ZERO HTML/Code)
+    function buildVisualEditor(htmlString) {
+      const parser = new DOMParser();
+      workingDoc = parser.parseFromString(htmlString, "text/html");
+      const container = document.getElementById("visual-fields-container");
+      container.innerHTML = "";
 
-                // Use pointer coordinates if available, otherwise center of character
-                const burstX = (event && event.clientX) ? event.clientX : centerX;
-                const burstY = (event && event.clientY) ? event.clientY : centerY;
+      const editableItems = [];
+      const explicitNodes = workingDoc.querySelectorAll("[data-editable]");
 
-                // Trigger joyful animation & heart burst
-                animateCharacterReaction();
-                createHeartBurst(burstX, burstY, isRevealed ? 22 : 30);
+      if (explicitNodes.length > 0) {
+        explicitNodes.forEach((el, idx) => {
+          editableItems.push({
+            el,
+            label: el.getAttribute("data-editable") || `အပိုင်း (${idx + 1})`
+          });
+        });
+      } else {
+        // Auto-detect text headings, paragraphs, buttons/links, and images from any Owner-uploaded HTML
+        const candidates = workingDoc.body.querySelectorAll("h1, h2, h3, h4, p, a, button, img, span, li");
+        let counter = 1;
+        candidates.forEach(el => {
+          if (el.tagName === "IMG") {
+            editableItems.push({ el, label: el.alt || `ပုံ (${counter++})` });
+            return;
+          }
+          // Skip elements that wrap other block elements
+          const hasChildElements = Array.from(el.children).some(c => !["BR", "STRONG", "B", "I", "EM"].includes(c.tagName));
+          if (hasChildElements) return;
 
-                // First tap: hide hint and reveal "LOL ထီးကြည့်တာလား"
-                if (!isRevealed) {
-                    isRevealed = true;
-                    tapHint.style.opacity = '0';
-                    setTimeout(() => {
-                        tapHint.classList.add('hidden');
-                    }, 300);
+          const text = el.textContent.trim();
+          const hasHref = el.tagName === "A" && el.getAttribute("href");
+          if (!text && !hasHref) return;
 
-                    loveText.classList.remove('hidden');
-                    loveText.classList.add('love-text-revealed');
-                } else {
-                    // Subsequent taps: extra celebratory heart burst + subtle bounce on the text
-                    loveText.style.transform = 'scale(1.08)';
-                    setTimeout(() => {
-                        loveText.style.transform = '';
-                    }, 220);
-                }
-            }
+          let defaultLabel = `စာသား (${counter++})`;
+          if (["H1", "H2"].includes(el.tagName)) defaultLabel = `ခေါင်းစဉ် (${counter - 1})`;
+          else if (el.tagName === "A" || el.tagName === "BUTTON") defaultLabel = `ခလုတ် / Link (${counter - 1})`;
+          else if (el.tagName === "P") defaultLabel = `အကြောင်းအရာ (${counter - 1})`;
 
-            // Support click, touch, and keyboard accessibility
-            trigger.addEventListener('click', handleInteraction);
-            trigger.addEventListener('keydown', (e) => {
-                if (e.key === 'Enter' || e.key === ' ') {
-                    e.preventDefault();
-                    handleInteraction();
-                }
+          editableItems.push({ el, label: defaultLabel });
+        });
+      }
+
+      // Page Title Field
+      const titleBlock = document.createElement("div");
+      titleBlock.className = "p-3.5 rounded-xl bg-slate-50 border border-slate-200 space-y-2";
+      titleBlock.innerHTML = `
+        <label class="block text-xs font-bold text-slate-700">Browser Tab ခေါင်းစဉ်</label>
+        <input type="text" value="${escapeAttr(workingDoc.title || "")}"
+          class="w-full px-3 py-2 text-sm bg-white border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500" />
+      `;
+      titleBlock.querySelector("input").addEventListener("input", (e) => {
+        workingDoc.title = e.target.value;
+        syncWorkingDocToPreview();
+      });
+      container.appendChild(titleBlock);
+
+      if (editableItems.length === 0) {
+        container.innerHTML += `<div class="text-xs text-slate-500 p-4 text-center">ဤ Template တွင် ပြင်ဆင်နိုင်သော စာသားများ မတွေ့ပါ။</div>`;
+      }
+
+      editableItems.forEach(({ el, label }) => {
+        const block = document.createElement("div");
+        block.className = "p-3.5 rounded-xl bg-slate-50 border border-slate-200 space-y-2.5";
+
+        const header = document.createElement("div");
+        header.className = "text-xs font-bold text-slate-800";
+        header.textContent = label;
+        block.appendChild(header);
+
+        // If Image element
+        if (el.tagName === "IMG") {
+          const imgInput = document.createElement("input");
+          imgInput.type = "text";
+          imgInput.placeholder = "ပုံ Link (URL) ထည့်ပါ";
+          imgInput.value = el.getAttribute("src") || "";
+          imgInput.className = "w-full px-3 py-2 text-sm bg-white border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500";
+          imgInput.addEventListener("input", (e) => {
+            el.setAttribute("src", e.target.value);
+            syncWorkingDocToPreview();
+          });
+          block.appendChild(imgInput);
+
+          const fileLabel = document.createElement("label");
+          fileLabel.className = "inline-block cursor-pointer text-xs font-medium text-indigo-600 hover:underline";
+          fileLabel.textContent = "📷 ဖုန်း/ကွန်ပျူတာထဲမှ ပုံရွေးမည်";
+          const fileInput = document.createElement("input");
+          fileInput.type = "file";
+          fileInput.accept = "image/*";
+          fileInput.className = "hidden";
+          fileInput.addEventListener("change", (ev) => {
+            const f = ev.target.files[0];
+            if (!f) return;
+            const reader = new FileReader();
+            reader.onload = (r) => {
+              el.setAttribute("src", r.target.result);
+              imgInput.value = "(Uploaded Image)";
+              syncWorkingDocToPreview();
+            };
+            reader.readAsDataURL(f);
+          });
+          fileLabel.appendChild(fileInput);
+          block.appendChild(fileLabel);
+        } else {
+          // Text content editor
+          const currentText = el.textContent.trim();
+          const isLongText = currentText.length > 60 || el.tagName === "P";
+          const textInput = document.createElement(isLongText ? "textarea" : "input");
+          if (!isLongText) textInput.type = "text";
+          else textInput.rows = 2;
+          textInput.value = currentText;
+          textInput.placeholder = "စာသားရိုက်ထည့်ပါ...";
+          textInput.className = "w-full px-3 py-2 text-sm bg-white border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500";
+          textInput.addEventListener("input", (e) => {
+            el.textContent = e.target.value;
+            syncWorkingDocToPreview();
+          });
+          block.appendChild(textInput);
+
+          // If Anchor Link (<a href="...">)
+          if (el.tagName === "A") {
+            const linkWrap = document.createElement("div");
+            linkWrap.className = "space-y-1 pt-1";
+            linkWrap.innerHTML = `<label class="block text-[11px] font-medium text-slate-500">နှိပ်လျှင်သွားမည့် Link (URL / tel: / mailto:)</label>`;
+            const hrefInput = document.createElement("input");
+            hrefInput.type = "text";
+            hrefInput.value = el.getAttribute("href") || "";
+            hrefInput.placeholder = "https://...";
+            hrefInput.className = "w-full px-3 py-1.5 text-xs bg-white border border-slate-300 rounded-lg text-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500";
+            hrefInput.addEventListener("input", (e) => {
+              el.setAttribute("href", e.target.value);
+              syncWorkingDocToPreview();
             });
-        })();
-    </script>
+            linkWrap.appendChild(hrefInput);
+            block.appendChild(linkWrap);
+          }
+        }
+
+        container.appendChild(block);
+      });
+
+      syncWorkingDocToPreview();
+    }
+
+    function escapeAttr(str) {
+      return String(str).replace(/"/g, "");
+    }
+
+    function getCompiledHtml() {
+      if (!workingDoc) return activeTemplate ? activeTemplate.html : "";
+      return "<!DOCTYPE html>\n" + workingDoc.documentElement.outerHTML;
+    }
+
+    function syncWorkingDocToPreview() {
+      document.getElementById("live-preview").srcdoc = getCompiledHtml();
+    }
+
+    function useTemplate(tplId) {
+      const tpl = templates.find(t => t.id === tplId);
+      if (!tpl) return;
+      activeTemplate = tpl;
+      document.getElementById("project-title").value = tpl.title;
+      document.getElementById("editing-template-label").textContent = "Template: " + tpl.title;
+      buildVisualEditor(tpl.html);
+      switchTab("editor");
+      showToast("စာသားနှင့် Link များကို စိတ်ကြိုက်ပြင်ဆင်နိုင်ပါပြီ");
+    }
+
+    function resetToOriginal() {
+      if (!activeTemplate) return;
+      buildVisualEditor(activeTemplate.html);
+      showToast("မူလ Template အတိုင်း ပြန်လည်ထားရှိပြီးပါပြီ");
+    }
+
+    function openPreviewNewTab() {
+      const win = window.open("", "_blank");
+      win.document.write(getCompiledHtml());
+      win.document.close();
+    }
+
+    async function requestPublicLink() {
+      if (!currentUser) {
+        showToast("Link ထုတ်ရန် Gmail အကောင့်ဖြင့် အရင် Login ဝင်ပေးပါ");
+        await loginWithGoogle();
+        if (!currentUser) return;
+      }
+
+      const btn = document.getElementById("btn-request-link");
+      btn.disabled = true;
+      btn.textContent = "တောင်းဆိုမှု ပို့နေပါသည်...";
+
+      try {
+        const title = document.getElementById("project-title").value.trim() || "Untitled Page";
+        const customHtml = getCompiledHtml();
+        const projectId = "proj_" + Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
+        const publicUrl = isHttpHosted
+          ? `${window.location.origin}/p/${projectId}`
+          : `view.html?id=${projectId}`;
+        const previewUrl = isHttpHosted
+          ? `${window.location.origin}/p/${projectId}?preview=1`
+          : `view.html?id=${projectId}&preview=1`;
+
+        const newReq = {
+          id: projectId,
+          title,
+          html: customHtml,
+          userEmail: currentUser.email,
+          userName: currentUser.name,
+          userUid: currentUser.uid,
+          status: "pending",
+          publicUrl,
+          createdAt: new Date().toLocaleString(),
+          createdAtMs: Date.now()
+        };
+
+        if (firebaseReady) {
+          await fs.setDoc(fs.doc(db, "user_projects", projectId), newReq);
+        } else {
+          userRequests.unshift(newReq);
+          saveLocal();
+        }
+
+        await fetch("/api/request-approval", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            id: projectId,
+            title,
+            userEmail: currentUser.email,
+            userName: currentUser.name,
+            publicUrl,
+            previewUrl
+          })
+        }).catch(() => {});
+
+        switchTab("mylinks");
+        showToast("တောင်းဆိုမှု ပို့ပြီးပါပြီ! Owner မှ Approve ပေးပြီးပါက Link ရပါမည်။");
+      } catch (err) {
+        alert("Error: " + err.message);
+      } finally {
+        btn.disabled = false;
+        btn.textContent = "🔗 Link ထုတ်မည်";
+      }
+    }
+
+    async function setRequestStatus(projectId, newStatus) {
+      if (firebaseReady) {
+        await fs.updateDoc(fs.doc(db, "user_projects", projectId), {
+          status: newStatus,
+          approvedAt: new Date().toISOString()
+        });
+      } else {
+        const idx = userRequests.findIndex(r => r.id === projectId);
+        if (idx !== -1) {
+          userRequests[idx].status = newStatus;
+          saveLocal();
+          renderAll();
+        }
+      }
+      showToast(newStatus === "approved"
+        ? "✅ Approved ပေးလိုက်ပါပြီ! User အကောင့်ထဲတွင် Link ပွင့်သွားပါပြီ။"
+        : "❌ Reject လုပ်လိုက်ပါပြီ။");
+    }
+
+    function copyLink(url) {
+      navigator.clipboard.writeText(url);
+      showToast("Link ကို Copy ကူးပြီးပါပြီ!");
+    }
+
+    function handleOwnerFileUpload(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = e => {
+        document.getElementById("tpl-code").value = e.target.result;
+        if (!document.getElementById("tpl-title").value) {
+          document.getElementById("tpl-title").value = file.name.replace(/\.html?$/i, "");
+        }
+        showToast("HTML File ဖတ်ပြီးပါပြီ! Upload နှိပ်၍ တင်နိုင်ပါပြီ။");
+      };
+      reader.readAsText(file);
+    }
+
+    async function uploadOwnerTemplate() {
+      const title = document.getElementById("tpl-title").value.trim();
+      const description = document.getElementById("tpl-desc").value.trim();
+      const demoUrl = document.getElementById("tpl-demo-url").value.trim();
+      const html = document.getElementById("tpl-code").value.trim();
+
+      if (!title || !html) {
+        alert("Template အမည်နှင့် HTML File ထည့်သွင်းပေးပါ။");
+        return;
+      }
+
+      const tplData = {
+        title,
+        description,
+        demoUrl: demoUrl || "",
+        html,
+        createdAt: Date.now()
+      };
+
+      try {
+        if (firebaseReady) {
+          await fs.addDoc(fs.collection(db, "templates"), tplData);
+        } else {
+          templates.unshift({ id: "tpl-" + Date.now().toString(36), ...tplData });
+          saveLocal();
+        }
+
+        document.getElementById("tpl-title").value = "";
+        document.getElementById("tpl-desc").value = "";
+        document.getElementById("tpl-demo-url").value = "";
+        document.getElementById("tpl-code").value = "";
+        switchTab("gallery");
+        showToast("Owner Template အသစ်ကို Upload တင်ပြီးပါပြီ!");
+      } catch (err) {
+        alert("Upload Error: " + err.message);
+      }
+    }
+
+    async function deleteOwnerTemplate(tplId) {
+      if (!confirm("ဤ Template ကို ဖျက်ရန် သေချာပါသလား?")) return;
+      if (firebaseReady) {
+        await fs.deleteDoc(fs.doc(db, "templates", tplId));
+      } else {
+        templates = templates.filter(t => t.id !== tplId);
+        saveLocal();
+        renderAll();
+      }
+      showToast("Template ကို ဖျက်လိုက်ပါပြီ");
+    }
+
+    function previewSubmittedHtml(projectId) {
+      const req = userRequests.find(r => r.id === projectId);
+      if (!req) return;
+      const win = window.open("", "_blank");
+      win.document.write(req.html);
+      win.document.close();
+    }
+
+    function renderAuth() {
+      const outEl = document.getElementById("auth-logged-out");
+      const inEl = document.getElementById("auth-logged-in");
+      if (currentUser) {
+        outEl.classList.add("hidden");
+        inEl.classList.remove("hidden");
+        document.getElementById("user-name").textContent = currentUser.name;
+        document.getElementById("user-email").textContent = currentUser.email;
+        document.getElementById("user-avatar").src = currentUser.photo;
+      } else {
+        outEl.classList.remove("hidden");
+        inEl.classList.add("hidden");
+      }
+
+      const warnEl = document.getElementById("owner-warning");
+      const workEl = document.getElementById("owner-workspace");
+      const galleryOwnerBtn = document.getElementById("btn-gallery-owner");
+      document.getElementById("owner-email-display").textContent = OWNER_EMAIL;
+
+      if (isOwnerUser()) {
+        galleryOwnerBtn.classList.remove("hidden");
+      } else {
+        galleryOwnerBtn.classList.add("hidden");
+      }
+
+      if (firebaseReady && !isOwnerUser()) {
+        warnEl.classList.remove("hidden");
+        workEl.classList.add("hidden");
+      } else {
+        warnEl.classList.add("hidden");
+        workEl.classList.remove("hidden");
+      }
+    }
+
+    function renderTemplates() {
+      const grid = document.getElementById("templates-grid");
+      grid.innerHTML = templates.map((tpl, idx) => {
+        const autoDemo = isHttpHosted ? `/demo/${tpl.id}` : `view.html?demo=${tpl.id}`;
+        const demoHref = tpl.demoUrl ? tpl.demoUrl : autoDemo;
+        return `
+          <div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden flex flex-col">
+            <div class="h-44 bg-slate-100 border-b border-slate-200 relative overflow-hidden">
+              <iframe id="tpl-frame-${idx}" class="w-[200%] h-[200%] origin-top-left scale-50 pointer-events-none" style="pointer-events:none;"></iframe>
+            </div>
+            <div class="p-5 flex-1 flex flex-col justify-between space-y-4">
+              <div>
+                <h3 class="font-bold text-slate-900 text-base">${tpl.title}</h3>
+                <p class="text-xs text-slate-500 mt-1">${tpl.description || "အသင့်သုံး Template"}</p>
+              </div>
+              <div class="flex items-center gap-2 pt-2 border-t border-slate-100">
+                <a href="${demoHref}" target="_blank" onclick="openOriginalDemo(event, '${tpl.id}')"
+                  class="flex-1 text-center py-2 px-3 text-xs font-semibold rounded-lg border border-slate-300 text-slate-700 hover:bg-slate-50 transition">
+                  Demo ကြည့်မည်
+                </a>
+                <button type="button" onclick="useTemplate('${tpl.id}')"
+                  class="flex-1 py-2 px-3 text-xs font-semibold rounded-lg bg-indigo-600 text-white hover:bg-indigo-700 transition">
+                  ရွေးချယ် & ပြင်မည်
+                </button>
+              </div>
+            </div>
+          </div>
+        `;
+      }).join("");
+
+      templates.forEach((tpl, idx) => {
+        const frame = document.getElementById("tpl-frame-" + idx);
+        if (frame) frame.srcdoc = tpl.html;
+      });
+    }
+
+    function renderMyLinks() {
+      const loginBox = document.getElementById("mylinks-requires-login");
+      const listBox = document.getElementById("mylinks-list");
+      const badge = document.getElementById("my-links-badge");
+
+      if (!currentUser) {
+        loginBox.classList.remove("hidden");
+        listBox.innerHTML = "";
+        badge.textContent = "0";
+        return;
+      }
+
+      loginBox.classList.add("hidden");
+      const mine = userRequests.filter(r => r.userEmail === currentUser.email);
+      badge.textContent = mine.length;
+
+      if (mine.length === 0) {
+        listBox.innerHTML = `<div class="bg-white p-8 rounded-xl border border-slate-200 text-center text-sm text-slate-500">သင် Link ထုတ်ထားသော Page မရှိသေးပါ။</div>`;
+        return;
+      }
+
+      listBox.innerHTML = mine.map(item => {
+        const isApproved = item.status === "approved";
+        const isRejected = item.status === "rejected";
+        const openHref = isHttpHosted ? `/p/${item.id}` : `view.html?id=${item.id}`;
+        return `
+          <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <div class="space-y-1">
+              <div class="flex flex-wrap items-center gap-2.5">
+                <h3 class="font-bold text-slate-900">${item.title}</h3>
+                ${isApproved
+                  ? `<span class="px-2.5 py-0.5 text-xs font-semibold rounded-full bg-emerald-100 text-emerald-800">✅ Approved (အသုံးပြုနိုင်ပါပြီ)</span>`
+                  : isRejected
+                  ? `<span class="px-2.5 py-0.5 text-xs font-semibold rounded-full bg-red-100 text-red-700">❌ Rejected</span>`
+                  : `<span class="px-2.5 py-0.5 text-xs font-semibold rounded-full bg-amber-100 text-amber-800">⏳ Approval စောင့်ဆိုင်းနေသည်</span>`
+                }
+              </div>
+              <p class="text-xs text-slate-500">တင်ချိန်: ${item.createdAt} • Account: ${item.userEmail}</p>
+            </div>
+
+            <div class="flex items-center gap-2">
+              ${isApproved ? `
+                <input type="text" readonly value="${item.publicUrl}" class="px-3 py-1.5 text-xs bg-slate-50 border border-slate-300 rounded-lg w-52 sm:w-64 text-slate-700" />
+                <button type="button" onclick="copyLink('${item.publicUrl}')" class="px-3.5 py-1.5 text-xs font-semibold bg-slate-900 text-white rounded-lg hover:bg-slate-800">Copy</button>
+                <a href="${openHref}" target="_blank" class="px-3.5 py-1.5 text-xs font-semibold bg-emerald-600 text-white rounded-lg hover:bg-emerald-700">Link ဖွင့်မည် ↗</a>
+              ` : `
+                <span class="text-xs text-slate-400 italic">Owner Approve ပေးမှ Link ပေါ်လာပါမည်</span>
+              `}
+            </div>
+          </div>
+        `;
+      }).join("");
+    }
+
+    function renderOwnerTemplates() {
+      const list = document.getElementById("owner-templates-list");
+      list.innerHTML = templates.map(tpl => `
+        <div class="py-3 flex items-center justify-between gap-4">
+          <div>
+            <div class="text-sm font-semibold text-slate-800">${tpl.title}</div>
+            <div class="text-xs text-slate-500">${tpl.demoUrl || "Auto Demo Link"}</div>
+          </div>
+          <button type="button" onclick="deleteOwnerTemplate('${tpl.id}')" class="px-3 py-1 text-xs font-medium text-red-600 hover:bg-red-50 rounded-lg border border-red-200">
+            ဖျက်မည်
+          </button>
+        </div>
+      `).join("");
+    }
+
+    function renderApprovalQueue() {
+      const box = document.getElementById("approval-queue-list");
+      if (userRequests.length === 0) {
+        box.innerHTML = `<div class="text-xs text-slate-400 py-6 text-center">Approve စောင့်နေသော Request မရှိသေးပါ။</div>`;
+        return;
+      }
+      box.innerHTML = userRequests.map(req => `
+        <div class="p-3.5 rounded-lg border border-slate-200 bg-slate-50 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div>
+            <div class="text-sm font-semibold text-slate-800">${req.title}</div>
+            <div class="text-xs text-slate-500">User: ${req.userEmail} • Status: <strong class="uppercase">${req.status}</strong></div>
+          </div>
+          <div class="flex items-center gap-1.5">
+            <button type="button" onclick="previewSubmittedHtml('${req.id}')" class="px-2.5 py-1.5 text-xs font-semibold bg-white border border-slate-300 hover:bg-slate-100 text-slate-700 rounded-lg">
+              👁️ ကြည့်မည်
+            </button>
+            <button type="button" onclick="setRequestStatus('${req.id}', 'approved')" class="px-3 py-1.5 text-xs font-semibold bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg">
+              ✅ Approve
+            </button>
+            <button type="button" onclick="setRequestStatus('${req.id}', 'rejected')" class="px-3 py-1.5 text-xs font-semibold bg-red-600 hover:bg-red-700 text-white rounded-lg">
+              ❌ Reject
+            </button>
+          </div>
+        </div>
+      `).join("");
+    }
+
+    function renderAll() {
+      renderAuth();
+      renderTemplates();
+      renderMyLinks();
+      renderApprovalQueue();
+      renderOwnerTemplates();
+    }
+
+    function subscribeUserProjects() {
+      if (!firebaseReady || !currentUser) return;
+      if (unsubscribeProjects) unsubscribeProjects();
+
+      const q = isOwnerUser()
+        ? fs.query(fs.collection(db, "user_projects"), fs.orderBy("createdAtMs", "desc"))
+        : fs.query(fs.collection(db, "user_projects"), fs.where("userEmail", "==", currentUser.email));
+
+      unsubscribeProjects = fs.onSnapshot(q, (snap) => {
+        userRequests = snap.docs
+          .map(d => ({ id: d.id, ...d.data() }))
+          .sort((a, b) => (b.createdAtMs || 0) - (a.createdAtMs || 0));
+        renderMyLinks();
+        renderApprovalQueue();
+      });
+    }
+
+    async function initFirebase() {
+      const pill = document.getElementById("mode-pill");
+      try {
+        const { initializeApp } = await import("https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js");
+        const { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } = await import("https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js");
+        const firestoreMod = await import("https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js");
+
+        const app = initializeApp(FIREBASE_CONFIG);
+        auth = getAuth(app);
+        db = firestoreMod.getFirestore(app);
+        fs = { ...firestoreMod, GoogleAuthProvider, signInWithPopup, signOut };
+        firebaseReady = true;
+
+        pill.textContent = "Live Cloud Mode";
+        pill.className = "inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-800";
+
+        const tplQuery = fs.query(fs.collection(db, "templates"), fs.orderBy("createdAt", "desc"));
+        fs.onSnapshot(tplQuery, (snap) => {
+          const list = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+          templates = list.length ? list : DEFAULT_TEMPLATES;
+          if (!activeTemplate && templates.length) activeTemplate = templates[0];
+          renderTemplates();
+          renderOwnerTemplates();
+        });
+
+        onAuthStateChanged(auth, (user) => {
+          if (user) {
+            currentUser = {
+              uid: user.uid,
+              name: user.displayName || user.email.split("@")[0],
+              email: user.email,
+              photo: user.photoURL || `https://ui-avatars.com/api/?background=4f46e5&color=fff&name=${encodeURIComponent(user.email[0])}`
+            };
+            subscribeUserProjects();
+          } else {
+            currentUser = null;
+            userRequests = [];
+            if (unsubscribeProjects) unsubscribeProjects();
+          }
+          renderAll();
+        });
+      } catch (err) {
+        console.error("Firebase init failed:", err);
+        pill.textContent = "Local Mode (Offline)";
+        pill.className = "inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-amber-100 text-amber-800";
+      }
+    }
+
+    buildVisualEditor(activeTemplate.html);
+    renderAll();
+    initFirebase();
+  </script>
 </body>
 </html>
