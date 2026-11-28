@@ -286,7 +286,6 @@
       }
     ];
 
-    const isHttpHosted = window.location.protocol.startsWith("http");
     let auth = null;
     let db = null;
     let fs = {};
@@ -296,8 +295,12 @@
     let templates = JSON.parse(localStorage.getItem("ts_templates") || "null") || DEFAULT_TEMPLATES;
     let userRequests = JSON.parse(localStorage.getItem("ts_requests") || "[]");
     let activeTemplate = templates[0];
-    let workingDoc = null; // Parsed DOM for visual editing (hidden from user as code)
+    let workingDoc = null;
     let unsubscribeProjects = null;
+
+    function getBaseUrl() {
+      return window.location.href.split("?")[0].split("#")[0].replace(/[^/]*$/, "");
+    }
 
     function isOwnerUser() {
       if (!currentUser || !currentUser.email) return false;
@@ -384,7 +387,6 @@
       }
     }
 
-    // Parse HTML into Visual Form Fields (User sees ZERO HTML/Code)
     function buildVisualEditor(htmlString) {
       const parser = new DOMParser();
       workingDoc = parser.parseFromString(htmlString, "text/html");
@@ -402,7 +404,6 @@
           });
         });
       } else {
-        // Auto-detect text headings, paragraphs, buttons/links, and images from any Owner-uploaded HTML
         const candidates = workingDoc.body.querySelectorAll("h1, h2, h3, h4, p, a, button, img, span, li");
         let counter = 1;
         candidates.forEach(el => {
@@ -410,7 +411,6 @@
             editableItems.push({ el, label: el.alt || `ပုံ (${counter++})` });
             return;
           }
-          // Skip elements that wrap other block elements
           const hasChildElements = Array.from(el.children).some(c => !["BR", "STRONG", "B", "I", "EM"].includes(c.tagName));
           if (hasChildElements) return;
 
@@ -427,7 +427,6 @@
         });
       }
 
-      // Page Title Field
       const titleBlock = document.createElement("div");
       titleBlock.className = "p-3.5 rounded-xl bg-slate-50 border border-slate-200 space-y-2";
       titleBlock.innerHTML = `
@@ -454,7 +453,6 @@
         header.textContent = label;
         block.appendChild(header);
 
-        // If Image element
         if (el.tagName === "IMG") {
           const imgInput = document.createElement("input");
           imgInput.type = "text";
@@ -488,7 +486,6 @@
           fileLabel.appendChild(fileInput);
           block.appendChild(fileLabel);
         } else {
-          // Text content editor
           const currentText = el.textContent.trim();
           const isLongText = currentText.length > 60 || el.tagName === "P";
           const textInput = document.createElement(isLongText ? "textarea" : "input");
@@ -503,7 +500,6 @@
           });
           block.appendChild(textInput);
 
-          // If Anchor Link (<a href="...">)
           if (el.tagName === "A") {
             const linkWrap = document.createElement("div");
             linkWrap.className = "space-y-1 pt-1";
@@ -579,12 +575,9 @@
         const title = document.getElementById("project-title").value.trim() || "Untitled Page";
         const customHtml = getCompiledHtml();
         const projectId = "proj_" + Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
-        const publicUrl = isHttpHosted
-          ? `${window.location.origin}/p/${projectId}`
-          : `view.html?id=${projectId}`;
-        const previewUrl = isHttpHosted
-          ? `${window.location.origin}/p/${projectId}?preview=1`
-          : `view.html?id=${projectId}&preview=1`;
+        const basePath = getBaseUrl();
+        const publicUrl = `${basePath}view.html?id=${projectId}`;
+        const previewUrl = `${basePath}view.html?id=${projectId}&preview=1`;
 
         const newReq = {
           id: projectId,
@@ -761,8 +754,9 @@
 
     function renderTemplates() {
       const grid = document.getElementById("templates-grid");
+      const basePath = getBaseUrl();
       grid.innerHTML = templates.map((tpl, idx) => {
-        const autoDemo = isHttpHosted ? `/demo/${tpl.id}` : `view.html?demo=${tpl.id}`;
+        const autoDemo = `${basePath}view.html?demo=${tpl.id}`;
         const demoHref = tpl.demoUrl ? tpl.demoUrl : autoDemo;
         return `
           <div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden flex flex-col">
@@ -799,6 +793,7 @@
       const loginBox = document.getElementById("mylinks-requires-login");
       const listBox = document.getElementById("mylinks-list");
       const badge = document.getElementById("my-links-badge");
+      const basePath = getBaseUrl();
 
       if (!currentUser) {
         loginBox.classList.remove("hidden");
@@ -819,7 +814,7 @@
       listBox.innerHTML = mine.map(item => {
         const isApproved = item.status === "approved";
         const isRejected = item.status === "rejected";
-        const openHref = isHttpHosted ? `/p/${item.id}` : `view.html?id=${item.id}`;
+        const linkUrl = `${basePath}view.html?id=${item.id}`;
         return `
           <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div class="space-y-1">
@@ -837,9 +832,9 @@
 
             <div class="flex items-center gap-2">
               ${isApproved ? `
-                <input type="text" readonly value="${item.publicUrl}" class="px-3 py-1.5 text-xs bg-slate-50 border border-slate-300 rounded-lg w-52 sm:w-64 text-slate-700" />
-                <button type="button" onclick="copyLink('${item.publicUrl}')" class="px-3.5 py-1.5 text-xs font-semibold bg-slate-900 text-white rounded-lg hover:bg-slate-800">Copy</button>
-                <a href="${openHref}" target="_blank" class="px-3.5 py-1.5 text-xs font-semibold bg-emerald-600 text-white rounded-lg hover:bg-emerald-700">Link ဖွင့်မည် ↗</a>
+                <input type="text" readonly value="${linkUrl}" class="px-3 py-1.5 text-xs bg-slate-50 border border-slate-300 rounded-lg w-52 sm:w-64 text-slate-700" />
+                <button type="button" onclick="copyLink('${linkUrl}')" class="px-3.5 py-1.5 text-xs font-semibold bg-slate-900 text-white rounded-lg hover:bg-slate-800">Copy</button>
+                <a href="${linkUrl}" target="_blank" class="px-3.5 py-1.5 text-xs font-semibold bg-emerald-600 text-white rounded-lg hover:bg-emerald-700">Link ဖွင့်မည် ↗</a>
               ` : `
                 <span class="text-xs text-slate-400 italic">Owner Approve ပေးမှ Link ပေါ်လာပါမည်</span>
               `}
