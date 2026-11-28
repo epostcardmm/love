@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="my">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Loading Page...</title>
+  <style>
+    body { font-family: sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; background: #f8fafc; color: #334155; text-align: center; padding: 20px; }
+    .box { background: white; padding: 30px; border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.06); max-width: 400px; }
+  </style>
+</head>
+<body>
+  <div class="box" id="status-box">
+    <h3>စာမျက်နှာကို ဖွင့်နေပါသည်...</h3>
+    <p>ခဏစောင့်ဆိုင်းပေးပါ</p>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+    const FIREBASE_CONFIG = {
+      apiKey: "AIzaSyDiy3nHnCs75cxvyvS9Edf-CyWWC7nYxgE",
+      authDomain: "epostcards-f6ee2.firebaseapp.com",
+      projectId: "epostcards-f6ee2",
+      storageBucket: "epostcards-f6ee2.firebasestorage.app",
+      messagingSenderId: "433574571676",
+      appId: "1:433574571676:web:3cf6d13d774e3110ee4759"
+    };
+
+    const app = initializeApp(FIREBASE_CONFIG);
+    const db = getFirestore(app);
+    const box = document.getElementById("status-box");
+
+    const params = new URLSearchParams(window.location.search);
+    // Support both ?id=proj_xxx and /p/proj_xxx
+    let projectId = params.get("id");
+    if (!projectId && window.location.pathname.includes("/p/")) {
+      projectId = window.location.pathname.split("/p/")[1].split("/")[0];
+    }
+
+    const demoId = params.get("demo");
+    const isPreview = params.get("preview") === "1";
+
+    async function loadContent() {
+      try {
+        if (demoId) {
+          const snap = await getDoc(doc(db, "templates", demoId));
+          if (!snap.exists()) {
+            box.innerHTML = "<h3>Template ရှာမတွေ့ပါ</h3>";
+            return;
+          }
+          document.open();
+          document.write(snap.data().html);
+          document.close();
+          return;
+        }
+
+        if (!projectId) {
+          box.innerHTML = "<h3>Link မှားယွင်းနေပါသည်</h3><p>Project ID မပါဝင်ပါ။</p>";
+          return;
+        }
+
+        const snap = await getDoc(doc(db, "user_projects", projectId));
+        if (!snap.exists()) {
+          // Fallback to localStorage if testing offline on same browser
+          const localList = JSON.parse(localStorage.getItem("ts_requests") || "[]");
+          const localItem = localList.find(r => r.id === projectId);
+          if (localItem && (localItem.status === "approved" || isPreview)) {
+            document.open();
+            document.write(localItem.html);
+            document.close();
+            return;
+          }
+          box.innerHTML = "<h3>စာမျက်နှာ ရှာမတွေ့ပါ</h3><p>Link ဖျက်လိုက်ခြင်း သို့မဟုတ် မရှိသေးခြင်း ဖြစ်နိုင်ပါသည်။</p>";
+          return;
+        }
+
+        const data = snap.data();
+        if (data.status !== "approved" && !isPreview) {
+          box.innerHTML = "<h3>⏳ Owner Approval စောင့်ဆိုင်းနေဆဲ ဖြစ်ပါသည်</h3><p>Owner မှ ခွင့်ပြုပြီးမှသာ ဤ Link ကို အများပြည်သူ ကြည့်ရှုနိုင်ပါမည်။</p>";
+          return;
+        }
+
+        // Render the user's customized HTML page
+        document.open();
+        document.write(data.html);
+        document.close();
+
+      } catch (err) {
+        box.innerHTML = `<h3>Error ဖြစ်ပေါ်နေပါသည်</h3><p>${err.message}</p>`;
+      }
+    }
+
+    loadContent();
+  </script>
+</body>
+</html>
